@@ -1,0 +1,28 @@
+# EditorConfig for Godot projects
+# See https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_styleguide.html
+
+root = true
+
+[*]
+indent_style = tab
+indent_size = 4
+charset = utf-8
+end_of_line = lf
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.gd]
+indent_style = tab
+indent_size = 4
+
+[*.{cs,rs}]
+indent_style = space
+indent_size = 4
+
+[*.{tscn,tres,godot}]
+indent_style = tab
+indent_size = 4
+
+[*.{xml,json,yml,yaml}]
+indent_style = space
+indent_size = 2

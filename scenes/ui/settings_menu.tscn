@@ -1,0 +1,1246 @@
+[gd_scene format=3 uid="uid://cixpuprgvgi1u"]
+
+[ext_resource type="Script" uid="uid://0dia0lhl1jhw" path="res://scripts/settings/audio.gd" id="1_5p8wc"]
+[ext_resource type="Theme" uid="uid://dvbbi3vt7rasu" path="res://assets/theme.tres" id="1_6wm04"]
+[ext_resource type="Script" uid="uid://da8bag1av6klb" path="res://scripts/settings/settings_menu.gd" id="2_es4n0"]
+[ext_resource type="Theme" uid="uid://el10yav48fuk" path="res://assets/title_theme.tres" id="2_f4mfi"]
+[ext_resource type="Script" uid="uid://c6004pmkpetwp" path="res://scripts/settings/video.gd" id="2_r6d6q"]
+[ext_resource type="Texture2D" uid="uid://drl0jx1t84dor" path="res://assets/textures/backgrounds/forest.png" id="3_2ctot"]
+[ext_resource type="Script" uid="uid://mwdcehvdg02c" path="res://scripts/settings/gameplay.gd" id="4_fb6cq"]
+[ext_resource type="Texture2D" uid="uid://fq45ymva816n" path="res://assets/textures/input_prompts/keyboard_mouse/keyboard_escape.svg" id="6_48ojb"]
+[ext_resource type="Script" uid="uid://bc8nqwx2f77uu" path="res://scripts/ui/switch_fx.gd" id="6_jrqig"]
+[ext_resource type="PackedScene" uid="uid://bolx2df8w721l" path="res://scenes/ui/slider_bar.tscn" id="6_n35ux"]
+[ext_resource type="PackedScene" uid="uid://bupwsnlvxthny" path="res://scenes/ui/percent_slider_bar.tscn" id="6_prcnt"]
+[ext_resource type="Script" uid="uid://cr5yoytr47auc" path="res://scripts/ui/button_fx.gd" id="7_n35ux"]
+[ext_resource type="Script" uid="uid://cfr860c1yrp7d" path="res://scripts/settings/input.gd" id="10_jpbdv"]
+[ext_resource type="FontFile" uid="uid://c3j7cxolf53qi" path="res://assets/fonts/Sarasa-1.0.33/SarasaUiSC-BoldItalic.woff2" id="11_75x6d"]
+[ext_resource type="FontFile" uid="uid://dh020jxovl25i" path="res://assets/fonts/Sarasa-1.0.33/SarasaUiSC-Bold.woff2" id="11_x0dr5"]
+[ext_resource type="Texture2D" uid="uid://c3gjvvql86lqt" path="res://assets/textures/input_prompts/keyboard_mouse/keyboard_r.svg" id="12_n0fy7"]
+[ext_resource type="PackedScene" uid="uid://bgou1t8ve7r2j" path="res://scenes/ui/binding_popup.tscn" id="14_puhno"]
+[ext_resource type="Script" uid="uid://ct3j0vxj4ugbh" path="res://scripts/settings/assists.gd" id="15_assists"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f4mfi"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gis3k"]
+content_margin_left = 10.0
+content_margin_top = 4.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0.101960786, 0.101960786, 0.101960786, 0.6039216)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2ctot"]
+content_margin_left = 10.0
+content_margin_top = 4.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.3)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_es4n0"]
+content_margin_left = 10.0
+content_margin_top = 4.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 0.6039216)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="InputEventAction" id="InputEventAction_jpbdv"]
+action = &"pause"
+
+[sub_resource type="Shortcut" id="Shortcut_puhno"]
+events = [SubResource("InputEventAction_jpbdv")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_n0fy7"]
+action = &"restore_defaults"
+
+[sub_resource type="Shortcut" id="Shortcut_jpbdv"]
+events = [SubResource("InputEventAction_n0fy7")]
+
+[node name="SettingsMenu" type="Control" unique_id=385647352]
+process_mode = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_6wm04")
+script = ExtResource("2_es4n0")
+
+[node name="Background" type="TextureRect" parent="." unique_id=1856685690]
+modulate = Color(0.50219375, 0.50219357, 0.5021936, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_2ctot")
+stretch_mode = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=436810475]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="MarginContainer" unique_id=194977989]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBox" unique_id=937636640]
+layout_mode = 2
+theme = ExtResource("2_f4mfi")
+theme_override_font_sizes/font_size = 35
+text = "SETTINGS"
+uppercase = true
+
+[node name="HSplit" type="HSplitContainer" parent="MarginContainer/VBox" unique_id=1279680262]
+layout_mode = 2
+size_flags_vertical = 3
+dragging_enabled = false
+
+[node name="Tabs" type="TabContainer" parent="MarginContainer/VBox/HSplit" unique_id=300937299]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 6.0
+theme_override_colors/font_unselected_color = Color(0.9490196, 0.9490196, 0.9490196, 1)
+theme_override_constants/tab_separation = 5
+theme_override_styles/panel = SubResource("StyleBoxFlat_f4mfi")
+theme_override_styles/tab_unselected = SubResource("StyleBoxFlat_gis3k")
+theme_override_styles/tab_hovered = SubResource("StyleBoxFlat_2ctot")
+theme_override_styles/tab_selected = SubResource("StyleBoxFlat_es4n0")
+current_tab = 0
+
+[node name="GAMEPLAY" type="ScrollContainer" parent="MarginContainer/VBox/HSplit/Tabs" unique_id=1471899089]
+layout_mode = 2
+horizontal_scroll_mode = 0
+script = ExtResource("4_fb6cq")
+metadata/_tab_index = 0
+
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/GAMEPLAY" unique_id=242812766]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="GeneralLabel" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/GAMEPLAY/VBox" unique_id=1438506922]
+layout_mode = 2
+theme = ExtResource("2_f4mfi")
+text = "GENERAL"
+uppercase = true
+
+[node name="LanguagePanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/GAMEPLAY/VBox" unique_id=2115356495]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "LANGUAGE"
+metadata/description = "LANGUAGE_TIP"
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/GAMEPLAY/VBox/LanguagePanel" unique_id=1838092940]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/GAMEPLAY/VBox/LanguagePanel/HBox" unique_id=150311220]
+layout_mode = 2
+mouse_filter = 1
+text = "LANGUAGE"
+
+[node name="OptionButton" type="OptionButton" parent="MarginContainer/VBox/HSplit/Tabs/GAMEPLAY/VBox/LanguagePanel/HBox" unique_id=631392562]
+layout_mode = 2
+size_flags_horizontal = 10
+item_count = 2
+popup/item_0/text = "English"
+popup/item_0/id = 0
+popup/item_1/text = "中文"
+popup/item_1/id = 1
+
+[node name="AnimationSpeedPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/GAMEPLAY/VBox" unique_id=436179044]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "ANIMATION_SPEED"
+metadata/description = "ANIMATION_SPEED_TIP"
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/GAMEPLAY/VBox/AnimationSpeedPanel" unique_id=187354507]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/GAMEPLAY/VBox/AnimationSpeedPanel/HBox" unique_id=1670922536]
+layout_mode = 2
+mouse_filter = 1
+text = "ANIMATION_SPEED"
+
+[node name="OptionButton" type="OptionButton" parent="MarginContainer/VBox/HSplit/Tabs/GAMEPLAY/VBox/AnimationSpeedPanel/HBox" unique_id=1048294716]
+layout_mode = 2
+size_flags_horizontal = 10
+item_count = 4
+popup/item_0/text = "ANIM_SLOW"
+popup/item_0/id = 0
+popup/item_1/text = "ANIM_NORMAL"
+popup/item_1/id = 1
+popup/item_2/text = "ANIM_FAST"
+popup/item_2/id = 2
+popup/item_3/text = "ANIM_INSTANT"
+popup/item_3/id = 3
+
+[node name="PathfindingStrategyPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/GAMEPLAY/VBox" unique_id=1288326473]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "PATHFINDING_STRATEGY"
+metadata/description = "PATHFINDING_STRATEGY_TIP"
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/GAMEPLAY/VBox/PathfindingStrategyPanel" unique_id=740049846]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/GAMEPLAY/VBox/PathfindingStrategyPanel/HBox" unique_id=1367166436]
+layout_mode = 2
+mouse_filter = 1
+text = "PATHFINDING_STRATEGY"
+
+[node name="OptionButton" type="OptionButton" parent="MarginContainer/VBox/HSplit/Tabs/GAMEPLAY/VBox/PathfindingStrategyPanel/HBox" unique_id=1948137708]
+layout_mode = 2
+size_flags_horizontal = 10
+item_count = 3
+popup/item_0/text = "FAST"
+popup/item_0/id = 0
+popup/item_1/text = "PUSH_OPTIMAL"
+popup/item_1/id = 1
+popup/item_2/text = "MOVE_OPTIMAL"
+popup/item_2/id = 2
+
+[node name="AppearanceLabel" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/GAMEPLAY/VBox" unique_id=1347425297]
+layout_mode = 2
+theme = ExtResource("2_f4mfi")
+text = "APPEARANCE"
+uppercase = true
+
+[node name="ThemePanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/GAMEPLAY/VBox" unique_id=1671647470]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "THEME"
+metadata/description = "THEME_TIP"
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/GAMEPLAY/VBox/ThemePanel" unique_id=1044276445]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/GAMEPLAY/VBox/ThemePanel/HBox" unique_id=1379427348]
+layout_mode = 2
+mouse_filter = 1
+text = "THEME"
+
+[node name="OptionButton" type="OptionButton" parent="MarginContainer/VBox/HSplit/Tabs/GAMEPLAY/VBox/ThemePanel/HBox" unique_id=876287738]
+layout_mode = 2
+size_flags_horizontal = 10
+item_count = 3
+popup/item_0/text = "DESERT_OASIS"
+popup/item_0/id = 0
+popup/item_1/text = "ARCTIC_LAB"
+popup/item_1/id = 1
+popup/item_2/text = "OCEAN_DEPTHS"
+popup/item_2/id = 2
+
+[node name="2dViewPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/GAMEPLAY/VBox" unique_id=781885491]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "2D_VIEW"
+metadata/description = ""
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/GAMEPLAY/VBox/2dViewPanel" unique_id=281348989]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/GAMEPLAY/VBox/2dViewPanel/HBox" unique_id=1223291125]
+layout_mode = 2
+mouse_filter = 1
+text = "2D_VIEW"
+
+[node name="CheckButton" type="CheckButton" parent="MarginContainer/VBox/HSplit/Tabs/GAMEPLAY/VBox/2dViewPanel/HBox" unique_id=246775265]
+layout_mode = 2
+size_flags_horizontal = 10
+script = ExtResource("6_jrqig")
+metadata/_custom_type_script = "uid://bc8nqwx2f77uu"
+
+[node name="CheckerboardPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/GAMEPLAY/VBox" unique_id=545249853]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "CHECKERBOARD_SHADING"
+metadata/description = "CHECKERBOARD_TIP"
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/GAMEPLAY/VBox/CheckerboardPanel" unique_id=178478447]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/GAMEPLAY/VBox/CheckerboardPanel/HBox" unique_id=24617999]
+layout_mode = 2
+mouse_filter = 1
+text = "CHECKERBOARD_SHADING"
+
+[node name="CheckButton" type="CheckButton" parent="MarginContainer/VBox/HSplit/Tabs/GAMEPLAY/VBox/CheckerboardPanel/HBox" unique_id=92078993]
+layout_mode = 2
+size_flags_horizontal = 10
+script = ExtResource("6_jrqig")
+metadata/_custom_type_script = "uid://bc8nqwx2f77uu"
+
+[node name="ASSISTS" type="ScrollContainer" parent="MarginContainer/VBox/HSplit/Tabs" unique_id=1536049610]
+visible = false
+layout_mode = 2
+horizontal_scroll_mode = 0
+script = ExtResource("15_assists")
+metadata/_tab_index = 1
+
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS" unique_id=831202701]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="SolverLabel" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox" unique_id=747104202]
+layout_mode = 2
+theme = ExtResource("2_f4mfi")
+text = "SOLVER"
+uppercase = true
+
+[node name="AlgorithmPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox" unique_id=2137436547]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "ALGORITHM"
+metadata/description = "ALGORITHM_TIP"
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox/AlgorithmPanel" unique_id=611898308]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox/AlgorithmPanel/HBox" unique_id=354136211]
+layout_mode = 2
+text = "ALGORITHM"
+
+[node name="OptionButton" type="OptionButton" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox/AlgorithmPanel/HBox" unique_id=895955509]
+layout_mode = 2
+size_flags_horizontal = 10
+item_count = 3
+popup/item_0/text = "A*"
+popup/item_0/id = 0
+popup/item_1/text = "IDA*"
+popup/item_1/id = 1
+popup/item_2/text = "BFS"
+popup/item_2/id = 2
+
+[node name="StrategyPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox" unique_id=114872132]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "STRATEGY"
+metadata/description = "STRATEGY_TIP"
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox/StrategyPanel" unique_id=356207614]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox/StrategyPanel/HBox" unique_id=1402012704]
+layout_mode = 2
+text = "STRATEGY"
+
+[node name="OptionButton" type="OptionButton" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox/StrategyPanel/HBox" unique_id=1700549519]
+layout_mode = 2
+size_flags_horizontal = 10
+item_count = 3
+popup/item_0/text = "FAST"
+popup/item_0/id = 0
+popup/item_1/text = "PUSH_OPTIMAL"
+popup/item_1/id = 1
+popup/item_2/text = "MOVE_OPTIMAL"
+popup/item_2/id = 2
+
+[node name="LowerBoundsPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox" unique_id=1222934605]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "LOWER_BOUNDS"
+metadata/description = "HEATMAP_TIP"
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox/LowerBoundsPanel" unique_id=149428079]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox/LowerBoundsPanel/HBox" unique_id=1291412297]
+layout_mode = 2
+mouse_filter = 1
+text = "LOWER_BOUNDS"
+
+[node name="CheckButton" type="CheckButton" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox/LowerBoundsPanel/HBox" unique_id=1332835569]
+layout_mode = 2
+size_flags_horizontal = 10
+script = ExtResource("6_jrqig")
+metadata/_custom_type_script = "uid://bc8nqwx2f77uu"
+
+[node name="TunnelsPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox" unique_id=1992379498]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "TUNNELS"
+metadata/description = "TUNNELS_TIP"
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox/TunnelsPanel" unique_id=138547890]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox/TunnelsPanel/HBox" unique_id=452740766]
+layout_mode = 2
+mouse_filter = 1
+text = "TUNNELS"
+
+[node name="CheckButton" type="CheckButton" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox/TunnelsPanel/HBox" unique_id=1979703112]
+layout_mode = 2
+size_flags_horizontal = 10
+script = ExtResource("6_jrqig")
+metadata/_custom_type_script = "uid://bc8nqwx2f77uu"
+
+[node name="HintsLabel" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox" unique_id=1729122816]
+layout_mode = 2
+theme = ExtResource("2_f4mfi")
+text = "HINTS"
+uppercase = true
+
+[node name="DeadlockHintPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox" unique_id=1898183586]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "DEADLOCK_HINT"
+metadata/description = "DEADLOCK_HINT_TIP"
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox/DeadlockHintPanel" unique_id=1063472659]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox/DeadlockHintPanel/HBox" unique_id=1402921645]
+layout_mode = 2
+mouse_filter = 1
+text = "DEADLOCK_HINT"
+
+[node name="CheckButton" type="CheckButton" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox/DeadlockHintPanel/HBox" unique_id=1408398352]
+layout_mode = 2
+size_flags_horizontal = 10
+script = ExtResource("6_jrqig")
+metadata/_custom_type_script = "uid://bc8nqwx2f77uu"
+
+[node name="PushableHintPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox" unique_id=119725633]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "PUSHABLE_HINT"
+metadata/description = "PUSHABLE_TIP"
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox/PushableHintPanel" unique_id=1063472660]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox/PushableHintPanel/HBox" unique_id=1402921646]
+layout_mode = 2
+mouse_filter = 1
+text = "PUSHABLE_HINT"
+
+[node name="CheckButton" type="CheckButton" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox/PushableHintPanel/HBox" unique_id=1408398353]
+layout_mode = 2
+size_flags_horizontal = 10
+script = ExtResource("6_jrqig")
+metadata/_custom_type_script = "uid://bc8nqwx2f77uu"
+
+[node name="VIDEO" type="ScrollContainer" parent="MarginContainer/VBox/HSplit/Tabs" unique_id=2064409461]
+visible = false
+layout_mode = 2
+horizontal_scroll_mode = 0
+script = ExtResource("2_r6d6q")
+metadata/_tab_index = 2
+
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO" unique_id=845343373]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="DisplayLabel" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox" unique_id=1403906161]
+layout_mode = 2
+theme = ExtResource("2_f4mfi")
+text = "DISPLAY"
+uppercase = true
+
+[node name="WindowModePanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox" unique_id=1574462459]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "WINDOW_MODE"
+metadata/description = "WINDOW_MODE_TIP"
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox/WindowModePanel" unique_id=2111618812]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox/WindowModePanel/HBox" unique_id=364415213]
+layout_mode = 2
+text = "WINDOW_MODE"
+
+[node name="OptionButton" type="OptionButton" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox/WindowModePanel/HBox" unique_id=18479277]
+layout_mode = 2
+size_flags_horizontal = 10
+item_count = 4
+popup/item_0/text = "WINDOWED"
+popup/item_0/id = 0
+popup/item_1/text = "MAXIMIZED"
+popup/item_1/id = 1
+popup/item_2/text = "BORDERLESS_FULLSCREEN"
+popup/item_2/id = 2
+popup/item_3/text = "EXCLUSIVE_FULLSCREEN"
+popup/item_3/id = 3
+
+[node name="VsyncPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox" unique_id=1165885236]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "VSYNC"
+metadata/description = "VSYNC_TIP"
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox/VsyncPanel" unique_id=1152405737]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox/VsyncPanel/HBox" unique_id=1430528601]
+layout_mode = 2
+text = "VSYNC"
+
+[node name="CheckButton" type="CheckButton" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox/VsyncPanel/HBox" unique_id=572148780]
+layout_mode = 2
+size_flags_horizontal = 10
+script = ExtResource("6_jrqig")
+metadata/_custom_type_script = "uid://bc8nqwx2f77uu"
+
+[node name="FrameRateLimitPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox" unique_id=1665607365]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "FRAME_RATE_LIMIT"
+metadata/description = "FRAME_RATE_LIMIT_TIP"
+
+[node name="HSplit" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox/FrameRateLimitPanel" unique_id=1755324562]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox/FrameRateLimitPanel/HSplit" unique_id=2073223735]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 6.0
+text = "FRAME_RATE_LIMIT"
+
+[node name="SliderBar" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox/FrameRateLimitPanel/HSplit" unique_id=1731937805 instance=ExtResource("6_n35ux")]
+custom_minimum_size = Vector2(100, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+size_flags_stretch_ratio = 4.0
+min_value = 30.0
+max_value = 361.0
+value = 60.0
+
+[node name="GraphicsLabel" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox" unique_id=1130100504]
+layout_mode = 2
+theme = ExtResource("2_f4mfi")
+text = "GRAPHICS"
+uppercase = true
+
+[node name="FieldOfViewPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox" unique_id=228446829]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "FIELD_OF_VIEW"
+metadata/description = "FIELD_OF_VIEW_TIP"
+
+[node name="HSplit" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox/FieldOfViewPanel" unique_id=1065389990]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox/FieldOfViewPanel/HSplit" unique_id=2041097068]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 6.0
+text = "FIELD_OF_VIEW"
+
+[node name="SliderBar" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox/FieldOfViewPanel/HSplit" unique_id=481257295 instance=ExtResource("6_n35ux")]
+custom_minimum_size = Vector2(100, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+size_flags_stretch_ratio = 4.0
+min_value = 45.0
+value = 60.0
+
+[node name="ScalingAndAALabel" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox" unique_id=789779226]
+layout_mode = 2
+theme = ExtResource("2_f4mfi")
+text = "SCALING_AND_AA"
+uppercase = true
+
+[node name="ScalingMethodPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox" unique_id=1743977994]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "SCALING_METHOD"
+metadata/description = "SCALING_METHOD_TIP"
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox/ScalingMethodPanel" unique_id=499991644]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox/ScalingMethodPanel/HBox" unique_id=792282173]
+layout_mode = 2
+text = "SCALING_METHOD"
+
+[node name="OptionButton" type="OptionButton" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox/ScalingMethodPanel/HBox" unique_id=1665704845]
+layout_mode = 2
+size_flags_horizontal = 10
+selected = 0
+item_count = 3
+popup/item_0/text = "Bilinear"
+popup/item_0/id = 0
+popup/item_1/text = "FSR 1.0"
+popup/item_1/id = 1
+popup/item_2/text = "FSR 2.2"
+popup/item_2/id = 2
+
+[node name="UpscaledResolutionPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox" unique_id=1708067918]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "UPSCALED_RESOLUTION"
+metadata/description = "UPSCALED_RESOLUTION_TIP"
+
+[node name="HSplit" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox/UpscaledResolutionPanel" unique_id=1891419348]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox/UpscaledResolutionPanel/HSplit" unique_id=1404331931]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 6.0
+text = "UPSCALED_RESOLUTION"
+
+[node name="SliderBar" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox/UpscaledResolutionPanel/HSplit" unique_id=865687535 instance=ExtResource("6_prcnt")]
+custom_minimum_size = Vector2(100, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+size_flags_stretch_ratio = 4.0
+min_value = 0.5
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="FsrSharpnessPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox" unique_id=927969424]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "FSR_SHARPNESS"
+metadata/description = "FSR_SHARPNESS_TIP"
+
+[node name="HSplit" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox/FsrSharpnessPanel" unique_id=883310216]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox/FsrSharpnessPanel/HSplit" unique_id=645358212]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 6.0
+text = "FSR_SHARPNESS"
+
+[node name="SliderBar" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox/FsrSharpnessPanel/HSplit" unique_id=384392851 instance=ExtResource("6_prcnt")]
+custom_minimum_size = Vector2(100, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+size_flags_stretch_ratio = 4.0
+max_value = 1.0
+step = 0.01
+value = 0.2
+
+[node name="ScreenSpaceAAPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox" unique_id=367674541]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "SCREEN_SPACE_AA"
+metadata/description = "SCREEN_SPACE_AA_TIP"
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox/ScreenSpaceAAPanel" unique_id=733877113]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox/ScreenSpaceAAPanel/HBox" unique_id=1449286519]
+layout_mode = 2
+mouse_filter = 1
+text = "SCREEN_SPACE_AA"
+
+[node name="OptionButton" type="OptionButton" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox/ScreenSpaceAAPanel/HBox" unique_id=1540607521]
+layout_mode = 2
+size_flags_horizontal = 10
+selected = 0
+item_count = 3
+popup/item_0/text = "DISABLED"
+popup/item_0/id = 0
+popup/item_1/text = "SMAA"
+popup/item_1/id = 1
+popup/item_2/text = "FXAA"
+popup/item_2/id = 2
+
+[node name="TaaPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox" unique_id=705102638]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "TAA"
+metadata/description = "TAA_TIP"
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox/TaaPanel" unique_id=62826537]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox/TaaPanel/HBox" unique_id=1050275009]
+layout_mode = 2
+mouse_filter = 1
+text = "TAA"
+
+[node name="CheckButton" type="CheckButton" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox/TaaPanel/HBox" unique_id=28214978]
+layout_mode = 2
+size_flags_horizontal = 10
+script = ExtResource("6_jrqig")
+metadata/_custom_type_script = "uid://bc8nqwx2f77uu"
+
+[node name="MsaaPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox" unique_id=1258962871]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "MSAA"
+metadata/description = "MSAA_TIP"
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox/MsaaPanel" unique_id=1788677029]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox/MsaaPanel/HBox" unique_id=2088904747]
+layout_mode = 2
+mouse_filter = 1
+text = "MSAA"
+
+[node name="OptionButton" type="OptionButton" parent="MarginContainer/VBox/HSplit/Tabs/VIDEO/VBox/MsaaPanel/HBox" unique_id=2037917437]
+layout_mode = 2
+size_flags_horizontal = 10
+selected = 0
+item_count = 4
+popup/item_0/text = "DISABLED"
+popup/item_0/id = 0
+popup/item_1/text = "2x"
+popup/item_1/id = 1
+popup/item_2/text = "4x"
+popup/item_2/id = 2
+popup/item_3/text = "8x"
+popup/item_3/id = 3
+
+[node name="AUDIO" type="ScrollContainer" parent="MarginContainer/VBox/HSplit/Tabs" unique_id=961428533]
+visible = false
+layout_mode = 2
+horizontal_scroll_mode = 0
+script = ExtResource("1_5p8wc")
+metadata/_tab_index = 3
+
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/AUDIO" unique_id=1530500254]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="VolumeLabel" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/AUDIO/VBox" unique_id=605120230]
+layout_mode = 2
+theme = ExtResource("2_f4mfi")
+text = "VOLUME"
+uppercase = true
+
+[node name="MasterVolumePanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/AUDIO/VBox" unique_id=1930575065]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "MASTER_VOLUME"
+metadata/description = "MASTER_VOLUME_TIP"
+
+[node name="HSplit" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/AUDIO/VBox/MasterVolumePanel" unique_id=901307016]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/AUDIO/VBox/MasterVolumePanel/HSplit" unique_id=1736265700]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 6.0
+text = "MASTER_VOLUME"
+
+[node name="SliderBar" parent="MarginContainer/VBox/HSplit/Tabs/AUDIO/VBox/MasterVolumePanel/HSplit" unique_id=366454758 instance=ExtResource("6_prcnt")]
+custom_minimum_size = Vector2(100, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+size_flags_stretch_ratio = 4.0
+max_value = 1.0
+step = 0.01
+
+[node name="MusicVolumePanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/AUDIO/VBox" unique_id=553704874]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "MUSIC_VOLUME"
+metadata/description = "MUSIC_VOLUME_TIP"
+
+[node name="HSplit" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/AUDIO/VBox/MusicVolumePanel" unique_id=1152008306]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/AUDIO/VBox/MusicVolumePanel/HSplit" unique_id=1394247316]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 6.0
+text = "MUSIC_VOLUME"
+
+[node name="SliderBar" parent="MarginContainer/VBox/HSplit/Tabs/AUDIO/VBox/MusicVolumePanel/HSplit" unique_id=1868905755 instance=ExtResource("6_prcnt")]
+custom_minimum_size = Vector2(100, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+size_flags_stretch_ratio = 4.0
+max_value = 1.0
+step = 0.01
+
+[node name="SfxVolumePanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/AUDIO/VBox" unique_id=363197479]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "SFX_VOLUME"
+metadata/description = "SFX_VOLUME_TIP"
+
+[node name="HSplit" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/AUDIO/VBox/SfxVolumePanel" unique_id=1900990764]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/AUDIO/VBox/SfxVolumePanel/HSplit" unique_id=1284391983]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 6.0
+text = "SFX_VOLUME"
+
+[node name="SliderBar" parent="MarginContainer/VBox/HSplit/Tabs/AUDIO/VBox/SfxVolumePanel/HSplit" unique_id=2098686966 instance=ExtResource("6_prcnt")]
+custom_minimum_size = Vector2(100, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+size_flags_stretch_ratio = 4.0
+max_value = 1.0
+step = 0.01
+
+[node name="OutputLabel" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/AUDIO/VBox" unique_id=1400172273]
+layout_mode = 2
+theme = ExtResource("2_f4mfi")
+text = "OUTPUT"
+uppercase = true
+
+[node name="MuteOnUnfocusedPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/AUDIO/VBox" unique_id=1015039224]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "MUTE_ON_UNFOCUSED"
+metadata/description = "MUTE_ON_UNFOCUSED_TIP"
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/AUDIO/VBox/MuteOnUnfocusedPanel" unique_id=763210533]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/AUDIO/VBox/MuteOnUnfocusedPanel/HBox" unique_id=1359093338]
+layout_mode = 2
+text = "MUTE_ON_UNFOCUSED"
+
+[node name="CheckButton" type="CheckButton" parent="MarginContainer/VBox/HSplit/Tabs/AUDIO/VBox/MuteOnUnfocusedPanel/HBox" unique_id=1963800041]
+layout_mode = 2
+size_flags_horizontal = 10
+script = ExtResource("6_jrqig")
+metadata/_custom_type_script = "uid://bc8nqwx2f77uu"
+
+[node name="INPUT" type="ScrollContainer" parent="MarginContainer/VBox/HSplit/Tabs" unique_id=1208102701]
+visible = false
+layout_mode = 2
+horizontal_scroll_mode = 0
+script = ExtResource("10_jpbdv")
+metadata/_tab_index = 4
+
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/INPUT" unique_id=61495452]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="KeyBindingsLabel" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox" unique_id=1961131478]
+layout_mode = 2
+theme = ExtResource("2_f4mfi")
+text = "KEY_BINDINGS"
+uppercase = true
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox" unique_id=2128345740]
+layout_mode = 2
+columns = 2
+
+[node name="UpPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer" unique_id=1345484537]
+custom_minimum_size = Vector2(500, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "MOVE_UP"
+metadata/description = ""
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer/UpPanel" unique_id=1231007393]
+layout_mode = 2
+text = "MOVE_UP"
+
+[node name="UpButton" type="Button" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer" unique_id=1340933490]
+layout_mode = 2
+size_flags_horizontal = 3
+icon_alignment = 1
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer/UpButton" unique_id=1430372835]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="DownPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer" unique_id=1569079071]
+custom_minimum_size = Vector2(500, 40)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "MOVE_DOWN"
+metadata/description = ""
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer/DownPanel" unique_id=1580647890]
+layout_mode = 2
+text = "MOVE_DOWN"
+
+[node name="DownButton" type="Button" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer" unique_id=342896121]
+layout_mode = 2
+size_flags_horizontal = 3
+icon_alignment = 1
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer/DownButton" unique_id=1440997199]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="LeftPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer" unique_id=983861231]
+custom_minimum_size = Vector2(500, 40)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "MOVE_LEFT"
+metadata/description = ""
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer/LeftPanel" unique_id=11371548]
+layout_mode = 2
+text = "MOVE_LEFT"
+
+[node name="LeftButton" type="Button" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer" unique_id=1366767978]
+layout_mode = 2
+size_flags_horizontal = 3
+icon_alignment = 1
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer/LeftButton" unique_id=2015261067]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="RightPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer" unique_id=190366943]
+custom_minimum_size = Vector2(500, 40)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "MOVE_RIGHT"
+metadata/description = ""
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer/RightPanel" unique_id=1740082818]
+layout_mode = 2
+text = "MOVE_RIGHT"
+
+[node name="RightButton" type="Button" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer" unique_id=494106200]
+layout_mode = 2
+size_flags_horizontal = 3
+icon_alignment = 1
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer/RightButton" unique_id=932644399]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="UndoPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer" unique_id=1980457711]
+custom_minimum_size = Vector2(500, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "UNDO"
+metadata/description = ""
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer/UndoPanel" unique_id=964383973]
+layout_mode = 2
+text = "UNDO"
+
+[node name="UndoButton" type="Button" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer" unique_id=951533674]
+layout_mode = 2
+size_flags_horizontal = 3
+icon_alignment = 1
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer/UndoButton" unique_id=1734169100]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="RedoPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer" unique_id=1100056943]
+custom_minimum_size = Vector2(500, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "REDO"
+metadata/description = ""
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer/RedoPanel" unique_id=1928072783]
+layout_mode = 2
+text = "REDO"
+
+[node name="RedoButton" type="Button" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer" unique_id=1680022372]
+layout_mode = 2
+size_flags_horizontal = 3
+icon_alignment = 1
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer/RedoButton" unique_id=1757655264]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="UndoAllPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer" unique_id=859696719]
+custom_minimum_size = Vector2(500, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "UNDO_ALL"
+metadata/description = ""
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer/UndoAllPanel" unique_id=965080281]
+layout_mode = 2
+text = "UNDO_ALL"
+
+[node name="UndoAllButton" type="Button" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer" unique_id=1058077184]
+layout_mode = 2
+size_flags_horizontal = 3
+icon_alignment = 1
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer/UndoAllButton" unique_id=297970631]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="SolvePanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer" unique_id=1419753044]
+custom_minimum_size = Vector2(500, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "SOLVE"
+metadata/description = "SOLVE_DESC"
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer/SolvePanel" unique_id=1142819687]
+layout_mode = 2
+text = "SOLVE"
+
+[node name="SolveButton" type="Button" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer" unique_id=802335062]
+layout_mode = 2
+size_flags_horizontal = 3
+icon_alignment = 1
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer/SolveButton" unique_id=1272621103]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="ImportFromClipboardPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer" unique_id=1138283170]
+custom_minimum_size = Vector2(500, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "IMPORT_FROM_CLIPBOARD"
+metadata/description = "IMPORT_FROM_CLIPBOARD_DESC"
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer/ImportFromClipboardPanel" unique_id=1737531235]
+layout_mode = 2
+text = "IMPORT_FROM_CLIPBOARD"
+
+[node name="ImportFromClipboardButton" type="Button" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer" unique_id=272598657]
+layout_mode = 2
+size_flags_horizontal = 3
+icon_alignment = 1
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer/ImportFromClipboardButton" unique_id=727205582]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="ExportToClipboardPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer" unique_id=1446713200]
+custom_minimum_size = Vector2(500, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "EXPORT_TO_CLIPBOARD"
+metadata/description = "EXPORT_TO_CLIPBOARD_DESC"
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer/ExportToClipboardPanel" unique_id=1769390265]
+layout_mode = 2
+text = "EXPORT_TO_CLIPBOARD"
+
+[node name="ExportToClipboardButton" type="Button" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer" unique_id=479594295]
+layout_mode = 2
+size_flags_horizontal = 3
+icon_alignment = 1
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/INPUT/VBox/GridContainer/ExportToClipboardButton" unique_id=1545876848]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Margin" type="MarginContainer" parent="MarginContainer/VBox/HSplit" unique_id=365115458]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 4.0
+theme_override_constants/margin_top = 50
+
+[node name="Tooltip" type="RichTextLabel" parent="MarginContainer/VBox/HSplit/Margin" unique_id=53234991]
+layout_mode = 2
+theme_override_fonts/bold_font = ExtResource("11_x0dr5")
+theme_override_fonts/bold_italics_font = ExtResource("11_75x6d")
+bbcode_enabled = true
+
+[node name="HSpacer2" type="HSeparator" parent="MarginContainer/VBox" unique_id=378407874]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 61
+
+[node name="CloseButton" type="Button" parent="." unique_id=678515187]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -66.0
+offset_right = 142.0
+offset_bottom = -20.0
+grow_vertical = 0
+shortcut = SubResource("Shortcut_puhno")
+shortcut_in_tooltip = false
+text = "CLOSE"
+icon = ExtResource("6_48ojb")
+flat = true
+alignment = 0
+expand_icon = true
+script = ExtResource("7_n35ux")
+metadata/_custom_type_script = "uid://cr5yoytr47auc"
+
+[node name="RestoreButton" type="Button" parent="." unique_id=1512608518]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 163.0
+offset_top = -66.0
+offset_right = 437.0
+offset_bottom = -20.0
+grow_vertical = 0
+shortcut = SubResource("Shortcut_jpbdv")
+shortcut_in_tooltip = false
+text = "RESTORE_DEFAULTS"
+icon = ExtResource("12_n0fy7")
+flat = true
+alignment = 0
+expand_icon = true
+script = ExtResource("7_n35ux")
+metadata/_custom_type_script = "uid://cr5yoytr47auc"
+
+[node name="BindingPopup" parent="." unique_id=1451407079 instance=ExtResource("14_puhno")]
+visible = false
+layout_mode = 1

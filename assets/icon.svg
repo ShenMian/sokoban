@@ -1,0 +1,75 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <!-- Background Gradient: Deep Slate -->
+        <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#1E293B" />
+            <stop offset="100%" stop-color="#0F172A" />
+        </linearGradient>
+
+        <!-- Crate Surface Gradient: Warm Amber -->
+        <linearGradient id="crateGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FBBF24" />
+            <stop offset="100%" stop-color="#D97706" />
+        </linearGradient>
+
+        <!-- Subtle Dotted Grid Pattern for Background Texture -->
+        <pattern id="dotGrid" width="64" height="64" patternUnits="userSpaceOnUse">
+            <circle cx="32" cy="32" r="3" fill="#334155" />
+        </pattern>
+    </defs>
+
+    <!-- App Icon Base Background -->
+    <rect width="512" height="512" rx="112" fill="url(#bgGrad)" />
+
+    <!-- Floor Texture Grid -->
+    <rect width="512" height="512" rx="112" fill="url(#dotGrid)" />
+
+    <!-- Inner Highlight / Bevel for premium App Icon feel -->
+    <rect x="2" y="2" width="508" height="508" rx="110" fill="none" stroke="#FFFFFF" stroke-opacity="0.1" stroke-width="4" />
+
+    <!-- ========================================== -->
+    <!-- 1. TARGET MARKER (The Goal Position)       -->
+    <!-- ========================================== -->
+    <g id="target">
+        <!-- Dashed Outer Outline -->
+        <rect x="186" y="186" width="220" height="220" rx="32" fill="#047857" fill-opacity="0.15" stroke="#22C55E" stroke-width="16" stroke-dasharray="24 24" stroke-linecap="round" />
+
+        <!-- Center Dot Indicator -->
+        <circle cx="296" cy="296" r="28" fill="#22C55E" />
+    </g>
+
+    <!-- ========================================== -->
+    <!-- 2. MOTION LINES (Indicates sliding action) -->
+    <!-- ========================================== -->
+    <g id="motion-lines" stroke="#F8FAFC" stroke-opacity="0.5" stroke-width="12" stroke-linecap="round">
+        <line x1="70" y1="70" x2="100" y2="100" />
+        <line x1="120" y1="60" x2="140" y2="80" />
+        <line x1="60" y1="120" x2="80" y2="140" />
+    </g>
+
+    <!-- ========================================== -->
+    <!-- 3. WOODEN CRATE                            -->
+    <!-- ========================================== -->
+
+    <!-- Drop Shadow (Offset to bottom-right) -->
+    <rect x="122" y="122" width="220" height="220" rx="32" fill="#020617" opacity="0.4" />
+
+    <g id="crate">
+        <!-- Main Box Base -->
+        <rect x="106" y="106" width="220" height="220" rx="32" fill="url(#crateGrad)" />
+
+        <!-- Inner Wooden Frame -->
+        <rect x="130" y="130" width="172" height="172" rx="16" fill="none" stroke="#92400E" stroke-width="16" />
+
+        <!-- Diagonal Cross Planks -->
+        <line x1="130" y1="130" x2="302" y2="302" stroke="#92400E" stroke-width="16" stroke-linecap="round" />
+        <line x1="302" y1="130" x2="130" y2="302" stroke="#92400E" stroke-width="16" stroke-linecap="round" />
+
+        <!-- Corner Details (Nails) -->
+        <circle cx="150" cy="150" r="6" fill="#78350F" />
+        <circle cx="282" cy="150" r="6" fill="#78350F" />
+        <circle cx="150" cy="282" r="6" fill="#78350F" />
+        <circle cx="282" cy="282" r="6" fill="#78350F" />
+    </g>
+
+</svg>

@@ -1,0 +1,142 @@
+[gd_scene format=3 uid="uid://cinlu4a76akc"]
+
+[ext_resource type="Script" uid="uid://dasg11a8kfmju" path="res://scripts/ui/pause_menu.gd" id="1_myx47"]
+[ext_resource type="Material" uid="uid://f7k4fqqjs8id" path="res://assets/materials/blur.tres" id="1_n87rw"]
+[ext_resource type="Theme" uid="uid://dvbbi3vt7rasu" path="res://assets/theme.tres" id="3_5d2l8"]
+[ext_resource type="Texture2D" uid="uid://fq45ymva816n" path="res://assets/textures/input_prompts/keyboard_mouse/keyboard_escape.svg" id="3_kukqi"]
+[ext_resource type="Script" uid="uid://cr5yoytr47auc" path="res://scripts/ui/button_fx.gd" id="4_7l7mv"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_7l7mv"]
+action = &"pause"
+
+[sub_resource type="Shortcut" id="Shortcut_v4r4p"]
+events = [SubResource("InputEventAction_7l7mv")]
+
+[sub_resource type="Animation" id="Animation_myx47"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BlurBackground:material:shader_parameter/amount")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_n87rw"]
+resource_name = "blur"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BlurBackground:material:shader_parameter/amount")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0000000475]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_myx47"]
+_data = {
+&"RESET": SubResource("Animation_myx47"),
+&"blur": SubResource("Animation_n87rw")
+}
+
+[node name="PauseMenu" type="Control" unique_id=1636152828]
+process_mode = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_5d2l8")
+script = ExtResource("1_myx47")
+
+[node name="BlurBackground" type="ColorRect" parent="." unique_id=1547835954]
+material = ExtResource("1_n87rw")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MenuBackground" type="ColorRect" parent="." unique_id=201458299]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.4
+anchor_right = 0.6
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.39215687)
+
+[node name="VBox" type="VBoxContainer" parent="MenuBackground" unique_id=248597386]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.47200003
+anchor_right = 1.0
+anchor_bottom = 0.53000003
+offset_top = -19.856018
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SettingsButton" type="Button" parent="MenuBackground/VBox" unique_id=1951931762]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+text = "SETTINGS"
+script = ExtResource("4_7l7mv")
+metadata/_custom_type_script = "uid://cr5yoytr47auc"
+
+[node name="CreditsButton" type="Button" parent="MenuBackground/VBox" unique_id=710469703]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+text = "CREDITS"
+script = ExtResource("4_7l7mv")
+metadata/_custom_type_script = "uid://cr5yoytr47auc"
+
+[node name="Spacer" type="Control" parent="MenuBackground/VBox" unique_id=1740558231]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="MenuButton" type="Button" parent="MenuBackground/VBox" unique_id=715112919]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+text = "BACK_TO_LEVEL_LIST"
+script = ExtResource("4_7l7mv")
+metadata/_custom_type_script = "uid://cr5yoytr47auc"
+
+[node name="CloseButton" type="Button" parent="." unique_id=1479965865]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -66.0
+offset_right = 142.0
+offset_bottom = -20.0
+grow_vertical = 0
+shortcut = SubResource("Shortcut_v4r4p")
+shortcut_in_tooltip = false
+text = "CLOSE"
+icon = ExtResource("3_kukqi")
+flat = true
+alignment = 0
+expand_icon = true
+script = ExtResource("4_7l7mv")
+metadata/_custom_type_script = "uid://cr5yoytr47auc"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=95098899]
+libraries/ = SubResource("AnimationLibrary_myx47")

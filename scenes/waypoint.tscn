@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://dqj5i3bsiexf1"]
+
+[ext_resource type="Script" uid="uid://842svm4qp7es" path="res://scripts/waypoint.gd" id="1_omn23"]
+[ext_resource type="Material" uid="uid://dolx0vl1hcm6b" path="res://assets/materials/waypoint_normal_material.tres" id="2_hy65e"]
+[ext_resource type="Material" uid="uid://bjmab2ru3iajr" path="res://assets/materials/waypoint_hover_material.tres" id="3_hk825"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_8hlp4"]
+size = Vector2(1, 1)
+center_offset = Vector3(0.5, 0, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_omn23"]
+size = Vector3(1, 0.05, 1)
+
+[node name="Waypoint" type="Node3D" unique_id=2064119935]
+script = ExtResource("1_omn23")
+normal_material = ExtResource("2_hy65e")
+hover_material = ExtResource("3_hk825")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1777699219]
+mesh = SubResource("PlaneMesh_8hlp4")
+
+[node name="Area3D" type="Area3D" parent="MeshInstance3D" unique_id=1221386955]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.025, 0.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/Area3D" unique_id=440696636]
+shape = SubResource("BoxShape3D_omn23")

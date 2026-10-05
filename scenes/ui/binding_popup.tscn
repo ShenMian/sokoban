@@ -1,0 +1,137 @@
+[gd_scene format=3 uid="uid://bgou1t8ve7r2j"]
+
+[ext_resource type="Material" uid="uid://f7k4fqqjs8id" path="res://assets/materials/blur.tres" id="1_dbx47"]
+[ext_resource type="Script" uid="uid://cgs0hu63210sd" path="res://scripts/settings/binding_popup.gd" id="1_ogujs"]
+[ext_resource type="Theme" uid="uid://el10yav48fuk" path="res://assets/title_theme.tres" id="2_m7nm2"]
+[ext_resource type="Script" uid="uid://cr5yoytr47auc" path="res://scripts/ui/button_fx.gd" id="2_sycsx"]
+[ext_resource type="Texture2D" uid="uid://fq45ymva816n" path="res://assets/textures/input_prompts/keyboard_mouse/keyboard_escape.svg" id="3_sycsx"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_jpbdv"]
+action = &"pause"
+
+[sub_resource type="Shortcut" id="Shortcut_m7nm2"]
+events = [SubResource("InputEventAction_jpbdv")]
+
+[node name="BindingPopup" type="Control" unique_id=1247664036]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ogujs")
+
+[node name="BlurBackground" type="ColorRect" parent="." unique_id=1763262550]
+material = ExtResource("1_dbx47")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=302124929]
+custom_minimum_size = Vector2(0, 230)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -100.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.11372549, 0.105882354, 0.1254902, 1)
+
+[node name="VBox" type="VBoxContainer" parent="." unique_id=1740128240]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -118.5
+offset_bottom = 118.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="TitleLabel" type="Label" parent="VBox" unique_id=1940460871]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme = ExtResource("2_m7nm2")
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBox" type="HBoxContainer" parent="VBox" unique_id=1817861591]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+alignment = 1
+
+[node name="HintLabel" type="Label" parent="VBox" unique_id=1637306497]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="VBox" unique_id=101182635]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+color = Color(0.2, 0.19215687, 0.21176471, 1)
+
+[node name="HBox" type="HBoxContainer" parent="VBox/ColorRect" unique_id=2115031765]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="CancelButton" type="Button" parent="VBox/ColorRect/HBox" unique_id=605451514]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+text = "CANCEL"
+script = ExtResource("2_sycsx")
+metadata/_custom_type_script = "uid://cr5yoytr47auc"
+
+[node name="ClearButton" type="Button" parent="VBox/ColorRect/HBox" unique_id=1572520532]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "CLEAR"
+script = ExtResource("2_sycsx")
+metadata/_custom_type_script = "uid://cr5yoytr47auc"
+
+[node name="ConfirmButton" type="Button" parent="VBox/ColorRect/HBox" unique_id=842794280]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+disabled = true
+text = "CONFIRM"
+script = ExtResource("2_sycsx")
+metadata/_custom_type_script = "uid://cr5yoytr47auc"
+
+[node name="CancelButton" type="Button" parent="." unique_id=2005580835]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -66.0
+offset_right = 142.0
+offset_bottom = -20.0
+grow_vertical = 0
+shortcut = SubResource("Shortcut_m7nm2")
+shortcut_in_tooltip = false
+text = "CANCEL"
+icon = ExtResource("3_sycsx")
+flat = true
+alignment = 0
+expand_icon = true
+script = ExtResource("2_sycsx")
+metadata/_custom_type_script = "uid://cr5yoytr47auc"

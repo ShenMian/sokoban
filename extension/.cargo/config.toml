@@ -1,0 +1,26 @@
+[target.wasm32-unknown-emscripten]
+rustflags = [
+    "-C", "link-args=-pthread",
+    "-C", "target-feature=+atomics",
+    "-C", "link-args=-sSIDE_MODULE=2",
+    # Godot's web runtime is not built with C++ exceptions, so its main module
+    # does not export the WebAssembly tag `env.__cpp_exception`. Rust nightlies
+    # >= 1.98 always use Wasm exception handling for this target (the
+    # `-Zemscripten-wasm-eh` opt-out was removed), which makes the side module
+    # import that tag and fail to link at runtime. Building with `panic=abort`
+    # (plus `-Zbuild-std=std,panic_abort`, see the CD workflow) drops the
+    # unwinding machinery, so no exception tag is imported.
+    # See https://github.com/godotengine/godot/pull/124118 for the Godot-side fix.
+    "-C", "llvm-args=-enable-emscripten-cxx-exceptions=0",
+    "-C", "panic=abort",
+    "-Z", "default-visibility=hidden",
+    "-Z", "link-native-libraries=no",
+]
+
+# Pass required C compiler flags for bundled SQLite when targeting WASM.
+# The `cc` crate used by `libsqlite3-sys` reads this env var (note: underscores).
+# -fPIC        : required by wasm-ld in SIDE_MODULE mode
+# -matomics    : required because Godot's WASM uses -pthread / shared memory
+# -mbulk-memory: required alongside -matomics for WASM threading support
+[env]
+CFLAGS_wasm32_unknown_emscripten = "-fPIC -matomics -mbulk-memory"

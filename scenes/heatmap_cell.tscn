@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://b3lmo7denfxkc"]
+
+[ext_resource type="Script" uid="uid://bpujdyhopux5x" path="res://scripts/heatmap_cell.gd" id="1_osxwa"]
+[ext_resource type="FontFile" uid="uid://dh020jxovl25i" path="res://assets/fonts/Sarasa-1.0.33/SarasaUiSC-Bold.woff2" id="2_hjwgk"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_2lnuf"]
+size = Vector2(1, 1)
+center_offset = Vector3(0.5, 0, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2lnuf"]
+transparency = 4
+shading_mode = 0
+
+[node name="HeatmapCell" type="MeshInstance3D" unique_id=576839689]
+mesh = SubResource("PlaneMesh_2lnuf")
+surface_material_override/0 = SubResource("StandardMaterial3D_2lnuf")
+script = ExtResource("1_osxwa")
+
+[node name="Label" type="Label3D" parent="." unique_id=1602340832]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0.5, 0.02, 0.5)
+no_depth_test = true
+font = ExtResource("2_hjwgk")
+font_size = 128
+outline_size = 24

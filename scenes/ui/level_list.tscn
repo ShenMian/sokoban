@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://bef3cb8eg20mo"]
+
+[ext_resource type="Theme" uid="uid://dvbbi3vt7rasu" path="res://assets/theme.tres" id="1_3cspp"]
+[ext_resource type="Script" uid="uid://c5tskalfqb860" path="res://scripts/ui/level_list.gd" id="2_o24fg"]
+[ext_resource type="Texture2D" uid="uid://dorsn38k1lpvp" path="res://assets/textures/backgrounds/empty.png" id="3_tix12"]
+[ext_resource type="Theme" uid="uid://el10yav48fuk" path="res://assets/title_theme.tres" id="4_er3qt"]
+[ext_resource type="PackedScene" uid="uid://cn7iy24ba0l5v" path="res://scenes/ui/thumbnail_generator.tscn" id="5_lt178"]
+
+[sub_resource type="Gradient" id="Gradient_gkmvm"]
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_tr5s6"]
+gradient = SubResource("Gradient_gkmvm")
+
+[node name="LevelList" type="Control" unique_id=532100692]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_3cspp")
+script = ExtResource("2_o24fg")
+level_item_min_width = null
+unsolved_color = null
+solved_color = null
+solving_color = null
+preview_placeholder = SubResource("GradientTexture2D_tr5s6")
+
+[node name="Background" type="TextureRect" parent="." unique_id=570934678]
+modulate = Color(0.50219375, 0.50219357, 0.5021936, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -188.0
+offset_bottom = 188.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_tix12")
+stretch_mode = 1
+
+[node name="Margin" type="MarginContainer" parent="." unique_id=1029444989]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="Margin" unique_id=1761804570]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="TitleLabel" type="Label" parent="Margin/VBox" unique_id=1226334398]
+layout_mode = 2
+theme = ExtResource("4_er3qt")
+theme_override_font_sizes/font_size = 35
+text = "LEVEL_LIST"
+uppercase = true
+
+[node name="HSplit" type="HSplitContainer" parent="Margin/VBox" unique_id=1080622152]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CollectionList" type="ItemList" parent="Margin/VBox/HSplit" unique_id=1150864781]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.2
+theme = ExtResource("1_3cspp")
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 10
+theme_override_font_sizes/font_size = 26
+text_overrun_behavior = 5
+
+[node name="LevelList" type="ItemList" parent="Margin/VBox/HSplit" unique_id=2025772780]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.8
+theme = ExtResource("1_3cspp")
+icon_mode = 0
+
+[node name="ThumbnailGenerator" parent="." unique_id=319219157 instance=ExtResource("5_lt178")]

@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://ct5jks4wjysmx"]
+
+[ext_resource type="Script" uid="uid://bweyq0vy4gek1" path="res://scripts/map_theme.gd" id="1_q3ysb"]
+[ext_resource type="Material" uid="uid://cc0ey1qnfltcy" path="res://assets/materials/indicator_material.tres" id="2_ijae1"]
+[ext_resource type="Material" uid="uid://crbpf7ke4epv4" path="res://assets/materials/box_outer_frame_material.tres" id="2_nrvmm"]
+[ext_resource type="Material" uid="uid://mjw5woc87m5n" path="res://assets/materials/box_diagonal_bar_material.tres" id="3_xeb01"]
+[ext_resource type="Material" uid="uid://l88nflf2x70h" path="res://assets/materials/box_inner_fill_material.tres" id="4_gnt38"]
+[ext_resource type="Material" uid="uid://dkg1ghr5roer6" path="res://assets/materials/player_body_material.tres" id="5_gnt38"]
+[ext_resource type="Material" uid="uid://calojrmsvbmkb" path="res://assets/materials/player_hat_material.tres" id="6_oskek"]
+[ext_resource type="Material" uid="uid://nh33k8bm3jcq" path="res://assets/materials/path_preview_material.tres" id="8_oskek"]
+[ext_resource type="Material" uid="uid://dolx0vl1hcm6b" path="res://assets/materials/waypoint_normal_material.tres" id="8_pb7jy"]
+[ext_resource type="Material" uid="uid://bjmab2ru3iajr" path="res://assets/materials/waypoint_hover_material.tres" id="9_iy2s8"]
+
+[node name="Theme" type="Node" unique_id=769340137]
+script = ExtResource("1_q3ysb")
+box_outer_frame_material = ExtResource("2_nrvmm")
+box_diagonal_bar_material = ExtResource("3_xeb01")
+box_inner_fill_material = ExtResource("4_gnt38")
+box_body_material = ExtResource("5_gnt38")
+box_hat_material = ExtResource("6_oskek")
+indicator_material = ExtResource("2_ijae1")
+waypoint_normal_material = ExtResource("8_pb7jy")
+waypoint_hover_material = ExtResource("9_iy2s8")
+path_preview_material = ExtResource("8_oskek")

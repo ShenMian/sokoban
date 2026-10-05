@@ -1,0 +1,417 @@
+msgid ""
+msgstr ""
+"Language: zh\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+# Level List
+
+msgid "LEVEL_LIST"
+msgstr "关卡列表"
+
+# HUD
+
+msgid "LEVEL"
+msgstr "关卡"
+
+msgid "MOVES"
+msgstr "移动数"
+
+msgid "PUSHES"
+msgstr "推动数"
+
+msgid "TRANSFORM"
+msgstr "变换"
+
+msgid "PAUSE"
+msgstr "暂停"
+
+msgid "PREVIOUS_LEVEL"
+msgstr "上一关"
+
+msgid "NEXT_LEVEL"
+msgstr "下一关"
+
+# Victory Menu
+
+msgid "LEVEL_COMPLETE"
+msgstr "关卡完成"
+
+msgid "BEST"
+msgstr "最佳"
+
+msgid "BACK_TO_LEVEL_LIST"
+msgstr "返回关卡列表"
+
+# Gameplay
+
+msgid "GAMEPLAY"
+msgstr "玩法"
+
+msgid "ASSISTS"
+msgstr "辅助"
+
+
+msgid "GENERAL"
+msgstr "通用"
+
+msgid "LANGUAGE"
+msgstr "语言"
+
+msgid "LANGUAGE_TIP"
+msgstr "选择界面语言"
+
+msgid "ANIMATION_SPEED"
+msgstr "动画速度"
+
+msgid "ANIMATION_SPEED_TIP"
+msgstr ""
+"选择移动动画速度.\n"
+"[ul]"
+"[b]立即[/b]: 跳过动画"
+"[/ul]"
+
+msgid "ANIM_SLOW"
+msgstr "慢速"
+
+msgid "ANIM_NORMAL"
+msgstr "正常"
+
+msgid "ANIM_FAST"
+msgstr "快速"
+
+msgid "ANIM_INSTANT"
+msgstr "立即"
+
+msgid "PATHFINDING_STRATEGY"
+msgstr "寻路策略"
+
+msgid "PATHFINDING_STRATEGY_TIP"
+msgstr "箱子寻路首选最少推动或移动的路径."
+
+msgid "APPEARANCE"
+msgstr "外观"
+
+msgid "THEME"
+msgstr "主题"
+
+msgid "THEME_TIP"
+msgstr "选择关卡的配色主题"
+
+msgid "DESERT_OASIS"
+msgstr "沙漠绿洲"
+
+msgid "ARCTIC_LAB"
+msgstr "极地实验室"
+
+msgid "OCEAN_DEPTHS"
+msgstr "深海探险"
+
+msgid "2D_VIEW"
+msgstr "2D 视角"
+
+msgid "CHECKERBOARD_SHADING"
+msgstr "棋盘纹"
+
+msgid "CHECKERBOARD_TIP"
+msgstr "以棋盘格样式给地砖上色"
+
+# Assists
+
+msgid "SOLVER"
+msgstr "求解器"
+
+msgid "ALGORITHM"
+msgstr "算法"
+
+msgid "ALGORITHM_TIP"
+msgstr ""
+"选择搜索算法\n"
+"[ul]"
+"[b]A*[/b]: 快速, 内存占用极高\n"
+"[b]IDA*[/b]: 较慢, 内存占用极低\n"
+"[color=gray][b]BFS[/b]: 慢, 内存占用极高[/color]"
+"[/ul]"
+
+msgid "STRATEGY"
+msgstr "策略"
+
+msgid "STRATEGY_TIP"
+msgstr ""
+"求解器策略\n"
+"[ul]"
+"[b]快速[/b]: 快速寻找任意解\n"
+"[b]推动最优[/b]: 寻找推动次数最少的最优解\n"
+"[b]移动最优[/b]: 寻找移动次数最少的最优解"
+"[/ul]"
+
+msgid "FAST"
+msgstr "快速"
+
+msgid "PUSH_OPTIMAL"
+msgstr "推动最优"
+
+msgid "MOVE_OPTIMAL"
+msgstr "移动最优"
+
+msgid "LOWER_BOUNDS"
+msgstr "下界"
+
+msgid "HEATMAP_TIP"
+msgstr "将下界以热力图的形式可视化"
+
+msgid "TUNNELS"
+msgstr "隧道"
+
+msgid "TUNNELS_TIP"
+msgstr "可视化隧道"
+
+msgid "HINTS"
+msgstr "提示"
+
+msgid "DEADLOCK_HINT"
+msgstr "死锁提示"
+
+msgid "DEADLOCK_HINT_TIP"
+msgstr "标记静态死锁位置"
+
+msgid "PUSHABLE_HINT"
+msgstr "可推动提示"
+
+msgid "PUSHABLE_TIP"
+msgstr "标记将当前可推动的箱子"
+
+# Video
+
+msgid "VIDEO"
+msgstr "视频"
+
+msgid "DISPLAY"
+msgstr "显示"
+
+msgid "WINDOW_MODE"
+msgstr "窗口模式"
+
+msgid "WINDOW_MODE_TIP"
+msgstr ""
+"选择窗口模式\n"
+"[ul]"
+"[b]窗口化[/b]\n"
+"[b]最大化[/b]\n"
+"[b]无边框全屏[/b]\n"
+"[b]独占全屏[/b]"
+"[/ul]"
+
+msgid "WINDOWED"
+msgstr "窗口化"
+
+msgid "MAXIMIZED"
+msgstr "最大化"
+
+msgid "BORDERLESS_FULLSCREEN"
+msgstr "无边框全屏"
+
+msgid "EXCLUSIVE_FULLSCREEN"
+msgstr "独占全屏"
+
+msgid "VSYNC"
+msgstr "垂直同步"
+
+msgid "VSYNC_TIP"
+msgstr "切换垂直同步以减少画面撕裂, 但同时限制最大帧率"
+
+msgid "FRAME_RATE_LIMIT"
+msgstr "帧率限制"
+
+msgid "FRAME_RATE_LIMIT_TIP"
+msgstr "限制最大帧率"
+
+msgid "UNLIMITED"
+msgstr "无限制"
+
+msgid "GRAPHICS"
+msgstr "图形"
+
+msgid "FIELD_OF_VIEW"
+msgstr "视野"
+
+msgid "FIELD_OF_VIEW_TIP"
+msgstr "调整摄像机的视野"
+
+msgid "SCALING_AND_AA"
+msgstr "分辨率缩放与抗锯齿"
+
+msgid "SCALING_METHOD"
+msgstr "缩放方法"
+
+msgid "SCALING_METHOD_TIP"
+msgstr ""
+"3D 渲染放大方法\n"
+"[ul]"
+"[b]双线性[/b]: 简单双线性插值\n"
+"[b]FSR 1.0[/b]\r"
+"[b]质量[/b]: 中, [b]开销[/b]: [color=green]低[/color]\n"
+"[b]FSR 2.2[/b]\r"
+"[b]质量[/b]: 高, [b]开销[/b]: [color=yellow]高[/color]"
+"[/ul]"
+
+msgid "UPSCALED_RESOLUTION"
+msgstr "渲染分辨率"
+
+msgid "UPSCALED_RESOLUTION_TIP"
+msgstr "调整内部 3D 渲染分辨率比例。较低的值可以提高性能, 但会降低图像质量"
+
+msgid "FSR_SHARPNESS"
+msgstr "FSR 锐度"
+
+msgid "FSR_SHARPNESS_TIP"
+msgstr "调整 FSR 放大的锐度。较低的值更锐利, 较高的值更柔和"
+
+msgid "SCREEN_SPACE_AA"
+msgstr "屏幕空间抗锯齿"
+
+msgid "SCREEN_SPACE_AA_TIP"
+msgstr ""
+"屏幕空间抗锯齿方法\n"
+"[ul]"
+"[b]SMAA[/b] (子像素增强抗锯齿)\r"
+"[b]质量[/b]: 高, [b]开销[/b]: [color=yellow]低[/color]\n"
+"[b]FXAA[/b] (快速近似抗锯齿)\r"
+"[b]质量[/b]: 低, [b]开销[/b]: [color=green]极低[/color]"
+"[/ul]"
+
+msgid "SMAA"
+msgstr "SMAA"
+
+msgid "FXAA"
+msgstr "FXAA"
+
+msgid "TAA"
+msgstr "TAA"
+
+msgid "TAA_TIP"
+msgstr ""
+"时间抗锯齿\n"
+"[b]质量[/b]: 高, [b]开销[/b]: [color=yellow]中[/color]"
+
+msgid "MSAA"
+msgstr "MSAA"
+
+msgid "MSAA_TIP"
+msgstr ""
+"多重采样抗锯齿\n"
+"[b]质量[/b]: 中, [b]开销[/b]: [color=yellow]中[/color]"
+
+msgid "DISABLED"
+msgstr "禁用"
+
+# Audio
+
+msgid "AUDIO"
+msgstr "音频"
+
+msgid "VOLUME"
+msgstr "音量"
+
+msgid "MASTER_VOLUME"
+msgstr "主音量"
+
+msgid "MASTER_VOLUME_TIP"
+msgstr "主音量控制整体音量"
+
+msgid "MUSIC_VOLUME"
+msgstr "音乐音量"
+
+msgid "MUSIC_VOLUME_TIP"
+msgstr "单独调整音乐音量"
+
+msgid "SFX_VOLUME"
+msgstr "音效音量"
+
+msgid "SFX_VOLUME_TIP"
+msgstr "单独调整音效音量"
+
+msgid "OUTPUT"
+msgstr "输出设备"
+
+msgid "MUTE_ON_UNFOCUSED"
+msgstr "失去焦点时静音"
+
+msgid "MUTE_ON_UNFOCUSED_TIP"
+msgstr "窗口失去焦点时静音"
+
+# Input
+
+msgid "INPUT"
+msgstr "输入"
+
+msgid "KEY_BINDINGS"
+msgstr "按键绑定"
+
+msgid "CANCEL"
+msgstr "取消"
+
+msgid "CLEAR"
+msgstr "清空"
+
+msgid "CONFIRM"
+msgstr "确认"
+
+msgid "KEY_UNCHANGED"
+msgstr "该按键已绑定到当前操作"
+
+msgid "KEY_CONFLICT"
+msgstr "与 %s 冲突"
+
+msgid "MOVE_UP"
+msgstr "上移"
+
+msgid "MOVE_DOWN"
+msgstr "下移"
+
+msgid "MOVE_LEFT"
+msgstr "左移"
+
+msgid "MOVE_RIGHT"
+msgstr "右移"
+
+msgid "UNDO"
+msgstr "撤销"
+
+msgid "REDO"
+msgstr "重做"
+
+msgid "UNDO_ALL"
+msgstr "全部撤销"
+
+msgid "SOLVE"
+msgstr "求解"
+
+msgid "SOLVE_DESC"
+msgstr "使用求解器自动完成当前关卡"
+
+msgid "IMPORT_FROM_CLIPBOARD"
+msgstr "从剪贴板导入"
+
+msgid "IMPORT_FROM_CLIPBOARD_DESC"
+msgstr "从剪贴板的 LURD 或 XSB 格式字符串导入关卡"
+
+msgid "EXPORT_TO_CLIPBOARD"
+msgstr "导出到剪贴板"
+
+msgid "EXPORT_TO_CLIPBOARD_DESC"
+msgstr "导出当前关卡的 XSB 格式字符串到剪贴板"
+
+# Pause Menu
+
+msgid "SETTINGS"
+msgstr "设置"
+
+msgid "CREDITS"
+msgstr "鸣谢"
+
+msgid "CLOSE"
+msgstr "关闭"
+
+msgid "RESTORE_DEFAULTS"
+msgstr "恢复默认"

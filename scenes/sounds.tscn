@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://dgqg5u1u0eomg"]
+
+[ext_resource type="AudioStream" uid="uid://7qwmxm6udupb" path="res://assets/audio/ui/click_002.ogg" id="1_aevjb"]
+[ext_resource type="Script" uid="uid://w3xc4b6dxi7m" path="res://scripts/sounds.gd" id="1_h5l0e"]
+[ext_resource type="AudioStream" uid="uid://bh4xhjn7rwh61" path="res://assets/audio/ui/select_001.ogg" id="2_8b883"]
+
+[node name="Sound" type="Node" unique_id=1887372628]
+script = ExtResource("1_h5l0e")
+
+[node name="ButtonPressAudio" type="AudioStreamPlayer" parent="." unique_id=2000010107]
+stream = ExtResource("1_aevjb")
+volume_db = -10.0
+bus = &"Sfx"
+
+[node name="ButtonHoverAudio" type="AudioStreamPlayer" parent="." unique_id=335571991]
+bus = &"Sfx"
+
+[node name="SwitchPressAudio" type="AudioStreamPlayer" parent="." unique_id=484876976]
+stream = ExtResource("2_8b883")
+volume_db = -10.0
+bus = &"Sfx"
+
+[node name="SwitchHoverAudio" type="AudioStreamPlayer" parent="." unique_id=1529418105]
+bus = &"Sfx"

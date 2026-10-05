@@ -1,0 +1,337 @@
+[gd_scene format=3 uid="uid://dxgyp85axyufh"]
+
+[ext_resource type="Script" uid="uid://d2l2mcb536frf" path="res://scripts/gameplay.gd" id="1_l1v76"]
+[ext_resource type="PackedScene" uid="uid://b5cdeeolugm5e" path="res://scenes/level_map.tscn" id="2_bhmdk"]
+[ext_resource type="Script" uid="uid://4236jrponfo3" path="res://scripts/camera.gd" id="3_l1v76"]
+[ext_resource type="PackedScene" uid="uid://cinlu4a76akc" path="res://scenes/ui/pause_menu.tscn" id="4_ct7aa"]
+[ext_resource type="Theme" uid="uid://dvbbi3vt7rasu" path="res://assets/theme.tres" id="4_ocj2s"]
+[ext_resource type="Texture2D" uid="uid://etgvtxmljax4" path="res://assets/textures/icons/undo_all.png" id="5_407ns"]
+[ext_resource type="PackedScene" uid="uid://cixpuprgvgi1u" path="res://scenes/ui/settings_menu.tscn" id="6_din8e"]
+[ext_resource type="Texture2D" uid="uid://vr8jiem6x8fp" path="res://assets/textures/icons/forward.png" id="7_bhmdk"]
+[ext_resource type="Texture2D" uid="uid://d2taaqgkqbyky" path="res://assets/textures/icons/backward.png" id="7_s5y6v"]
+[ext_resource type="Script" uid="uid://cr5yoytr47auc" path="res://scripts/ui/button_fx.gd" id="8_407ns"]
+[ext_resource type="PackedScene" uid="uid://bm6kt2o4osafx" path="res://scenes/ui/credits.tscn" id="9_101mb"]
+[ext_resource type="Texture2D" uid="uid://bxogo6js8fo1a" path="res://assets/textures/icons/cpu.png" id="9_bhmdk"]
+[ext_resource type="PackedScene" uid="uid://c7v2d1n2m4k7p" path="res://scenes/ui/victory_menu.tscn" id="10_victory"]
+[ext_resource type="Texture2D" uid="uid://shkaudmqv8ra" path="res://assets/textures/icons/transform.svg" id="10_w3w6i"]
+[ext_resource type="Texture2D" uid="uid://c1265tlwonjpv" path="res://assets/textures/icons/previous.png" id="11_407ns"]
+[ext_resource type="Texture2D" uid="uid://dk4kar7bm6o4q" path="res://assets/textures/icons/menu_list.png" id="11_s5y6v"]
+[ext_resource type="Texture2D" uid="uid://bdh3nf8a5fe4m" path="res://assets/textures/icons/next.png" id="12_w3w6i"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_00tan"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l1v76"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_detail = 5
+
+[sub_resource type="InputEventAction" id="InputEventAction_s5y6v"]
+action = &"redo"
+
+[sub_resource type="Shortcut" id="Shortcut_407ns"]
+events = [SubResource("InputEventAction_s5y6v")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_bhmdk"]
+action = &"undo"
+
+[sub_resource type="Shortcut" id="Shortcut_s5y6v"]
+events = [SubResource("InputEventAction_bhmdk")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_407ns"]
+action = &"solve"
+
+[sub_resource type="Shortcut" id="Shortcut_w3w6i"]
+events = [SubResource("InputEventAction_407ns")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_w3w6i"]
+action = &"pause"
+
+[sub_resource type="Shortcut" id="Shortcut_pv71h"]
+events = [SubResource("InputEventAction_w3w6i")]
+
+[node name="Gameplay" type="Node3D" unique_id=918217711]
+script = ExtResource("1_l1v76")
+
+[node name="LevelMap" parent="." unique_id=873965418 instance=ExtResource("2_bhmdk")]
+base_floor_item_id = 0
+base_wall_item_id = 1
+base_goal_item_id = 2
+
+[node name="Camera" type="Camera3D" parent="." unique_id=414650077]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 3.94, 9, -3.98)
+fov = 60.0
+script = ExtResource("3_l1v76")
+
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=218060666]
+transform = Transform3D(0.5234231, 0.8254555, -0.21130912, -0.21130912, 0.36599812, 0.9063078, 0.8254555, -0.42973083, 0.36599812, 0, 7.885663, 0)
+shadow_enabled = true
+
+[node name="HudLayer" type="CanvasLayer" parent="." unique_id=1118850135]
+
+[node name="HUD" type="Control" parent="HudLayer" unique_id=2095515787]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme = ExtResource("4_ocj2s")
+
+[node name="StatusPanel" type="PanelContainer" parent="HudLayer/HUD" unique_id=400407300]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -109.5
+offset_right = 109.5
+offset_bottom = 56.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_00tan")
+
+[node name="HBox" type="HBoxContainer" parent="HudLayer/HUD/StatusPanel" unique_id=1317735746]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="LevelVBox" type="VBoxContainer" parent="HudLayer/HUD/StatusPanel/HBox" unique_id=2014785072]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="LevelLabel" type="Label" parent="HudLayer/HUD/StatusPanel/HBox/LevelVBox" unique_id=1861477622]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "LEVEL"
+horizontal_alignment = 1
+
+[node name="LevelValue" type="Label" parent="HudLayer/HUD/StatusPanel/HBox/LevelVBox" unique_id=2084067339]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "0"
+horizontal_alignment = 1
+
+[node name="MovesVBox" type="VBoxContainer" parent="HudLayer/HUD/StatusPanel/HBox" unique_id=1462512116]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="MovesLabel" type="Label" parent="HudLayer/HUD/StatusPanel/HBox/MovesVBox" unique_id=1264860209]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "MOVES"
+horizontal_alignment = 1
+
+[node name="MovesValue" type="Label" parent="HudLayer/HUD/StatusPanel/HBox/MovesVBox" unique_id=834427515]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "0"
+horizontal_alignment = 1
+
+[node name="PushesVBox" type="VBoxContainer" parent="HudLayer/HUD/StatusPanel/HBox" unique_id=1897535302]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="PushesLabel" type="Label" parent="HudLayer/HUD/StatusPanel/HBox/PushesVBox" unique_id=685130270]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "PUSHES"
+horizontal_alignment = 1
+
+[node name="PushesValue" type="Label" parent="HudLayer/HUD/StatusPanel/HBox/PushesVBox" unique_id=1009331402]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "0"
+horizontal_alignment = 1
+
+[node name="ToolbarPanel" type="PanelContainer" parent="HudLayer/HUD" unique_id=1321477421]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -190.0
+offset_top = -58.0
+offset_right = 190.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_l1v76")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HudLayer/HUD/ToolbarPanel" unique_id=2084447934]
+layout_mode = 2
+alignment = 1
+
+[node name="UndoAllButton" type="Button" parent="HudLayer/HUD/ToolbarPanel/HBoxContainer" unique_id=1927154306]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+tooltip_text = "UNDO_ALL"
+shortcut = SubResource("Shortcut_407ns")
+shortcut_in_tooltip = false
+icon = ExtResource("5_407ns")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("8_407ns")
+metadata/_custom_type_script = "uid://cr5yoytr47auc"
+
+[node name="UndoButton" type="Button" parent="HudLayer/HUD/ToolbarPanel/HBoxContainer" unique_id=744286810]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+tooltip_text = "UNDO"
+shortcut = SubResource("Shortcut_s5y6v")
+shortcut_in_tooltip = false
+icon = ExtResource("7_s5y6v")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("8_407ns")
+metadata/_custom_type_script = "uid://cr5yoytr47auc"
+
+[node name="RedoButton" type="Button" parent="HudLayer/HUD/ToolbarPanel/HBoxContainer" unique_id=713840370]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+tooltip_text = "REDO"
+shortcut = SubResource("Shortcut_407ns")
+shortcut_in_tooltip = false
+icon = ExtResource("7_bhmdk")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("8_407ns")
+metadata/_custom_type_script = "uid://cr5yoytr47auc"
+
+[node name="SolveButton" type="Button" parent="HudLayer/HUD/ToolbarPanel/HBoxContainer" unique_id=2142071452]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+tooltip_text = "SOLVE"
+shortcut = SubResource("Shortcut_w3w6i")
+shortcut_in_tooltip = false
+icon = ExtResource("9_bhmdk")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("8_407ns")
+metadata/_custom_type_script = "uid://cr5yoytr47auc"
+
+[node name="TransformButton" type="Button" parent="HudLayer/HUD/ToolbarPanel/HBoxContainer" unique_id=596349198]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+tooltip_text = "TRANSFORM"
+shortcut_in_tooltip = false
+icon = ExtResource("10_w3w6i")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("8_407ns")
+metadata/_custom_type_script = "uid://cr5yoytr47auc"
+
+[node name="TransformLabel" type="Label" parent="HudLayer/HUD/ToolbarPanel/HBoxContainer/TransformButton" unique_id=877575275]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -19.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Spacing" type="Control" parent="HudLayer/HUD/ToolbarPanel/HBoxContainer" unique_id=1955257935]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="PreviousButton" type="Button" parent="HudLayer/HUD/ToolbarPanel/HBoxContainer" unique_id=26568022]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+tooltip_text = "PREVIOUS_LEVEL"
+shortcut_in_tooltip = false
+icon = ExtResource("11_407ns")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("8_407ns")
+metadata/_custom_type_script = "uid://cr5yoytr47auc"
+
+[node name="NextButton" type="Button" parent="HudLayer/HUD/ToolbarPanel/HBoxContainer" unique_id=307337932]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+tooltip_text = "NEXT_LEVEL"
+shortcut_in_tooltip = false
+icon = ExtResource("12_w3w6i")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("8_407ns")
+metadata/_custom_type_script = "uid://cr5yoytr47auc"
+
+[node name="PauseButton" type="Button" parent="HudLayer/HUD/ToolbarPanel/HBoxContainer" unique_id=1243846117]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+tooltip_text = "PAUSE"
+shortcut = SubResource("Shortcut_pv71h")
+shortcut_in_tooltip = false
+icon = ExtResource("11_s5y6v")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("8_407ns")
+metadata/_custom_type_script = "uid://cr5yoytr47auc"
+
+[node name="MenuLayer" type="CanvasLayer" parent="." unique_id=2061582100]
+layer = 2
+
+[node name="PauseMenu" parent="MenuLayer" unique_id=863539780 instance=ExtResource("4_ct7aa")]
+visible = false
+
+[node name="SettingsMenu" parent="MenuLayer" unique_id=156490402 instance=ExtResource("6_din8e")]
+visible = false
+
+[node name="Credits" parent="MenuLayer" unique_id=1627154753 instance=ExtResource("9_101mb")]
+visible = false
+
+[node name="VictoryMenu" parent="MenuLayer" unique_id=222222222 instance=ExtResource("10_victory")]
+visible = false
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="." unique_id=1799446341]

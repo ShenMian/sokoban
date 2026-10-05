@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://c4vkqoi2uda4i"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b82wl"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.627451, 0.1254902, 0.9411765, 0.5019608)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_2lnuf"]
+material = SubResource("StandardMaterial3D_b82wl")
+size = Vector2(1, 1)
+center_offset = Vector3(0.5, 0, 0.5)
+
+[node name="TunnelCell" type="MeshInstance3D" unique_id=632340962]
+mesh = SubResource("PlaneMesh_2lnuf")

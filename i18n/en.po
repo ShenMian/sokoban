@@ -1,0 +1,417 @@
+msgid ""
+msgstr ""
+"Language: en\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+# Level List
+
+msgid "LEVEL_LIST"
+msgstr "Level List"
+
+# HUD
+
+msgid "LEVEL"
+msgstr "Level"
+
+msgid "MOVES"
+msgstr "Moves"
+
+msgid "PUSHES"
+msgstr "Pushes"
+
+msgid "TRANSFORM"
+msgstr "Transform"
+
+msgid "PAUSE"
+msgstr "Pause"
+
+msgid "PREVIOUS_LEVEL"
+msgstr "Previous Level"
+
+msgid "NEXT_LEVEL"
+msgstr "Next Level"
+
+# Victory Menu
+
+msgid "LEVEL_COMPLETE"
+msgstr "Level Complete"
+
+msgid "BEST"
+msgstr "Best"
+
+msgid "BACK_TO_LEVEL_LIST"
+msgstr "Back to Level List"
+
+# Gameplay
+
+msgid "GAMEPLAY"
+msgstr "Gameplay"
+
+msgid "ASSISTS"
+msgstr "Assists"
+
+
+msgid "GENERAL"
+msgstr "General"
+
+msgid "LANGUAGE"
+msgstr "Language"
+
+msgid "LANGUAGE_TIP"
+msgstr "Select the interface language"
+
+msgid "ANIMATION_SPEED"
+msgstr "Animation Speed"
+
+msgid "ANIMATION_SPEED_TIP"
+msgstr ""
+"Select the speed of the movement animations.\n"
+"[ul]"
+"[b]Instant[/b]: Skip animations"
+"[/ul]"
+
+msgid "ANIM_SLOW"
+msgstr "Slow"
+
+msgid "ANIM_NORMAL"
+msgstr "Normal"
+
+msgid "ANIM_FAST"
+msgstr "Fast"
+
+msgid "ANIM_INSTANT"
+msgstr "Instant"
+
+msgid "PATHFINDING_STRATEGY"
+msgstr "Pathfinding Strategy"
+
+msgid "PATHFINDING_STRATEGY_TIP"
+msgstr "Box pathfinding prioritizes paths with the minimum number of pushes or moves"
+
+msgid "APPEARANCE"
+msgstr "Appearance"
+
+msgid "THEME"
+msgstr "Theme"
+
+msgid "THEME_TIP"
+msgstr "Select the level's color theme"
+
+msgid "DESERT_OASIS"
+msgstr "Desert Oasis"
+
+msgid "ARCTIC_LAB"
+msgstr "Arctic Lab"
+
+msgid "OCEAN_DEPTHS"
+msgstr "Ocean Depths"
+
+msgid "2D_VIEW"
+msgstr "2D View"
+
+msgid "CHECKERBOARD_SHADING"
+msgstr "Checkerboard Shading"
+
+msgid "CHECKERBOARD_TIP"
+msgstr "Toggle to color floor tiles in a checkerboard pattern"
+
+# Assists
+
+msgid "SOLVER"
+msgstr "Solver"
+
+msgid "ALGORITHM"
+msgstr "Algorithm"
+
+msgid "ALGORITHM_TIP"
+msgstr ""
+"Select the search algorithm\n"
+"[ul]"
+"[b]A*[/b]: Fast, extremely high memory footprint\n"
+"[b]IDA*[/b]: Slower, extremely low memory footprint\n"
+"[color=gray][b]BFS[/b]: Slow, extremely high memory footprint[/color]"
+"[/ul]"
+
+msgid "STRATEGY"
+msgstr "Strategy"
+
+msgid "STRATEGY_TIP"
+msgstr ""
+"Solver Strategy\n"
+"[ul]"
+"[b]Quick[/b]: Quickly find any solution\n"
+"[b]Push-Optimal[/b]: Find the optimal solution with the least pushes\n"
+"[b]Move-Optimal[/b]: Find the optimal solution with the least moves"
+"[/ul]"
+
+msgid "FAST"
+msgstr "Quick"
+
+msgid "PUSH_OPTIMAL"
+msgstr "Push-Optimal"
+
+msgid "MOVE_OPTIMAL"
+msgstr "Move-Optimal"
+
+msgid "LOWER_BOUNDS"
+msgstr "Lower Bounds"
+
+msgid "HEATMAP_TIP"
+msgstr "Visualize lower bounds as a heatmap"
+
+msgid "TUNNELS"
+msgstr "Tunnels"
+
+msgid "TUNNELS_TIP"
+msgstr "Visualize tunnels"
+
+msgid "HINTS"
+msgstr "Hints"
+
+msgid "DEADLOCK_HINT"
+msgstr "Deadlock Hint"
+
+msgid "DEADLOCK_HINT_TIP"
+msgstr "Highlight static deadlock locations"
+
+msgid "PUSHABLE_HINT"
+msgstr "Pushable Hint"
+
+msgid "PUSHABLE_TIP"
+msgstr "Highlight boxes that can currently be pushed"
+
+# Video
+
+msgid "VIDEO"
+msgstr "Video"
+
+msgid "DISPLAY"
+msgstr "Display"
+
+msgid "WINDOW_MODE"
+msgstr "Window Mode"
+
+msgid "WINDOW_MODE_TIP"
+msgstr ""
+"Choose window mode\n"
+"[ul]"
+"[b]Windowed[/b]\n"
+"[b]Maximized[/b]\n"
+"[b]Borderless fullscreen[/b]\n"
+"[b]Exclusive fullscreen[/b]"
+"[/ul]"
+
+msgid "WINDOWED"
+msgstr "Windowed"
+
+msgid "MAXIMIZED"
+msgstr "Maximized"
+
+msgid "BORDERLESS_FULLSCREEN"
+msgstr "Borderless Fullscreen"
+
+msgid "EXCLUSIVE_FULLSCREEN"
+msgstr "Exclusive Fullscreen"
+
+msgid "VSYNC"
+msgstr "VSync"
+
+msgid "VSYNC_TIP"
+msgstr "Toggle vertical sync to reduce screen tearing, but also limits the maximum frame rate"
+
+msgid "FRAME_RATE_LIMIT"
+msgstr "Frame Rate Limit"
+
+msgid "FRAME_RATE_LIMIT_TIP"
+msgstr "Limit the maximum frame rate"
+
+msgid "UNLIMITED"
+msgstr "Unlimited"
+
+msgid "GRAPHICS"
+msgstr "Graphics"
+
+msgid "FIELD_OF_VIEW"
+msgstr "Field of View"
+
+msgid "FIELD_OF_VIEW_TIP"
+msgstr "Adjust the camera's field of view"
+
+msgid "SCALING_AND_AA"
+msgstr "Resolution Scaling & Anti-Aliasing"
+
+msgid "SCALING_METHOD"
+msgstr "Scaling Method"
+
+msgid "SCALING_METHOD_TIP"
+msgstr ""
+"3D rendering upscale method\n"
+"[ul]"
+"[b]Bilinear[/b]: Simple bilinear interpolation\n"
+"[b]FSR 1.0[/b]\r"
+"[b]Quality[/b]: Medium, [b]Overhead[/b]: [color=green]Low[/color]\n"
+"[b]FSR 2.2[/b]\r"
+"[b]Quality[/b]: High, [b]Overhead[/b]: [color=yellow]High[/color]"
+"[/ul]"
+
+msgid "UPSCALED_RESOLUTION"
+msgstr "Upscaled Resolution"
+
+msgid "UPSCALED_RESOLUTION_TIP"
+msgstr "Adjust the internal 3D rendering resolution scale. Lower values improve performance at the cost of image quality"
+
+msgid "FSR_SHARPNESS"
+msgstr "FSR Sharpness"
+
+msgid "FSR_SHARPNESS_TIP"
+msgstr "Adjust the sharpness of FSR upscaling. Lower values are sharper, higher values are softer"
+
+msgid "SCREEN_SPACE_AA"
+msgstr "Screen Space AA"
+
+msgid "SCREEN_SPACE_AA_TIP"
+msgstr ""
+"Screen-space anti-aliasing methods\n"
+"[ul]"
+"[b]SMAA[/b] (Enhanced Subpixel Morphological Antialiasing)\r"
+"[b]Quality[/b]: Medium, [b]Overhead[/b]: [color=yellow]Low[/color]\n"
+"[b]FXAA[/b] (Fast Approximate Anti-Aliasing)\r"
+"[b]Quality[/b]: Low, [b]Overhead[/b]: [color=green]Very Low[/color]"
+"[/ul]"
+
+msgid "SMAA"
+msgstr "SMAA"
+
+msgid "FXAA"
+msgstr "FXAA"
+
+msgid "TAA"
+msgstr "TAA"
+
+msgid "TAA_TIP"
+msgstr ""
+"Temporal anti-aliasing\n"
+"[b]Quality[/b]: High, [b]Overhead[/b]: [color=yellow]Medium[/color]"
+
+msgid "MSAA"
+msgstr "MSAA"
+
+msgid "MSAA_TIP"
+msgstr ""
+"Multisample anti-aliasing\n"
+"[b]Quality[/b]: Medium, [b]Overhead[/b]: [color=yellow]Medium[/color]"
+
+msgid "DISABLED"
+msgstr "Disabled"
+
+# Audio
+
+msgid "AUDIO"
+msgstr "Audio"
+
+msgid "VOLUME"
+msgstr "Volume"
+
+msgid "MASTER_VOLUME"
+msgstr "Master Volume"
+
+msgid "MASTER_VOLUME_TIP"
+msgstr "Master volume controls overall audio level"
+
+msgid "MUSIC_VOLUME"
+msgstr "Music Volume"
+
+msgid "MUSIC_VOLUME_TIP"
+msgstr "Adjust music volume separately from sound effects"
+
+msgid "SFX_VOLUME"
+msgstr "SFX Volume"
+
+msgid "SFX_VOLUME_TIP"
+msgstr "Adjust sound effects volume separately from music"
+
+msgid "OUTPUT"
+msgstr "Output"
+
+msgid "MUTE_ON_UNFOCUSED"
+msgstr "Mute On Unfocused"
+
+msgid "MUTE_ON_UNFOCUSED_TIP"
+msgstr "Mute sound when the window is unfocused"
+
+# Input
+
+msgid "INPUT"
+msgstr "Input"
+
+msgid "KEY_BINDINGS"
+msgstr "Key Bindings"
+
+msgid "CANCEL"
+msgstr "Cancel"
+
+msgid "CLEAR"
+msgstr "Clear"
+
+msgid "CONFIRM"
+msgstr "Confirm"
+
+msgid "KEY_UNCHANGED"
+msgstr "Already assigned to this action"
+
+msgid "KEY_CONFLICT"
+msgstr "Conflict with %s"
+
+msgid "MOVE_UP"
+msgstr "Up"
+
+msgid "MOVE_DOWN"
+msgstr "Down"
+
+msgid "MOVE_LEFT"
+msgstr "Left"
+
+msgid "MOVE_RIGHT"
+msgstr "Right"
+
+msgid "UNDO"
+msgstr "Undo"
+
+msgid "REDO"
+msgstr "Redo"
+
+msgid "UNDO_ALL"
+msgstr "Undo All"
+
+msgid "SOLVE"
+msgstr "Solve"
+
+msgid "SOLVE_DESC"
+msgstr "Use the solver to automatically complete the current level"
+
+msgid "IMPORT_FROM_CLIPBOARD"
+msgstr "Import from Clipboard"
+
+msgid "IMPORT_FROM_CLIPBOARD_DESC"
+msgstr "Import level from LURD or XSB format string in clipboard"
+
+msgid "EXPORT_TO_CLIPBOARD"
+msgstr "Export to Clipboard"
+
+msgid "EXPORT_TO_CLIPBOARD_DESC"
+msgstr "Export level to clipboard in XSB format"
+
+# Pause Menu
+
+msgid "SETTINGS"
+msgstr "Settings"
+
+msgid "CREDITS"
+msgstr "Credits"
+
+msgid "CLOSE"
+msgstr "Close"
+
+msgid "RESTORE_DEFAULTS"
+msgstr "Restore Defaults"

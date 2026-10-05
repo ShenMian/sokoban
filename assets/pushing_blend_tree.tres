@@ -1,0 +1,22 @@
+[gd_resource type="AnimationNodeBlendTree" format=3 uid="uid://bpku4m4m01lof"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_qqeyd"]
+filter_enabled = true
+filters = ["Meshes/root/torso", "Meshes/root/torso/arm-left", "Meshes/root/torso/arm-right", "Meshes/root/torso/head", "figurine-cube-detailed/root/torso", "figurine-cube-detailed/root/torso/arm-left", "figurine-cube-detailed/root/torso/arm-right", "figurine-cube-detailed/root/torso/head"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_gmlin"]
+animation = &"holding-both"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lvxji"]
+animation = &"walk"
+
+[resource]
+graph_offset = Vector2(-387.67642, 62.71173)
+nodes/output/position = Vector2(384, 160)
+nodes/Blend2/node = SubResource("AnimationNodeBlend2_qqeyd")
+nodes/Blend2/position = Vector2(176, 96)
+nodes/Push/node = SubResource("AnimationNodeAnimation_gmlin")
+nodes/Push/position = Vector2(-272, 272)
+nodes/Run/node = SubResource("AnimationNodeAnimation_lvxji")
+nodes/Run/position = Vector2(-272, -32)
+node_connections = [&"output", 0, &"Blend2", &"Blend2", 0, &"Run", &"Blend2", 1, &"Push"]

@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://bslwjbitr74ja"]
+
+[ext_resource type="ArrayMesh" uid="uid://hc0acof11624" path="res://assets/meshes/crate.res" id="2_brpd5"]
+[ext_resource type="Script" uid="uid://cbi4yqk5h6hmq" path="res://scripts/box.gd" id="2_ks2v0"]
+[ext_resource type="ArrayMesh" uid="uid://cnr4b8oogdane" path="res://assets/meshes/indiactor_c.res" id="3_c2ln5"]
+[ext_resource type="Material" uid="uid://cc0ey1qnfltcy" path="res://assets/materials/indicator_material.tres" id="4_brpd5"]
+[ext_resource type="ArrayMesh" uid="uid://bca7jsquyhgs" path="res://assets/meshes/indicator_e.res" id="4_telwu"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ks2v0"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_telwu"]
+size = Vector3(1, 0.01, 1)
+
+[node name="Box" type="Node3D" unique_id=402237218]
+script = ExtResource("2_ks2v0")
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=582511708]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
+mesh = ExtResource("2_brpd5")
+
+[node name="Area" type="Area3D" parent="Mesh" unique_id=807127825]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Mesh/Area" unique_id=1873933720]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.25, 0)
+shape = SubResource("BoxShape3D_ks2v0")
+
+[node name="Indicator" type="Node3D" parent="." unique_id=677470437]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0)
+
+[node name="HoverIndicator" type="MeshInstance3D" parent="Indicator" unique_id=594161455]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
+visible = false
+mesh = ExtResource("3_c2ln5")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("4_brpd5")
+
+[node name="SelectIndicator" type="MeshInstance3D" parent="Indicator" unique_id=2066497931]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
+visible = false
+mesh = ExtResource("4_telwu")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("4_brpd5")
+
+[node name="Area" type="Area3D" parent="Indicator" unique_id=1850635764]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Indicator/Area" unique_id=84950083]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
+shape = SubResource("BoxShape3D_telwu")

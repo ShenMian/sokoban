@@ -1,0 +1,352 @@
+name: CD
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  CARGO_TERM_COLOR: always
+  GODOT_VERSION: "4.7.2"
+  EXPORT_NAME: sokoban
+
+jobs:
+  export-linux:
+    name: Linux Export
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7.2
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+          lfs: true
+
+      - name: Install system dependencies
+        run: apt-get update && apt-get install -y build-essential curl zstd
+
+      - name: Cache Cargo artifacts
+        uses: actions/cache@v6
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            extension/target/
+          key: cargo-${{ runner.os }}-${{ github.job }}-${{ hashFiles('extension/Cargo.lock') }}-${{ hashFiles('extension/.cargo/config.toml') }}
+          restore-keys: |
+            cargo-${{ runner.os }}-${{ github.job }}-
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build GDExtension
+        run: cargo build --manifest-path extension/Cargo.toml --release
+
+      - name: Setup Godot
+        run: |
+          mkdir -v -p ~/.local/share/godot/export_templates/
+          mv /root/.local/share/godot/export_templates/4.7.2.stable ~/.local/share/godot/export_templates/4.7.2.stable
+
+      - name: Import resources
+        run: godot --headless --import
+
+      - name: Export
+        run: |
+          mkdir -v -p build/linux
+          EXPORT_DIR="$(readlink -f build)"
+          godot --headless --verbose --export-release "Linux" "$EXPORT_DIR/linux/$EXPORT_NAME.x86_64"
+
+      - name: Create archive
+        run: tar -caf sokoban-linux-x86_64.tar.zst -C build/linux .
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: sokoban-linux-x86_64
+          path: sokoban-linux-x86_64.tar.zst
+
+  export-windows:
+    name: Windows Export
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7.2
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          lfs: true
+          persist-credentials: false
+
+      - name: Install system dependencies
+        run: apt-get update && apt-get install -y build-essential curl g++-mingw-w64-x86-64 p7zip-full
+
+      - name: Cache Cargo artifacts
+        uses: actions/cache@v6
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            extension/target/
+          key: cargo-${{ runner.os }}-${{ github.job }}-${{ hashFiles('extension/Cargo.lock') }}-${{ hashFiles('extension/.cargo/config.toml') }}
+          restore-keys: |
+            cargo-${{ runner.os }}-${{ github.job }}-
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-gnu
+
+      - name: Build GDExtension
+        run: |
+          cargo build --manifest-path extension/Cargo.toml --release --target x86_64-pc-windows-gnu
+          mkdir -p extension/target/release
+          cp extension/target/x86_64-pc-windows-gnu/release/extension.dll extension/target/release/extension.dll
+
+      - name: Setup Godot
+        run: |
+          mkdir -v -p ~/.local/share/godot/export_templates/
+          mv /root/.local/share/godot/export_templates/4.7.2.stable ~/.local/share/godot/export_templates/4.7.2.stable
+
+      - name: Import resources
+        run: godot --headless --import
+
+      - name: Export
+        run: |
+          mkdir -v -p build/windows
+          EXPORT_DIR="$(readlink -f build)"
+          godot --headless --verbose --export-release "Windows" "$EXPORT_DIR/windows/$EXPORT_NAME.exe"
+
+      - name: Create archive
+        run: |
+          cd build/windows
+          7z a -tzip ../../sokoban-windows-x86_64.zip .
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: sokoban-windows-x86_64
+          path: sokoban-windows-x86_64.zip
+
+  export-web:
+    name: Web Export
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7.2
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          lfs: true
+          persist-credentials: false
+
+      - name: Install system dependencies
+        run: apt-get update && apt-get install -y build-essential curl p7zip-full python3
+
+      - name: Cache Cargo artifacts
+        uses: actions/cache@v6
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            ~/.rustup/
+            extension/target/
+          key: cargo-${{ runner.os }}-${{ github.job }}-rustup-${{ hashFiles('extension/Cargo.lock') }}-${{ hashFiles('extension/.cargo/config.toml') }}
+          restore-keys: |
+            cargo-${{ runner.os }}-${{ github.job }}-
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@nightly
+        with:
+          targets: wasm32-unknown-emscripten
+          components: rust-src
+
+      - name: Setup Emscripten
+        run: |
+          git clone https://github.com/emscripten-core/emsdk.git /opt/emsdk --depth 1
+          cd /opt/emsdk
+          ./emsdk install latest
+          ./emsdk activate latest
+
+      - name: Build GDExtension
+        shell: bash
+        run: |
+          . /opt/emsdk/emsdk_env.sh
+          export EMMAKEN_CFLAGS="-sWASM_EXCEPTIONS=0"
+          cd extension
+          cargo +nightly build -Zbuild-std=std,panic_abort --target wasm32-unknown-emscripten --release --features godot/experimental-wasm,godot/lazy-function-tables
+
+      - name: Setup Godot
+        run: |
+          mkdir -v -p ~/.local/share/godot/export_templates/
+          mv /root/.local/share/godot/export_templates/4.7.2.stable ~/.local/share/godot/export_templates/4.7.2.stable
+
+      - name: Import resources
+        run: godot --headless --import
+
+      - name: Export
+        run: |
+          mkdir -v -p build/wasm
+          EXPORT_DIR="$(readlink -f build)"
+          godot --headless --verbose --export-release "Web" "$EXPORT_DIR/wasm/index.html"
+
+      - name: Patch service worker for immediate updates
+        run: |
+          python3 - <<'PYEOF'
+          path = "build/wasm/index.service.worker.js"
+          s = open(path).read()
+          assert "self.addEventListener('install'" in s, "install handler not found"
+          assert "self.addEventListener('activate'" in s, "activate handler not found"
+          # Without these, a new service worker waits for all tabs to close before
+          # activating, so browsers keep serving the previous cached build (e.g.
+          # a stale extension.wasm) for a long time after a deployment.
+          s = s.replace(
+              "self.addEventListener('install', (event) => {",
+              "self.addEventListener('install', (event) => {\n\tself.skipWaiting();",
+              1,
+          )
+          s = s.replace(
+              "self.addEventListener('activate', (event) => {",
+              "self.addEventListener('activate', (event) => {\n\tevent.waitUntil(self.clients.claim());",
+              1,
+          )
+          open(path, "w").write(s)
+          print("service worker patched")
+          PYEOF
+
+      - name: Create archive
+        run: |
+          cd build/wasm
+          7z a -tzip ../../sokoban-web.zip .
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: sokoban-web
+          path: sokoban-web.zip
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@releases/v4
+        if: github.event_name != 'pull_request'
+        with:
+          branch: gh-pages
+          folder: build/wasm
+
+  export-android:
+    name: Android Export
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7.2
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          lfs: true
+          persist-credentials: false
+
+      - name: Install system dependencies
+        run: apt-get update && apt-get install -y build-essential curl unzip
+
+      - name: Cache Cargo artifacts
+        uses: actions/cache@v6
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            ~/.rustup/
+            extension/target/
+          key: cargo-${{ runner.os }}-${{ github.job }}-rustup-${{ hashFiles('extension/Cargo.lock') }}-${{ hashFiles('extension/.cargo/config.toml') }}
+          restore-keys: |
+            cargo-${{ runner.os }}-${{ github.job }}-
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-linux-android
+
+      # The Cargo cache restores ~/.cargo/bin, so on a warm cache cargo-ndk is
+      # already present and an unconditional install aborts the job with
+      # "binary `cargo-ndk` already exists in destination". Skip it when the
+      # binary is usable, and force the overwrite on the fallback so a stale or
+      # non-executable cached binary is replaced.
+      - name: Install cargo-ndk
+        run: command -v cargo-ndk >/dev/null 2>&1 || cargo install cargo-ndk --locked --force
+
+      # The image ships NDK 25.2.9519653 next to the Android SDK. cargo-ndk reads
+      # ANDROID_NDK_HOME to locate the toolchain that cross-compiles the extension.
+      - name: Build GDExtension
+        env:
+          ANDROID_NDK_HOME: /usr/lib/android-sdk/ndk/25.2.9519653
+        run: |
+          cd extension
+          cargo ndk --target arm64-v8a build --release --features godot/experimental-threads
+
+      - name: Setup Godot
+        run: |
+          mkdir -v -p ~/.local/share/godot/export_templates/ ~/.config/godot
+          mv /root/.local/share/godot/export_templates/4.7.2.stable ~/.local/share/godot/export_templates/4.7.2.stable
+          # GitHub Actions overrides HOME to /github/home inside container jobs, so
+          # the editor settings baked into the image under /root/.config/godot/ are
+          # not on Godot's search path. Without this copy Godot cannot find the
+          # Android SDK, the JDK or the debug keystore and the export fails.
+          cp /root/.config/godot/editor_settings-4.7.tres ~/.config/godot/editor_settings-4.7.tres
+
+      - name: Import resources
+        run: godot --headless --import
+
+      - name: Set Android version
+        run: |
+          # A version tag such as v1.2.3 becomes 1.2.3; every other run is labelled
+          # as a development build so it is never mistaken for a release.
+          VERSION="${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || format('0.0.0-dev.{0}', github.run_number) }}"
+          VERSION="${VERSION#v}"
+          sed -i "s@^version/code=.*@version/code=${{ github.run_number }}@" export_presets.cfg
+          sed -i "s@^version/name=.*@version/name=\"$VERSION\"@" export_presets.cfg
+
+      - name: Export
+        run: |
+          mkdir -v -p build/android
+          EXPORT_DIR="$(readlink -f build)"
+          godot --headless --verbose --export-debug "Android" "$EXPORT_DIR/android/$EXPORT_NAME-android-aarch64-debug.apk"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: sokoban-android-aarch64-debug
+          path: build/android/sokoban-android-aarch64-debug.apk
+
+  release:
+    name: Release
+    needs: [export-linux, export-windows, export-web, export-android]
+    # Only publish when a version tag was pushed
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v8
+
+      - name: Create release
+        uses: softprops/action-gh-release@v3
+        with:
+          files: |
+            sokoban-linux-x86_64/sokoban-linux-x86_64.tar.zst
+            sokoban-windows-x86_64/sokoban-windows-x86_64.zip
+            sokoban-web/sokoban-web.zip
+            sokoban-android-aarch64-debug/sokoban-android-aarch64-debug.apk

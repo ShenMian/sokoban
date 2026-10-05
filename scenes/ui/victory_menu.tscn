@@ -1,0 +1,158 @@
+[gd_scene format=3 uid="uid://c7v2d1n2m4k7p"]
+
+[ext_resource type="Script" uid="uid://c22sxa5lwxp3q" path="res://scripts/ui/victory_menu.gd" id="2_4ntwv"]
+[ext_resource type="Theme" uid="uid://dvbbi3vt7rasu" path="res://assets/theme.tres" id="2_t"]
+[ext_resource type="AudioStream" uid="uid://cfr1aqlerw1kk" path="res://assets/audio/sfx/level_complete.ogg" id="3_lbwo6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v"]
+content_margin_left = 20.0
+content_margin_top = 20.0
+content_margin_right = 20.0
+content_margin_bottom = 20.0
+bg_color = Color(0.2, 0.2, 0.2, 0.8)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.3)
+shadow_size = 10
+
+[sub_resource type="Animation" id="Animation_show"]
+resource_name = "show"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Panel:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [Vector2(0.8, 0.8), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_v"]
+_data = {
+&"show": SubResource("Animation_show")
+}
+
+[node name="VictoryScreen" type="Control" unique_id=762021739]
+process_mode = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_t")
+script = ExtResource("2_4ntwv")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=2095091581]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.3)
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=1900858916]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -162.0
+offset_top = -139.0
+offset_right = 162.0
+offset_bottom = 139.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(150, 120)
+theme_override_styles/panel = SubResource("StyleBoxFlat_v")
+
+[node name="VBox" type="VBoxContainer" parent="Panel" unique_id=1976514419]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Title" type="Label" parent="Panel/VBox" unique_id=1298792821]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "LEVEL_COMPLETE"
+horizontal_alignment = 1
+
+[node name="StatsGrid" type="GridContainer" parent="Panel/VBox" unique_id=1669850022]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 20
+columns = 3
+
+[node name="MovesLabel" type="Label" parent="Panel/VBox/StatsGrid" unique_id=1169547205]
+layout_mode = 2
+text = "MOVES"
+
+[node name="MovesValue" type="Label" parent="Panel/VBox/StatsGrid" unique_id=1]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[node name="OptimalMoveLabel" type="Label" parent="Panel/VBox/StatsGrid" unique_id=262862611]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.622881, 0.62288105, 0.62288094, 1)
+theme_override_font_sizes/font_size = 16
+text = "(BEST 0→0)"
+
+[node name="PushesLabel" type="Label" parent="Panel/VBox/StatsGrid" unique_id=1420494264]
+layout_mode = 2
+text = "PUSHES"
+
+[node name="PushesValue" type="Label" parent="Panel/VBox/StatsGrid" unique_id=2]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[node name="OptimalPushLabel" type="Label" parent="Panel/VBox/StatsGrid" unique_id=776587352]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.622881, 0.62288105, 0.62288094, 1)
+theme_override_font_sizes/font_size = 16
+text = "(BEST 0→0)"
+
+[node name="HSeparator" type="HSeparator" parent="Panel/VBox" unique_id=959516945]
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="Panel/VBox" unique_id=1536599924]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="NextButton" type="Button" parent="Panel/VBox/VBox" unique_id=1897112885]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "NEXT_LEVEL"
+
+[node name="MenuButton" type="Button" parent="Panel/VBox/VBox" unique_id=1531590098]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "BACK_TO_LEVEL_LIST"
+
+[node name="AudioPlayer" type="AudioStreamPlayer" parent="." unique_id=602922347]
+stream = ExtResource("3_lbwo6")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=256384662]
+libraries/ = SubResource("AnimationLibrary_v")

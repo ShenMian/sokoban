@@ -1,0 +1,6 @@
+default_job = "build"
+env.CARGO_TERM_COLOR = "always"
+
+[jobs.build]
+command = ["cargo", "build"]
+need_stdout = false

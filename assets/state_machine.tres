@@ -1,0 +1,67 @@
+[gd_resource type="AnimationNodeStateMachine" format=3 uid="uid://lc3g74mqowmf"]
+
+[ext_resource type="AnimationNodeBlendTree" uid="uid://bpku4m4m01lof" path="res://assets/pushing_blend_tree.tres" id="1_qjl0q"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ro80u"]
+animation = &"emote-no"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qbu7r"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_4aovw"]
+animation = &"static"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qjl0q"]
+animation = &"walk"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_4aovw"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qjl0q"]
+xfade_time = 0.1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ro80u"]
+xfade_time = 0.1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qbu7r"]
+xfade_time = 0.1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_tobag"]
+xfade_time = 0.1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_idle_enter"]
+xfade_time = 0.1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_idle_exit"]
+xfade_time = 0.1
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_pyf1g"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_yw6d1"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_x4rk5"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_p0dpe"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_hq2yx"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_0t0pg"]
+
+[resource]
+states/EmoteNo/node = SubResource("AnimationNodeAnimation_ro80u")
+states/EmoteNo/position = Vector2(331.80002, -55.400024)
+states/End/position = Vector2(888.80005, 102.92369)
+states/Idle/node = SubResource("AnimationNodeAnimation_qbu7r")
+states/Idle/position = Vector2(541.2, -55.185715)
+states/Pushing/node = ExtResource("1_qjl0q")
+states/Pushing/position = Vector2(541.15204, 255.03043)
+states/Static/node = SubResource("AnimationNodeAnimation_4aovw")
+states/Static/position = Vector2(424.80002, 99.9584)
+states/Walking/node = SubResource("AnimationNodeAnimation_qjl0q")
+states/Walking/position = Vector2(331.07202, 254.64001)
+transitions = ["Start", "Static", SubResource("AnimationNodeStateMachineTransition_4aovw"), "Static", "Walking", SubResource("AnimationNodeStateMachineTransition_qjl0q"), "Walking", "Static", SubResource("AnimationNodeStateMachineTransition_ro80u"), "Static", "Pushing", SubResource("AnimationNodeStateMachineTransition_qbu7r"), "Pushing", "Static", SubResource("AnimationNodeStateMachineTransition_tobag"), "Static", "Idle", SubResource("AnimationNodeStateMachineTransition_idle_enter"), "Idle", "Static", SubResource("AnimationNodeStateMachineTransition_idle_exit"), "Static", "EmoteNo", SubResource("AnimationNodeStateMachineTransition_pyf1g"), "EmoteNo", "Static", SubResource("AnimationNodeStateMachineTransition_yw6d1"), "Idle", "Walking", SubResource("AnimationNodeStateMachineTransition_x4rk5"), "Idle", "Pushing", SubResource("AnimationNodeStateMachineTransition_p0dpe"), "EmoteNo", "Walking", SubResource("AnimationNodeStateMachineTransition_hq2yx"), "EmoteNo", "Pushing", SubResource("AnimationNodeStateMachineTransition_0t0pg")]
+graph_offset = Vector2(-92, -147)

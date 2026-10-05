@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://bupwsnlvxthny"]
+
+[ext_resource type="Script" uid="uid://dm7ht01n6a80o" path="res://scripts/ui/percent_slider_bar.gd" id="1_bqkdu"]
+[ext_resource type="Theme" uid="uid://dvbbi3vt7rasu" path="res://assets/theme.tres" id="1_edqov"]
+
+[node name="PercentSliderBar" type="HSlider" unique_id=1880873123]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_edqov")
+scrollable = false
+script = ExtResource("1_bqkdu")
+
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=127982654]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+show_percentage = false
+
+[node name="Label" type="Label" parent="ProgressBar" unique_id=1808823465]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.5
+offset_top = -11.5
+offset_right = 0.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
