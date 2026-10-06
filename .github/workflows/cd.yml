@@ -143,6 +143,16 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: barichello/godot-ci:4.7.2
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    concurrency:
+      group: pages
+      cancel-in-progress: false
 
     steps:
       - name: Checkout repository
@@ -238,12 +248,18 @@ jobs:
           name: sokoban-web
           path: sokoban-web.zip
 
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@releases/v4
-        if: github.event_name != 'pull_request'
+      - name: Setup Pages
+        uses: actions/configure-pages@v6
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
         with:
-          branch: gh-pages
-          folder: build/wasm
+          path: build/wasm
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v5
+        if: github.event_name != 'pull_request'
+        id: deployment
 
   export-android:
     name: Android Export
