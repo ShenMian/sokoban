@@ -5,7 +5,7 @@
 [ext_resource type="AnimationNodeStateMachine" uid="uid://lc3g74mqowmf" path="res://assets/state_machine.tres" id="2_dovo2"]
 [ext_resource type="Material" uid="uid://calojrmsvbmkb" path="res://assets/materials/player_hat_material.tres" id="3_smehm"]
 [ext_resource type="Material" uid="uid://dkg1ghr5roer6" path="res://assets/materials/player_body_material.tres" id="3_ur7pv"]
-[ext_resource type="ArrayMesh" uid="uid://cnr4b8oogdane" path="res://assets/meshes/indiactor_c.res" id="4_75vfm"]
+[ext_resource type="ArrayMesh" uid="uid://cnr4b8oogdane" path="res://assets/meshes/indicator_c.res" id="4_75vfm"]
 [ext_resource type="ArrayMesh" uid="uid://bca7jsquyhgs" path="res://assets/meshes/indicator_e.res" id="5_0owmy"]
 [ext_resource type="Material" uid="uid://cc0ey1qnfltcy" path="res://assets/materials/indicator_material.tres" id="5_smehm"]
 [ext_resource type="AudioStream" uid="uid://bf16e3vtraye4" path="res://assets/audio/sfx/footsteps/footsteps_randomizer_b.tres" id="6_0owmy"]

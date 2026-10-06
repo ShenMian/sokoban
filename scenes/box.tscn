@@ -2,7 +2,7 @@
 
 [ext_resource type="ArrayMesh" uid="uid://hc0acof11624" path="res://assets/meshes/crate.res" id="2_brpd5"]
 [ext_resource type="Script" uid="uid://cbi4yqk5h6hmq" path="res://scripts/box.gd" id="2_ks2v0"]
-[ext_resource type="ArrayMesh" uid="uid://cnr4b8oogdane" path="res://assets/meshes/indiactor_c.res" id="3_c2ln5"]
+[ext_resource type="ArrayMesh" uid="uid://cnr4b8oogdane" path="res://assets/meshes/indicator_c.res" id="3_c2ln5"]
 [ext_resource type="Material" uid="uid://cc0ey1qnfltcy" path="res://assets/materials/indicator_material.tres" id="4_brpd5"]
 [ext_resource type="ArrayMesh" uid="uid://bca7jsquyhgs" path="res://assets/meshes/indicator_e.res" id="4_telwu"]
 
