@@ -31,7 +31,7 @@ A Sokoban game built with [Godot] and [Rust].
 Licensed under [Apache License, Version 2.0](LICENSE).
 
 The level files in the `assets/levels` directory are licensed solely under
-their respective licenses, available in the `LICENSE` file in the directory.
+their respective licenses, available in the [`LICENSE`](assets/levels/LICENSE) file in the directory.
 
 [Godot]: https://godotengine.org/
 [Rust]: https://www.rust-lang.org/
