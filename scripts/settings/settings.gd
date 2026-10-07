@@ -95,7 +95,8 @@ func get_value(section: String, key: String) -> Variant:
 
 
 func reset_gameplay_settings() -> void:
-	_config.erase_section("gameplay")
+	if _config.has_section("gameplay"):
+		_config.erase_section("gameplay")
 	for key in DEFAULT_CONFIG.gameplay:
 		var value: Variant = DEFAULT_CONFIG.gameplay[key]
 		set_value("gameplay", key, value)
@@ -108,7 +109,8 @@ func reset_gameplay_settings() -> void:
 
 
 func reset_assists_settings() -> void:
-	_config.erase_section("assists")
+	if _config.has_section("assists"):
+		_config.erase_section("assists")
 	for key in DEFAULT_CONFIG.assists:
 		var value: Variant = DEFAULT_CONFIG.assists[key]
 		set_value("assists", key, value)
@@ -116,7 +118,8 @@ func reset_assists_settings() -> void:
 
 
 func reset_video_settings() -> void:
-	_config.erase_section("video")
+	if _config.has_section("video"):
+		_config.erase_section("video")
 	for key in DEFAULT_CONFIG.video:
 		var value: Variant = DEFAULT_CONFIG.video[key]
 		set_value("video", key, value)
@@ -128,7 +131,8 @@ func reset_video_settings() -> void:
 
 
 func reset_audio_settings() -> void:
-	_config.erase_section("audio")
+	if _config.has_section("audio"):
+		_config.erase_section("audio")
 	for key in DEFAULT_CONFIG.audio:
 		var value: Variant = DEFAULT_CONFIG.audio[key]
 		set_value("audio", key, value)
