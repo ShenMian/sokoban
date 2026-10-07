@@ -47,11 +47,20 @@ func change_scene_to_file(path: String) -> void:
 	overlay.visible = true
 	animation_player.play("fade_in")
 
-	ResourceLoader.load_threaded_request(path)
-	while ResourceLoader.load_threaded_get_status(path) == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
-		await get_tree().process_frame
+	var scene: PackedScene
+	if OS.has_feature("web"):
+		# Threaded resource loading is broken on the web when both extension
+		# support and thread support are enabled, so the status never leaves
+		# THREAD_LOAD_IN_PROGRESS.
+		# - https://github.com/godotengine/godot/issues/104498
+		# - https://github.com/godotengine/godot/issues/112958
+		scene = load(path) as PackedScene
+	else:
+		ResourceLoader.load_threaded_request(path)
+		while ResourceLoader.load_threaded_get_status(path) == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
+			await get_tree().process_frame
+		scene = ResourceLoader.load_threaded_get(path) as PackedScene
 
-	var scene = ResourceLoader.load_threaded_get(path)
 	get_tree().change_scene_to_packed(scene)
 
 	animation_player.play_backwards("fade_in")
