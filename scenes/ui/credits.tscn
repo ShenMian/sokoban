@@ -7,6 +7,12 @@
 [ext_resource type="Texture2D" uid="uid://drl0jx1t84dor" path="res://assets/textures/backgrounds/forest.png" id="2_2fbfq"]
 [ext_resource type="FontFile" uid="uid://dh020jxovl25i" path="res://assets/fonts/Sarasa-1.0.33/SarasaUiSC-Bold.woff2" id="4_mah5v"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gleon"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+
 [sub_resource type="InputEventAction" id="InputEventAction_7l7mv"]
 action = &"pause"
 
@@ -64,6 +70,25 @@ Source code available on [url=https://github.com/ShenMian/sokoban]GitHub[/url][/
 "
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="VersionLabel" type="Label" parent="." unique_id=24270421]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -168.0
+offset_top = -44.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.6666667, 0.6666667, 0.6666667, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxEmpty_gleon")
+text = "Version: 0.0.0
+Engine: 0.0.0"
+horizontal_alignment = 2
+vertical_alignment = 2
 
 [node name="CloseButton" type="Button" parent="." unique_id=114304992]
 layout_mode = 1
