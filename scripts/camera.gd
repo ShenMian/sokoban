@@ -103,7 +103,7 @@ func _handle_screen_drag(event: InputEventScreenDrag):
 		var current_distance: float = (points[0] as Vector2).distance_to(points[1] as Vector2)
 		if _touch_initial_distance > 0.0:
 			var ratio: float = _touch_initial_distance / current_distance
-			zoom_factor = clampf(_touch_initial_zoom * ratio, 2.0, max_zoom_factor)
+			zoom_factor = clampf(_touch_initial_zoom * ratio, min_zoom_factor, max_zoom_factor)
 
 		# Two finger drag: pan (use average relative motion)
 		_target_position.x -= event.relative.x * drag_sensitivity * zoom_factor * 0.001 * 0.5
