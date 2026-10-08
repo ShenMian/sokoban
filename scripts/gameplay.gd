@@ -30,11 +30,11 @@ func _ready() -> void:
 	victory_menu.request_next_level.connect(_on_request_next_level)
 	victory_menu.request_menu.connect(_on_request_menu)
 
-	hud.undo_requested.connect(level_map.do_undo)
-	hud.redo_requested.connect(level_map.do_redo)
+	hud.undo_requested.connect(level_map.undo)
+	hud.redo_requested.connect(level_map.redo)
 	hud.undo_all_requested.connect(_on_undo_all)
-	hud.request_start_solve.connect(level_map.begin_solve)
-	hud.request_stop_solve.connect(level_map.abort_solve)
+	hud.request_start_solve.connect(level_map.start_solve)
+	hud.request_stop_solve.connect(level_map.cancel_solve)
 	level_map.solve_completed.connect(hud.solve_complete)
 	level_map.solve_failed.connect(hud.solve_fail)
 	hud.pause_requested.connect(_open_pause_menu)
@@ -65,7 +65,7 @@ func _on_request_previous_level() -> void:
 
 
 func _on_undo_all() -> void:
-	level_map.do_undo_all()
+	level_map.undo_all()
 	_auto_save()
 
 

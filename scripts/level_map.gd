@@ -84,7 +84,7 @@ func _process(_delta: float) -> void:
 		return
 
 	if Input.is_action_just_pressed("undo_all"):
-		do_undo_all()
+		undo_all()
 		return
 
 	if player.is_moving or _is_box_moving():
@@ -134,42 +134,42 @@ func _unhandled_input(event: InputEvent) -> void:
 			deselect_box()
 
 
-func do_undo() -> void:
-	undo()
+func undo() -> void:
+	undo_inner()
 	deselect_box()
 	rebuild_player_and_boxes()
 	update_ui()
 
 
-func do_redo() -> void:
-	redo()
+func redo() -> void:
+	redo_inner()
 	deselect_box()
 	rebuild_player_and_boxes()
 	update_ui()
 
 
-func do_undo_all() -> void:
-	undo_all()
+func undo_all() -> void:
+	undo_all_inner()
 	deselect_box()
 	rebuild_player_and_boxes()
 	update_ui()
 
 
-func begin_solve() -> void:
+func start_solve() -> void:
 	if _solving:
 		return
 
 	deselect_box()
 	_solving = true
 	update_ui()
-	start_solve(solver_algorithm, solver_strategy)
+	start_solve_inner(solver_algorithm, solver_strategy)
 
 
-func abort_solve() -> void:
+func cancel_solve() -> void:
 	if not _solving:
 		return
 
-	cancel_solve()
+	cancel_solve_inner()
 	_solving = false
 	update_ui()
 

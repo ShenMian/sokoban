@@ -287,7 +287,7 @@ impl LevelMap {
     }
 
     /// Starts solving in a background thread with a custom stack size.
-    #[func]
+    #[func(rename = start_solve_inner)]
     pub fn start_solve(&mut self, algorithm: Algorithm, strategy: Strategy) {
         self.solver_worker
             .start(self.map().clone(), algorithm, strategy);
@@ -316,7 +316,7 @@ impl LevelMap {
     }
 
     /// Cancels a running solve (if any).
-    #[func]
+    #[func(rename = cancel_solve_inner)]
     pub fn cancel_solve(&mut self) {
         self.solver_worker.cancel();
     }
@@ -358,7 +358,7 @@ impl LevelMap {
     }
 
     /// Undoes actions until crossing the previous box-change boundary.
-    #[func]
+    #[func(rename = undo_inner)]
     pub fn undo(&mut self) {
         let initial_box_changes = self.level.actions().secondary_values().box_changes;
         while self.level.undo().is_ok() {
@@ -370,7 +370,7 @@ impl LevelMap {
     }
 
     /// Redoes actions until crossing the next box-change boundary.
-    #[func]
+    #[func(rename = redo_inner)]
     pub fn redo(&mut self) {
         let initial_box_changes = self.level.actions().secondary_values().box_changes;
         while self.level.redo().is_ok() {
@@ -387,7 +387,7 @@ impl LevelMap {
     }
 
     /// Undoes all actions.
-    #[func]
+    #[func(rename = undo_all_inner)]
     pub fn undo_all(&mut self) {
         while self.level.undo().is_ok() {}
         self.rebuild();
