@@ -51,7 +51,6 @@ var show_tunnels: bool:
 var _is_instant: bool
 var _selected_box: Box
 var _solving: bool = false
-var _solve_tween: Tween
 
 
 func _ready() -> void:
@@ -156,12 +155,8 @@ func do_undo_all() -> void:
 	update_ui()
 
 
-func toggle_solve() -> void:
+func begin_solve() -> void:
 	if _solving:
-		cancel_solve()
-		_solving = false
-		update_ui()
-		gameplay.hud.solve_button.modulate = Color.WHITE
 		return
 
 	deselect_box()
@@ -170,18 +165,24 @@ func toggle_solve() -> void:
 	start_solve(solver_algorithm, solver_strategy)
 
 
+func abort_solve() -> void:
+	if not _solving:
+		return
+
+	cancel_solve()
+	_solving = false
+	update_ui()
+
+
 func _on_solve_completed(directions: Array) -> void:
 	_solving = false
 	update_ui()
-	gameplay.hud.solve_button.modulate = Color.WHITE
 	await _execute_path(directions)
 
 
 func _on_solve_failed(error: String) -> void:
 	_solving = false
 	update_ui()
-	gameplay.hud.solve_button.modulate = Color.RED
-	create_tween().tween_property(gameplay.hud.solve_button, "modulate", Color.WHITE, 2.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	push_warning("Solver failed: " + error)
 
 
@@ -488,16 +489,7 @@ func update_ui() -> void:
 		gameplay.hud.undo_all_button.disabled = true
 		gameplay.hud.solve_button.disabled = false
 		gameplay.hud.transform_button.disabled = true
-
-		if _solve_tween == null:
-			_solve_tween = create_tween().set_loops()
-			_solve_tween.tween_property(gameplay.hud.solve_button, "modulate", Color(0.5, 0.8, 1.0), 0.6).set_trans(Tween.TRANS_SINE)
-			_solve_tween.tween_property(gameplay.hud.solve_button, "modulate", Color(0.0, 0.567, 0.823, 1.0), 0.6).set_trans(Tween.TRANS_SINE)
 	else:
-		if _solve_tween:
-			_solve_tween.kill()
-			_solve_tween = null
-
 		if player.is_moving or _is_box_moving():
 			gameplay.hud.undo_button.disabled = true
 			gameplay.hud.redo_button.disabled = true
