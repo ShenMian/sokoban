@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://c1265tlwonjpv" path="res://assets/textures/icons/previous.png" id="11_407ns"]
 [ext_resource type="Texture2D" uid="uid://dk4kar7bm6o4q" path="res://assets/textures/icons/menu_list.png" id="11_s5y6v"]
 [ext_resource type="Texture2D" uid="uid://bdh3nf8a5fe4m" path="res://assets/textures/icons/next.png" id="12_w3w6i"]
+[ext_resource type="Script" uid="uid://dow5f4a5ctj3t" path="res://scripts/ui/hud.gd" id="13_hud"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_00tan"]
 content_margin_left = 5.0
@@ -90,6 +91,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 theme = ExtResource("4_ocj2s")
+script = ExtResource("13_hud")
 
 [node name="StatusPanel" type="PanelContainer" parent="HudLayer/HUD" unique_id=400407300]
 layout_mode = 1

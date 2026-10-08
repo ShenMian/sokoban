@@ -5,7 +5,7 @@ const WAYPOINT_SCENE = preload("res://scenes/waypoint.tscn")
 const HEATMAP_CELL_SCENE = preload("res://scenes/heatmap_cell.tscn")
 const TUNNEL_CELL_SCENE = preload("res://scenes/tunnel_cell.tscn")
 
-@onready var gameplay: Node3D = $".."
+@onready var gameplay = $".."
 @onready var camera: Camera3D = $"../Camera"
 
 @onready var player: Player = $Player
@@ -75,7 +75,7 @@ func _ready() -> void:
 	reset_camera_position()
 
 	await get_tree().process_frame
-	gameplay.level_label.text = str(SceneTransition.level_index)
+	gameplay.hud.level_label.text = str(SceneTransition.level_index)
 	update_ui()
 
 
@@ -156,12 +156,12 @@ func do_undo_all() -> void:
 	update_ui()
 
 
-func do_solve() -> void:
+func toggle_solve() -> void:
 	if _solving:
 		cancel_solve()
 		_solving = false
 		update_ui()
-		gameplay.solve_button.modulate = Color.WHITE
+		gameplay.hud.solve_button.modulate = Color.WHITE
 		return
 
 	deselect_box()
@@ -173,15 +173,15 @@ func do_solve() -> void:
 func _on_solve_completed(directions: Array) -> void:
 	_solving = false
 	update_ui()
-	gameplay.solve_button.modulate = Color.WHITE
+	gameplay.hud.solve_button.modulate = Color.WHITE
 	await _execute_path(directions)
 
 
 func _on_solve_failed(error: String) -> void:
 	_solving = false
 	update_ui()
-	gameplay.solve_button.modulate = Color.RED
-	create_tween().tween_property(gameplay.solve_button, "modulate", Color.WHITE, 2.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	gameplay.hud.solve_button.modulate = Color.RED
+	create_tween().tween_property(gameplay.hud.solve_button, "modulate", Color.WHITE, 2.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	push_warning("Solver failed: " + error)
 
 
@@ -476,40 +476,40 @@ func _on_player_moved(to: Vector2i, pushed: bool) -> void:
 
 func update_ui() -> void:
 	# Update HUD labels
-	gameplay.moves_label.text = str(get_move_count())
-	gameplay.pushes_label.text = str(get_push_count())
+	gameplay.hud.moves_label.text = str(get_move_count())
+	gameplay.hud.pushes_label.text = str(get_push_count())
 
 	_update_pushable_hint()
 
 	# Update toolbar buttons
 	if _solving:
-		gameplay.undo_button.disabled = true
-		gameplay.redo_button.disabled = true
-		gameplay.undo_all_button.disabled = true
-		gameplay.solve_button.disabled = false
-		gameplay.transform_button.disabled = true
+		gameplay.hud.undo_button.disabled = true
+		gameplay.hud.redo_button.disabled = true
+		gameplay.hud.undo_all_button.disabled = true
+		gameplay.hud.solve_button.disabled = false
+		gameplay.hud.transform_button.disabled = true
 
 		if _solve_tween == null:
 			_solve_tween = create_tween().set_loops()
-			_solve_tween.tween_property(gameplay.solve_button, "modulate", Color(0.5, 0.8, 1.0), 0.6).set_trans(Tween.TRANS_SINE)
-			_solve_tween.tween_property(gameplay.solve_button, "modulate", Color(0.0, 0.567, 0.823, 1.0), 0.6).set_trans(Tween.TRANS_SINE)
+			_solve_tween.tween_property(gameplay.hud.solve_button, "modulate", Color(0.5, 0.8, 1.0), 0.6).set_trans(Tween.TRANS_SINE)
+			_solve_tween.tween_property(gameplay.hud.solve_button, "modulate", Color(0.0, 0.567, 0.823, 1.0), 0.6).set_trans(Tween.TRANS_SINE)
 	else:
 		if _solve_tween:
 			_solve_tween.kill()
 			_solve_tween = null
 
 		if player.is_moving or _is_box_moving():
-			gameplay.undo_button.disabled = true
-			gameplay.redo_button.disabled = true
-			gameplay.undo_all_button.disabled = true
-			gameplay.solve_button.disabled = true
-			gameplay.transform_button.disabled = true
+			gameplay.hud.undo_button.disabled = true
+			gameplay.hud.redo_button.disabled = true
+			gameplay.hud.undo_all_button.disabled = true
+			gameplay.hud.solve_button.disabled = true
+			gameplay.hud.transform_button.disabled = true
 		else:
-			gameplay.undo_button.disabled = !can_undo()
-			gameplay.redo_button.disabled = !can_redo()
-			gameplay.undo_all_button.disabled = !can_undo()
-			gameplay.solve_button.disabled = false
-			gameplay.transform_button.disabled = false
+			gameplay.hud.undo_button.disabled = !can_undo()
+			gameplay.hud.redo_button.disabled = !can_redo()
+			gameplay.hud.undo_all_button.disabled = !can_undo()
+			gameplay.hud.solve_button.disabled = false
+			gameplay.hud.transform_button.disabled = false
 
 
 func _on_solved() -> void:
