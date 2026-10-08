@@ -57,8 +57,8 @@ func _ready() -> void:
 	Settings.setting_changed.connect(_on_setting_changed)
 	player_moved.connect(_on_player_moved)
 	solved.connect(_on_solved)
-	box_enter_goal.connect(enter_goal_player.play)
-	box_leave_goal.connect(leave_goal_player.play)
+	box_enter_goal.connect(func(_position: Vector2i) -> void: enter_goal_player.play())
+	box_leave_goal.connect(func(_position: Vector2i) -> void: leave_goal_player.play())
 	solve_completed.connect(_on_solve_completed)
 	solve_failed.connect(_on_solve_failed)
 
