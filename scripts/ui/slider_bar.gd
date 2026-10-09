@@ -1,6 +1,7 @@
 extends Slider
 class_name SliderBar
 
+## Whether the slider is editable; dims it when disabled.
 @export var disabled: bool = false:
 	set(value):
 		disabled = value

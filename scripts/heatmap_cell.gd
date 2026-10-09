@@ -6,6 +6,7 @@ const TRANSPARENCY = 0.7
 @onready var label: Label3D = $Label
 
 
+## Colors the cell from its lower bound relative to the maximum.
 func setup(lower_bound: int, max_lower_bound: int) -> void:
 	assert(lower_bound <= max_lower_bound)
 	var ratio: float = 0.0 if max_lower_bound == 0 else float(lower_bound) / float(max_lower_bound)

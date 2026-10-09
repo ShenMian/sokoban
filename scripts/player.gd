@@ -8,21 +8,31 @@ signal unhovered
 signal move_finished
 
 @export_group("Move Animation")
+## Base duration of a one-tile move, in seconds.
 @export var move_duration: float = 0.4
+## Easing curve of the move tween.
 @export var move_ease: Tween.EaseType = Tween.EASE_IN_OUT
+## Transition type of the move tween.
 @export var move_transition: Tween.TransitionType = Tween.TRANS_LINEAR
 
 @export_group("Rotate Animation")
+## Base duration of a 90° turn, in seconds.
 @export var rotate_90_duration: float = 0.1
+## Easing curve of the rotation tween.
 @export var rotate_ease: Tween.EaseType = Tween.EASE_IN_OUT
+## Transition type of the rotation tween.
 @export var rotate_transition: Tween.TransitionType = Tween.TRANS_LINEAR
 
 @export_group("Indicator Animation")
+## Duration of one full pulse of the selection indicator.
 @export var indicator_tween_duration: float = 1.0
+## Smallest scale of the pulsing selection indicator.
 @export var indicator_scale_min: float = 0.9
+## Largest scale of the pulsing selection indicator.
 @export var indicator_scale_max: float = 1.1
 
 @export_group("", "")
+## Whether the player can be selected.
 @export var selectable: bool = true:
 	set(value):
 		selectable = value
@@ -82,6 +92,7 @@ func _ready() -> void:
 		_apply_selectable()
 
 
+## Animates the player one tile and turns to face the move direction.
 func move(direction: Vector2, push: bool) -> void:
 	if direction == Vector2.ZERO:
 		state_machine.travel("EmoteNo")
@@ -130,6 +141,7 @@ func move(direction: Vector2, push: bool) -> void:
 	move_finished.emit()
 
 
+## Instantly turns the player to face the given direction.
 func set_facing(direction: E.Direction) -> void:
 	match direction:
 		E.Direction.UP:
@@ -142,11 +154,13 @@ func set_facing(direction: E.Direction) -> void:
 			meshes.rotation_degrees.y = 90.0
 
 
+## Clears the player selection.
 func deselect() -> void:
 	_is_selected = false
 	_apply_indicator()
 
 
+## Returns the player's tile position.
 func grid_position() -> Vector2i:
 	return Vector2i(round(global_position.x), round(global_position.z))
 
@@ -199,6 +213,7 @@ func _on_area_mouse_exited() -> void:
 	unhovered.emit()
 
 
+## Updates the selection and hover indicators.
 func _apply_indicator() -> void:
 	select_indicator.visible = _is_selected
 	hover_indicator.visible = _is_hovered and not _is_selected
@@ -209,15 +224,18 @@ func _apply_indicator() -> void:
 		_stop_indicator_tween()
 
 
+## Starts pulsing the selection indicator.
 func _start_indicator_tween() -> void:
 	_indicator_tween.play()
 
 
+## Stops pulsing and resets the selection indicator.
 func _stop_indicator_tween() -> void:
 	_indicator_tween.pause()
 	select_indicator.scale = Vector3.ONE
 
 
+## Enables or disables mouse picking for the player.
 func _apply_selectable() -> void:
 	if not is_node_ready():
 		return

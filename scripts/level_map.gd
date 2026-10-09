@@ -18,7 +18,9 @@ const TUNNEL_CELL_SCENE = preload("res://scenes/tunnel_cell.tscn")
 @onready var enter_goal_player: AudioStreamPlayer3D = $Player/EnterGoalPlayer
 @onready var leave_goal_player: AudioStreamPlayer3D = $Player/LeaveGoalPlayer
 
+## Algorithm used by the background solver.
 @export var solver_algorithm: E.Algorithm
+## Strategy used by the background solver.
 @export var solver_strategy: E.Strategy
 
 ## Dim boxes that cannot currently be pushed.
@@ -28,9 +30,13 @@ const TUNNEL_CELL_SCENE = preload("res://scenes/tunnel_cell.tscn")
 @export var waypoint_height: float = 0.01
 
 @export_group("Path Preview")
+## Whether hovering a waypoint shows a path preview.
 @export_custom(PROPERTY_HINT_GROUP_ENABLE, "") var enable_path_preview: bool = true
+## Material of the path preview ribbon.
 @export var path_preview_material: StandardMaterial3D
+## Width of the path preview ribbon.
 @export var path_preview_width: float = 0.1
+## Height of the path preview ribbon above the floor.
 @export var path_preview_height: float = 0.02
 @export_group("", "")
 
@@ -378,6 +384,7 @@ func _build_tunnels() -> void:
 		tunnels_container.add_child(tunnel_cell)
 
 
+## Draws the smoothed path preview toward the hovered waypoint.
 func _show_path_preview(to: Vector2i) -> void:
 	if not enable_path_preview:
 		return
@@ -395,6 +402,7 @@ func _show_path_preview(to: Vector2i) -> void:
 	path_preview_container.material_override = path_preview_material
 
 
+## Rounds the corners of a tile path into a smooth polyline.
 func _smooth_path(path: Array[Vector2i], corner_radius: float, resolution: int) -> Array[Vector2]:
 	if path.size() < 3:
 		var raw_path: Array[Vector2] = []
@@ -435,6 +443,7 @@ func _smooth_path(path: Array[Vector2i], corner_radius: float, resolution: int) 
 	return smoothed
 
 
+## Builds a triangle-strip ribbon mesh along the given path.
 func _create_path_mesh(smoothed_path: Array[Vector3], width: float) -> ImmediateMesh:
 	assert(smoothed_path.size() >= 2)
 
@@ -482,6 +491,7 @@ func _create_path_mesh(smoothed_path: Array[Vector3], width: float) -> Immediate
 	return mesh
 
 
+## Clears the path preview mesh.
 func _clear_path_preview() -> void:
 	path_preview_container.mesh = null
 
@@ -496,6 +506,7 @@ func _on_player_moved(to: Vector2i, pushed: bool) -> void:
 	update_hud()
 
 
+## Refreshes the HUD counters and toolbar button states.
 func update_hud() -> void:
 	# Update HUD labels
 	gameplay.hud.moves_label.text = str(get_move_count())
@@ -529,6 +540,7 @@ func _on_solved() -> void:
 	enter_goal_player.stop()
 
 
+## Centers the camera and fits the whole level in view.
 func reset_camera_position() -> void:
 	var center := get_dimensions() / 2.0
 	var fit_zoom := get_fit_zoom()
@@ -539,6 +551,7 @@ func reset_camera_position() -> void:
 	camera.zoom_factor = fit_zoom
 
 
+## Returns the zoom level that fits the level in the viewport.
 func get_fit_zoom(margin: float = 2.0) -> float:
 	var viewport := get_viewport()
 	var aspect = float(viewport.size.x) / float(viewport.size.y)

@@ -16,6 +16,7 @@ signal request_menu
 @onready var menu_button: Button = $Panel/VBox/VBox/MenuButton
 
 
+## Shows the victory menu with the given solution stats.
 func open(actions: Actions):
 	get_tree().paused = true
 
@@ -50,6 +51,7 @@ func open(actions: Actions):
 	animation_player.play("show")
 
 
+## Hides the victory menu and unpauses the game.
 func close():
 	hide()
 	get_tree().paused = false

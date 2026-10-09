@@ -8,21 +8,29 @@ signal unhovered
 signal move_finished
 
 @export_group("Move Animation")
+## Base duration of a one-tile move, in seconds.
 @export var move_duration: float = 0.4
+## Easing curve of the move tween.
 @export var move_ease: Tween.EaseType = Tween.EASE_OUT
+## Transition type of the move tween.
 @export var move_transition: Tween.TransitionType = Tween.TRANS_SINE
 
 @export_group("Indicator Animation")
+## Duration of one full pulse of the selection indicator.
 @export var indicator_tween_duration: float = 1.0
+## Smallest scale of the pulsing selection indicator.
 @export var indicator_scale_min: float = 0.9
+## Largest scale of the pulsing selection indicator.
 @export var indicator_scale_max: float = 1.1
 
 @export_group("", "")
+## Whether the box can be selected and pushed.
 @export var selectable: bool = true:
 	set(value):
 		selectable = value
 		_apply_selectable()
 
+## Whether the box is dimmed and ignores mouse input.
 @export var disabled: bool = false:
 	set(value):
 		if disabled == value:
@@ -90,6 +98,7 @@ func _ready() -> void:
 		_apply_selectable()
 
 
+## Animates the box one tile in the given direction.
 func move(direction: Vector3) -> void:
 	is_moving = true
 	await create_tween() \
@@ -105,11 +114,13 @@ func move(direction: Vector3) -> void:
 	move_finished.emit()
 
 
+## Clears the box selection.
 func deselect() -> void:
 	_is_selected = false
 	_apply_indicator()
 
 
+## Returns the box's tile position.
 func grid_position() -> Vector2i:
 	return Vector2i(round(global_position.x), round(global_position.z))
 
@@ -163,6 +174,7 @@ func _on_area_mouse_exited() -> void:
 	unhovered.emit()
 
 
+## Updates the selection and hover indicators.
 func _apply_indicator() -> void:
 	select_indicator.visible = _is_selected
 	hover_indicator.visible = _is_hovered and not _is_selected
@@ -173,15 +185,18 @@ func _apply_indicator() -> void:
 		_stop_indicator_tween()
 
 
+## Starts pulsing the selection indicator.
 func _start_indicator_tween() -> void:
 	_indicator_tween.play()
 
 
+## Stops pulsing and resets the selection indicator.
 func _stop_indicator_tween() -> void:
 	_indicator_tween.pause()
 	select_indicator.scale = Vector3.ONE
 
 
+## Tints the box to reflect its disabled state.
 func _apply_disabled() -> void:
 	var target_albedo := Color.WHITE.darkened(0.5) if disabled else Color.WHITE
 	var tween := create_tween().set_parallel(true)
@@ -190,6 +205,7 @@ func _apply_disabled() -> void:
 	tween.tween_property(mesh, "surface_material_override/2:albedo_color", target_albedo, 0.2)
 
 
+## Enables or disables mouse picking for the box.
 func _apply_selectable() -> void:
 	if not is_node_ready():
 		return

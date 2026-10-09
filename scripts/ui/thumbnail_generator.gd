@@ -22,16 +22,19 @@ func _ready() -> void:
 		camera.projection = Camera3D.PROJECTION_PERSPECTIVE
 
 
+## Sets the levels to render and resets the pending queue.
 func set_levels(new_levels: Array[Dictionary]) -> void:
 	_generation += 1
 	levels = new_levels
 	_queue.clear()
 
 
+## Replaces the pending thumbnail render queue.
 func submit_queue(new_queue: Array[int]) -> void:
 	_queue = new_queue
 
 
+## Sets the viewport size used for rendered thumbnails.
 func set_preview_size(new_size: Vector2) -> void:
 	size = new_size
 
@@ -76,6 +79,7 @@ func _process(_delta: float) -> void:
 	_is_processing = false
 
 
+## Rebuilds the preview boxes and player from the loaded level.
 func rebuild_player_and_boxes() -> void:
 	const OFFSET = Vector3(0.5, 0.0, 0.5)
 
@@ -91,6 +95,7 @@ func rebuild_player_and_boxes() -> void:
 	player.position = Vector3(player_position.x, 0.0, player_position.y) + OFFSET
 
 
+## Returns the camera zoom that fits the map in the viewport.
 func get_fit_zoom(map: LevelMap, margin: float = 1.0) -> float:
 	var aspect = float(size.x) / float(size.y)
 	var dimensions := map.get_dimensions()

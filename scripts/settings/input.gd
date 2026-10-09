@@ -30,6 +30,7 @@ func _on_binding_popup_closed() -> void:
 	Settings.save_bindings()
 
 
+## Refreshes the key icons shown on each binding button.
 func apply_settings() -> void:
 	for action in action_buttons:
 		var button: Button = action_buttons[action]
@@ -41,6 +42,7 @@ func _on_button_pressed(action: StringName) -> void:
 	binding_popup.open(action)
 
 
+## Returns the first keyboard event bound to the action.
 func _get_event_by_action(action: StringName) -> InputEventKey:
 	for event in InputMap.action_get_events(action):
 		if event is InputEventKey:
@@ -48,6 +50,7 @@ func _get_event_by_action(action: StringName) -> InputEventKey:
 	return null
 
 
+## Rebuilds the key icon row on a binding button.
 func _update_button_icons(button: Button, icons: Array[Texture2D]) -> void:
 	var icon_container := button.get_node("HBox")
 	for child in icon_container.get_children():
@@ -60,6 +63,7 @@ func _update_button_icons(button: Button, icons: Array[Texture2D]) -> void:
 		icon_container.add_child(rect)
 
 
+## Returns the modifier and key icons for an event.
 func _get_icons_by_event(event: InputEventKey) -> Array[Texture2D]:
 	var icons: Array[Texture2D] = []
 
@@ -78,6 +82,7 @@ func _get_icons_by_event(event: InputEventKey) -> Array[Texture2D]:
 	return icons
 
 
+## Returns the icon texture for a key name.
 func _get_icon_by_key_name(key: String) -> Texture2D:
 	assert(key == key.to_lower())
 

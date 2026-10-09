@@ -22,6 +22,7 @@ func _ready() -> void:
 	apply_settings()
 
 
+## Loads the saved audio settings into the controls.
 func apply_settings() -> void:
 	master_volume.value = Settings.get_value("audio", "master_volume")
 	music_volume.value = Settings.get_value("audio", "music_volume")
@@ -48,12 +49,14 @@ func _notification(what: int) -> void:
 			_on_window_restored()
 
 
+## Mutes the master bus while the window is unfocused.
 func _on_window_minimized() -> void:
 	if not mute_on_unfocused.button_pressed:
 		return
 	AudioServer.set_bus_mute(master_bus_index, true)
 
 
+## Restores the master bus when the window regains focus.
 func _on_window_restored() -> void:
 	if not mute_on_unfocused.button_pressed:
 		return

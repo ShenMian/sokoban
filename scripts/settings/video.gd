@@ -59,6 +59,7 @@ func _ready() -> void:
 	apply_settings()
 
 
+## Loads the saved video settings into the controls and applies them.
 func apply_settings() -> void:
 	window_mode.select(WINDOW_MODES.find(Settings.get_value(SECTION_NAME, "window_mode")))
 	window_mode.item_selected.emit(window_mode.selected)
@@ -90,6 +91,7 @@ func apply_settings() -> void:
 	scaling_method.item_selected.emit(scaling_method.selected)
 
 
+## Disables video options unsupported by the current renderer.
 func _disable_unavailable_features() -> void:
 	# Disable unavailable features based on the rendering method
 	# https://docs.godotengine.org/en/4.6/tutorials/3d/3d_antialiasing.html#antialiasing-comparison

@@ -7,7 +7,9 @@ signal unhovered
 @onready var mesh: MeshInstance3D = $MeshInstance3D
 @onready var area: Area3D = $MeshInstance3D/Area3D
 
+## Material shown while the waypoint is idle.
 @export var normal_material: StandardMaterial3D
+## Material shown while the waypoint is hovered.
 @export var hover_material: StandardMaterial3D
 
 var _is_hovered: bool = false
@@ -45,6 +47,7 @@ func _on_mouse_exited():
 	unhovered.emit()
 
 
+## Applies the material matching the current hover state.
 func _apply_effect():
 	if _is_hovered:
 		mesh.material_override = hover_material

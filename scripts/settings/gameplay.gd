@@ -22,6 +22,7 @@ func _ready() -> void:
 	apply_settings()
 
 
+## Loads the saved gameplay settings into the controls and applies them.
 func apply_settings() -> void:
 	language.select(LOCALES.find(Settings.get_value(SECTION_NAME, "language")))
 	language.item_selected.emit(language.selected)

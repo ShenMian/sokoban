@@ -4,12 +4,17 @@ extends Control
 @onready var level_list: ItemList = $Margin/VBox/HSplit/LevelList
 @onready var thumbnail_generator: ThumbnailGenerator = $ThumbnailGenerator
 
+## Minimum width of a level thumbnail, in pixels.
 @export var level_item_min_width: int = 120
 
+## Background color of unsolved levels.
 @export var unsolved_color: Color = Color(0.0, 0.0, 0.0, 0.0)
+## Background color of solved levels.
 @export var solved_color: Color = Color(0.18, 0.44, 0.18, 0.5)
+## Background color of levels with a saved in-progress solution.
 @export var solving_color: Color = Color(0.44, 0.35, 0.10, 0.5)
 
+## Placeholder icon shown until a level thumbnail is generated.
 @export var preview_placeholder: GradientTexture2D
 
 var _start_item_index: int
@@ -72,6 +77,7 @@ func _on_files_dropped(files: PackedStringArray):
 	_load_collections()
 
 
+## Populates the collection list from the database.
 func _load_collections():
 	collection_list.clear()
 	for collection in Database.get_collections():
@@ -126,6 +132,7 @@ func _on_collection_list_clicked(index: int):
 	_load_levels()
 
 
+## Populates the level list for the selected collection.
 func _load_levels():
 	level_list.get_v_scroll_bar().value = 0
 	level_list.clear()
@@ -157,6 +164,7 @@ func _load_levels():
 			level_list.set_item_custom_bg_color(idx, unsolved_color)
 
 
+## Builds the tooltip text shown for a level.
 func _make_tooltip(data: Dictionary) -> String:
 	var lines := PackedStringArray()
 	for key: String in data.keys():
@@ -179,6 +187,7 @@ func _on_level_list_gui_input(event: InputEvent):
 	_handle_list_input(level_list, event, _on_level_clicked)
 
 
+## Handles mouse and touch clicks on an item list.
 func _handle_list_input(list: ItemList, input_event: InputEvent, item_click_callback: Callable):
 	if input_event is InputEventMouseButton:
 		var event := input_event as InputEventMouseButton
@@ -228,6 +237,7 @@ func _on_level_list_resized():
 	preview_placeholder.height = item_width
 
 
+## Returns the usable width of an item list, excluding margins and scrollbar.
 func _get_content_width(item_list: ItemList) -> float:
 	var width = item_list.size.x
 

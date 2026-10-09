@@ -21,6 +21,7 @@ func _ready() -> void:
 	apply_settings()
 
 
+## Loads the saved assist settings into the controls and applies them.
 func apply_settings() -> void:
 	algorithm.select(Settings.get_value(SECTION_NAME, "algorithm"))
 	algorithm.item_selected.emit(algorithm.selected)

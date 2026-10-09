@@ -1,6 +1,7 @@
 extends Button
 class_name ButtonFx
 
+## Interpolation speed of the button scale animation.
 @export var smooth_factor: float = 20.0
 
 const SCALE_SNAP_DISTANCE: float = 0.001
@@ -29,6 +30,7 @@ func _notification(what: int) -> void:
 		_on_enabled()
 
 
+## Connects the button interaction signals.
 func _on_enabled() -> void:
 	pressed.connect(_on_pressed)
 	mouse_entered.connect(_on_hovered)
@@ -37,6 +39,7 @@ func _on_enabled() -> void:
 	focus_exited.connect(_on_unhovered)
 
 
+## Disconnects the button interaction signals and resets its scale.
 func _on_disabled() -> void:
 	set_process(false)
 	_reset()
@@ -62,6 +65,7 @@ func _on_unhovered() -> void:
 	set_process(true)
 
 
+## Restores the button to its default scale.
 func _reset() -> void:
 	_target_scale = Vector2.ONE
 	scale = Vector2.ONE

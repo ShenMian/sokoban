@@ -74,6 +74,7 @@ func _on_request_menu() -> void:
 	SceneTransition.load_main_menu()
 
 
+## Persists the current level progress as a snapshot.
 func _auto_save():
 	if level_map.is_solved():
 		Database.clear_snapshot(SceneTransition.level_id, true)
@@ -89,6 +90,7 @@ func _input(_event: InputEvent) -> void:
 		_open_pause_menu()
 
 
+## Deselects the box and opens the pause menu.
 func _open_pause_menu():
 	level_map.deselect_box()
 	hud.hide()
@@ -116,6 +118,7 @@ func _on_level_solved() -> void:
 	victory_menu.open(Actions.new(level_map.get_actions_lurd()))
 
 
+## Advances the level to the next rotation/flip transform step.
 func _transform_level() -> void:
 	level_map.rotate_cw()
 	if _transform_state % 4 == 3:

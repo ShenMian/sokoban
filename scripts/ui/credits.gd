@@ -7,10 +7,12 @@ signal closed
 @onready var close_button: ButtonFx = $CloseButton
 
 
+## Shows the credits.
 func open():
 	show()
 
 
+## Hides the credits.
 func close():
 	hide()
 	closed.emit()

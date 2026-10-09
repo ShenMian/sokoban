@@ -17,6 +17,7 @@ var _action: StringName
 var _new_event: InputEvent = null
 
 
+## Opens the popup to rebind the given action.
 func open(action: StringName) -> void:
 	_action = action
 	title_label.text = tr(action.to_upper())
@@ -26,6 +27,7 @@ func open(action: StringName) -> void:
 	set_process_input(true)
 
 
+## Hides the popup and emits `closed`.
 func close() -> void:
 	hide()
 	closed.emit()
@@ -68,6 +70,7 @@ func _input(event: InputEvent) -> void:
 		_check_conflict(_new_event)
 
 
+## Shows a hint when the new event conflicts with another action.
 func _check_conflict(event: InputEventKey) -> void:
 	var action := _get_action_by_event(event)
 	if action.is_empty():
@@ -84,11 +87,13 @@ func _check_conflict(event: InputEventKey) -> void:
 		confirm_button.disabled = true
 
 
+## Clears the conflict hint and disables confirmation.
 func _reset_conflict_hint() -> void:
 	hint_label.text = ""
 	confirm_button.disabled = true
 
 
+## Returns the first keyboard event bound to the action.
 func _get_event_by_action(action: StringName) -> InputEventKey:
 	for event in InputMap.action_get_events(action):
 		if event is InputEventKey:
@@ -96,6 +101,7 @@ func _get_event_by_action(action: StringName) -> InputEventKey:
 	return null
 
 
+## Returns the action using the given event, or an empty name if none.
 func _get_action_by_event(event: InputEventKey) -> StringName:
 	for action in InputMap.get_actions():
 		if action.begins_with("ui_"):
@@ -106,6 +112,7 @@ func _get_action_by_event(event: InputEventKey) -> StringName:
 	return &""
 
 
+## Returns true if two key events are equivalent.
 func _events_match(a: InputEventKey, b: InputEventKey) -> bool:
 	return a.physical_keycode == b.physical_keycode \
 			and a.ctrl_pressed == b.ctrl_pressed \
@@ -114,6 +121,7 @@ func _events_match(a: InputEventKey, b: InputEventKey) -> bool:
 			and a.meta_pressed == b.meta_pressed
 
 
+## Rebuilds the key icon preview.
 func _update_icons(icons: Array[Texture2D]) -> void:
 	for child in icon_container.get_children():
 		child.queue_free()
@@ -125,6 +133,7 @@ func _update_icons(icons: Array[Texture2D]) -> void:
 		icon_container.add_child(rect)
 
 
+## Returns the modifier and key icons for an event.
 func _get_icons_by_event(event: InputEventKey) -> Array[Texture2D]:
 	var icons: Array[Texture2D] = []
 
@@ -143,6 +152,7 @@ func _get_icons_by_event(event: InputEventKey) -> Array[Texture2D]:
 	return icons
 
 
+## Returns the icon texture for a key name.
 func _get_icon_by_key_name(key: String) -> Texture2D:
 	assert(key == key.to_lower())
 

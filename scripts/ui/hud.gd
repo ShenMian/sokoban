@@ -65,12 +65,14 @@ func _on_solve_button_pressed() -> void:
 		request_start_solve.emit()
 
 
+## Resets the solve button after a successful solve.
 func solve_complete(_directions: Array) -> void:
 	_solving = false
 	_stop_solving_tween()
 	solve_button.modulate = Color.WHITE
 
 
+## Flashes the solve button red after a failed solve.
 func solve_fail(_error: String) -> void:
 	_solving = false
 	_stop_solving_tween()
@@ -81,6 +83,7 @@ func solve_fail(_error: String) -> void:
 			.set_ease(Tween.EASE_OUT)
 
 
+## Pulses the solve button while a solve is running.
 func _start_solving_tween() -> void:
 	_stop_solving_tween()
 	_solve_icon_tween = create_tween().set_loops()
@@ -92,6 +95,7 @@ func _start_solving_tween() -> void:
 			.set_trans(Tween.TRANS_SINE)
 
 
+## Stops the solve button pulse.
 func _stop_solving_tween() -> void:
 	if _solve_icon_tween:
 		_solve_icon_tween.kill()

@@ -80,20 +80,24 @@ func _ready() -> void:
 			InputMap.action_add_event(action, event)
 
 
+## Sets a setting and writes the config file to disk.
 func set_and_save_value(section: String, key: String, value: Variant) -> void:
 	set_value(section, key, value)
 	_config.save(CONFIG_PATH)
 
 
+## Sets a setting and emits `setting_changed`.
 func set_value(section: String, key: String, value: Variant) -> void:
 	_config.set_value(section, key, value)
 	setting_changed.emit(section, key, value)
 
 
+## Returns the value of a setting.
 func get_value(section: String, key: String) -> Variant:
 	return _config.get_value(section, key)
 
 
+## Restores the default gameplay settings and saves them.
 func reset_gameplay_settings() -> void:
 	if _config.has_section("gameplay"):
 		_config.erase_section("gameplay")
@@ -108,6 +112,7 @@ func reset_gameplay_settings() -> void:
 	_config.save(CONFIG_PATH)
 
 
+## Restores the default assist settings and saves them.
 func reset_assists_settings() -> void:
 	if _config.has_section("assists"):
 		_config.erase_section("assists")
@@ -117,6 +122,7 @@ func reset_assists_settings() -> void:
 	_config.save(CONFIG_PATH)
 
 
+## Restores the default video settings and saves them.
 func reset_video_settings() -> void:
 	if _config.has_section("video"):
 		_config.erase_section("video")
@@ -130,6 +136,7 @@ func reset_video_settings() -> void:
 	_config.save(CONFIG_PATH)
 
 
+## Restores the default audio settings and saves them.
 func reset_audio_settings() -> void:
 	if _config.has_section("audio"):
 		_config.erase_section("audio")
@@ -139,11 +146,13 @@ func reset_audio_settings() -> void:
 	_config.save(CONFIG_PATH)
 
 
+## Restores the default input bindings and saves them.
 func reset_input_settings() -> void:
 	InputMap.load_from_project_settings()
 	save_bindings()
 
 
+## Writes the current input bindings to disk.
 func save_bindings() -> void:
 	for action in InputMap.get_actions():
 		if action.begins_with("ui_"):
@@ -154,6 +163,7 @@ func save_bindings() -> void:
 		printerr("failed to save bindings: ", error_string(error))
 
 
+## Returns true if the loaded config matches the default structure and types.
 func _is_config_valid(config: ConfigFile) -> bool:
 	# Checks sections
 	if Array(config.get_sections()) != DEFAULT_CONFIG.keys():
@@ -173,6 +183,7 @@ func _is_config_valid(config: ConfigFile) -> bool:
 	return true
 
 
+## Applies the settings needed before the game starts.
 func _apply_basic_settings() -> void:
 	TranslationServer.set_locale(Settings.get_value("gameplay", "language"))
 	DisplayServer.window_set_mode(Settings.get_value("video", "window_mode"))

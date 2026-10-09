@@ -1,18 +1,29 @@
 extends Node
 
 @export_group("Materials")
+## Material of the box outer frame.
 @export var box_outer_frame_material: StandardMaterial3D
+## Material of the box diagonal bars.
 @export var box_diagonal_bar_material: StandardMaterial3D
+## Material of the box inner fill.
 @export var box_inner_fill_material: StandardMaterial3D
+## Material of the player's body.
 @export var box_body_material: StandardMaterial3D
+## Material of the player's hat.
 @export var box_hat_material: StandardMaterial3D
+## Material of the selection and hover indicators.
 @export var indicator_material: StandardMaterial3D
+## Material of an idle waypoint marker.
 @export var waypoint_normal_material: StandardMaterial3D
+## Material of a hovered waypoint marker.
 @export var waypoint_hover_material: StandardMaterial3D
+## Material of the path preview ribbon.
 @export var path_preview_material: StandardMaterial3D
 
 @export_group("", "")
+## Opacity of waypoint markers.
 @export var waypoint_alpha := 0.5
+## How much a hovered waypoint is lightened.
 @export var waypoint_hover_lighten := 0.7
 
 var floor_color: Color
@@ -72,6 +83,7 @@ func _ready() -> void:
 	_on_setting_changed("gameplay", "theme", Settings.get_value("gameplay", "theme"))
 
 
+## Applies the given theme colors to the scene materials.
 func apply(theme: Dictionary) -> void:
 	RenderingServer.set_default_clear_color(theme.get("background_color"))
 	floor_color = theme.get("floor_color")
@@ -89,6 +101,7 @@ func apply(theme: Dictionary) -> void:
 	path_preview_material.albedo_color = theme.get("path_preview_color")
 
 
+## Returns a 1×1 texture filled with the given color.
 func _create_texture_from_color(color: Color) -> Texture2D:
 	var image := Image.create(1, 1, false, Image.FORMAT_RGBA8)
 	image.fill(color)

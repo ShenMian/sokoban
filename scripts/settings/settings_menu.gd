@@ -18,10 +18,12 @@ signal closed
 var _hovered_panel: Control = null
 
 
+## Shows the settings menu.
 func open() -> void:
 	show()
 
 
+## Hides the settings menu and emits `closed`.
 func close() -> void:
 	hide()
 	closed.emit()
@@ -66,6 +68,7 @@ func _input(_event: InputEvent) -> void:
 	_update_tooltip()
 
 
+## Shows the tooltip of the control under the mouse.
 func _update_tooltip() -> void:
 	var active_tab := tabs.get_current_tab_control()
 
@@ -87,6 +90,7 @@ func _update_tooltip() -> void:
 		tooltip.text = ""
 
 
+## Returns the nearest ancestor carrying tooltip metadata.
 func _find_tooltip_control(control: Control, root: Control) -> Control:
 	var current := control
 	while current:
@@ -99,6 +103,7 @@ func _find_tooltip_control(control: Control, root: Control) -> Control:
 	return null
 
 
+## Returns the deepest control containing the given point.
 func _find_control_at_point(parent: Control, point: Vector2) -> Control:
 	var children := parent.get_children()
 	# Reverse it in-place to check topmost nodes first

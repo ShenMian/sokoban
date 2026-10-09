@@ -13,12 +13,14 @@ signal request_menu
 @onready var close_button: ButtonFx = $CloseButton
 
 
+## Pauses the game and shows the pause menu.
 func open():
 	get_tree().paused = true
 	show()
 	animation_player.play("blur")
 
 
+## Hides the pause menu and unpauses the game.
 func close():
 	hide()
 	closed.emit()

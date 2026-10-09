@@ -84,6 +84,7 @@ func _input(event: InputEvent):
 		_handle_screen_drag(event)
 
 
+## Tracks touch points and prepares a pinch gesture when two are active.
 func _handle_screen_touch(event: InputEventScreenTouch):
 	if event.pressed:
 		_touches[event.index] = event.position
@@ -99,6 +100,7 @@ func _handle_screen_touch(event: InputEventScreenTouch):
 			_touches[remaining_index] = event.position
 
 
+## Pans with one finger or pinch-zooms with two fingers.
 func _handle_screen_drag(event: InputEventScreenDrag):
 	_touches[event.index] = event.position
 
