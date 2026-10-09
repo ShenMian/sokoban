@@ -132,12 +132,12 @@ func save_bindings() -> void:
 ## Returns true if the loaded config matches the default structure and types.
 func _is_config_valid(config: ConfigFile) -> bool:
 	# Checks sections
-	if Array(config.get_sections()) != _default_config.keys():
+	if not _set_equal(config.get_sections(), _default_config.keys()):
 		return false
 
 	for section in _default_config:
 		# Checks keys
-		if Array(config.get_section_keys(section)) != _default_config[section].keys():
+		if not _set_equal(config.get_section_keys(section), _default_config[section].keys()):
 			return false
 
 		# Checks value types
@@ -157,3 +157,10 @@ func _apply_basic_settings() -> void:
 
 func _on_window_size_changed() -> void:
 	set_and_save_value("video", "window_mode", DisplayServer.window_get_mode())
+
+
+## Returns true if both arrays contain the same elements, ignoring order.
+func _set_equal(a: Array, b: Array) -> bool:
+	return a.size() == b.size() \
+		and a.all(func(x): return b.has(x)) \
+		and b.all(func(x): return a.has(x))
