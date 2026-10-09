@@ -2,7 +2,12 @@ extends Node
 
 signal setting_changed(section: String, key: String, value: Variant)
 
-const DEFAULT_CONFIG = {
+const CONFIG_PATH = "user://settings.ini"
+const BINDINGS_PATH = "user://bindings.ini"
+
+const LEVEL_PATH = "res://assets/levels/"
+
+var _default_config = {
 	"gameplay": {
 		"language": "en",
 		"animation_speed": E.AnimationSpeed.NORMAL,
@@ -39,11 +44,6 @@ const DEFAULT_CONFIG = {
 	},
 }
 
-const CONFIG_PATH = "user://settings.ini"
-const BINDINGS_PATH = "user://bindings.ini"
-
-const LEVEL_PATH = "res://assets/levels/"
-
 var _config := ConfigFile.new()
 var _bindings := ConfigFile.new()
 
@@ -52,6 +52,13 @@ func _ready() -> void:
 	get_window().size_changed.connect(_on_window_size_changed)
 
 	print("User path: ", ProjectSettings.globalize_path("user://"))
+
+	var locale := OS.get_locale_language()
+	if locale in TranslationServer.get_loaded_locales():
+		_default_config["gameplay"]["language"] = locale
+
+	if OS.get_name() == "Android":
+		_default_config["video"]["window_mode"] = DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN
 
 	var config_status := _config.load(CONFIG_PATH)
 	if config_status or not _is_config_valid(_config):
@@ -62,10 +69,8 @@ func _ready() -> void:
 
 		# Resets to default settings
 		print("Restore default settings")
-		reset_gameplay_settings()
-		reset_assists_settings()
-		reset_video_settings()
-		reset_audio_settings()
+		for section in _default_config:
+			reset_section(section)
 
 	_apply_basic_settings()
 
@@ -97,52 +102,13 @@ func get_value(section: String, key: String) -> Variant:
 	return _config.get_value(section, key)
 
 
-## Restores the default gameplay settings and saves them.
-func reset_gameplay_settings() -> void:
-	if _config.has_section("gameplay"):
-		_config.erase_section("gameplay")
-	for key in DEFAULT_CONFIG.gameplay:
-		var value: Variant = DEFAULT_CONFIG.gameplay[key]
-		set_value("gameplay", key, value)
-
-	var locale := OS.get_locale_language()
-	if locale in TranslationServer.get_loaded_locales():
-		_config.set_value("gameplay", "language", locale)
-
-	_config.save(CONFIG_PATH)
-
-
-## Restores the default assist settings and saves them.
-func reset_assists_settings() -> void:
-	if _config.has_section("assists"):
-		_config.erase_section("assists")
-	for key in DEFAULT_CONFIG.assists:
-		var value: Variant = DEFAULT_CONFIG.assists[key]
-		set_value("assists", key, value)
-	_config.save(CONFIG_PATH)
-
-
-## Restores the default video settings and saves them.
-func reset_video_settings() -> void:
-	if _config.has_section("video"):
-		_config.erase_section("video")
-	for key in DEFAULT_CONFIG.video:
-		var value: Variant = DEFAULT_CONFIG.video[key]
-		set_value("video", key, value)
-
-	if OS.get_name() == "Android":
-		_config.set_value("video", "window_mode", DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
-
-	_config.save(CONFIG_PATH)
-
-
-## Restores the default audio settings and saves them.
-func reset_audio_settings() -> void:
-	if _config.has_section("audio"):
-		_config.erase_section("audio")
-	for key in DEFAULT_CONFIG.audio:
-		var value: Variant = DEFAULT_CONFIG.audio[key]
-		set_value("audio", key, value)
+## Erases a section and fills it with values from _default_config.
+func reset_section(section: String) -> void:
+	if _config.has_section(section):
+		_config.erase_section(section)
+	for key in _default_config[section]:
+		var value: Variant = _default_config[section][key]
+		set_value(section, key, value)
 	_config.save(CONFIG_PATH)
 
 
@@ -166,18 +132,18 @@ func save_bindings() -> void:
 ## Returns true if the loaded config matches the default structure and types.
 func _is_config_valid(config: ConfigFile) -> bool:
 	# Checks sections
-	if Array(config.get_sections()) != DEFAULT_CONFIG.keys():
+	if Array(config.get_sections()) != _default_config.keys():
 		return false
 
-	for section in DEFAULT_CONFIG:
+	for section in _default_config:
 		# Checks keys
-		if Array(config.get_section_keys(section)) != DEFAULT_CONFIG[section].keys():
+		if Array(config.get_section_keys(section)) != _default_config[section].keys():
 			return false
 
 		# Checks value types
-		for key in DEFAULT_CONFIG[section]:
+		for key in _default_config[section]:
 			var current_value: Variant = config.get_value(section, key)
-			var default_value: Variant = DEFAULT_CONFIG[section][key]
+			var default_value: Variant = _default_config[section][key]
 			if typeof(current_value) != typeof(default_value):
 				return false
 	return true

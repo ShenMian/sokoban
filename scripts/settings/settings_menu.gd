@@ -46,16 +46,16 @@ func _on_active_tab_changed(index: int) -> void:
 func _on_restore_pressed() -> void:
 	match tabs.get_tab_title(tabs.current_tab):
 		"GAMEPLAY":
-			Settings.reset_gameplay_settings()
+			Settings.reset_section("gameplay")
 			gameplay.apply_settings()
 		"ASSISTS":
-			Settings.reset_assists_settings()
+			Settings.reset_section("assists")
 			assists.apply_settings()
 		"VIDEO":
-			Settings.reset_video_settings()
+			Settings.reset_section("video")
 			video.apply_settings()
 		"AUDIO":
-			Settings.reset_audio_settings()
+			Settings.reset_section("audio")
 			audio.apply_settings()
 		"INPUT":
 			Settings.reset_input_settings()
