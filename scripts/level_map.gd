@@ -300,11 +300,7 @@ func _update_pushable_hint() -> void:
 
 
 func _on_box_selected(box: Box) -> void:
-	if _selected_box != null and _selected_box != box:
-		_selected_box.deselect()
-
-	_selected_box = box
-	_build_waypoints(box.grid_position())
+	select_box(box)
 
 
 func _on_box_unselected() -> void:
@@ -312,12 +308,20 @@ func _on_box_unselected() -> void:
 	_clear_waypoints()
 
 
+## Selects a box and shows its waypoints.
+func select_box(box: Box) -> void:
+	if _selected_box == box:
+		return
+	deselect_box()
+	_selected_box = box
+	_build_waypoints(box.grid_position())
+
+
 ## Deselects the current box.
 func deselect_box() -> void:
 	if _selected_box != null:
-		var selected_box := _selected_box
+		_selected_box.deselect()
 		_selected_box = null
-		selected_box.deselect()
 	_clear_waypoints()
 
 
