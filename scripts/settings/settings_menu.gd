@@ -37,27 +37,27 @@ func _ready() -> void:
 
 func _on_active_tab_changed(index: int) -> void:
 	Sounds.play_button_press()
-	if tabs.get_tab_title(index) == "VIDEO":
+	if tabs.get_tab_control(index) == video:
 		background.visible = false
 	else:
 		background.visible = true
 
 
 func _on_restore_pressed() -> void:
-	match tabs.get_tab_title(tabs.current_tab):
-		"GAMEPLAY":
+	match tabs.get_current_tab_control():
+		gameplay:
 			Settings.reset_section("gameplay")
 			gameplay.apply_settings()
-		"ASSISTS":
+		assists:
 			Settings.reset_section("assists")
 			assists.apply_settings()
-		"VIDEO":
+		video:
 			Settings.reset_section("video")
 			video.apply_settings()
-		"AUDIO":
+		audio:
 			Settings.reset_section("audio")
 			audio.apply_settings()
-		"INPUT":
+		input:
 			Settings.reset_input_settings()
 			input.apply_settings()
 
