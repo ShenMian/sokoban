@@ -57,7 +57,7 @@ func _ready() -> void:
 	if locale in TranslationServer.get_loaded_locales():
 		_default_config["gameplay"]["language"] = locale
 
-	if OS.get_name() == "Android":
+	if OS.has_feature("mobile"):
 		_default_config["video"]["window_mode"] = DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN
 
 	var config_status := _config.load(CONFIG_PATH)
