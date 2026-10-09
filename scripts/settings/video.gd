@@ -1,4 +1,4 @@
-extends ScrollContainer
+extends SettingsTab
 
 @onready var window_mode: OptionButton = $VBox/WindowModePanel/HBox/OptionButton
 @onready var vsync: CheckButton = $VBox/VsyncPanel/HBox/CheckButton
@@ -89,6 +89,12 @@ func apply_settings() -> void:
 
 	scaling_method.select(SCALING_3D_MODES.find(Settings.get_value(SECTION_NAME, "scaling_3d_mode")))
 	scaling_method.item_selected.emit(scaling_method.selected)
+
+
+## Restores the default video settings and reloads the controls.
+func reset_to_defaults() -> void:
+	Settings.reset_section(SECTION_NAME)
+	apply_settings()
 
 
 ## Disables video options unsupported by the current renderer.

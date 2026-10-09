@@ -1,4 +1,4 @@
-extends ScrollContainer
+extends SettingsTab
 
 @onready var binding_popup: BindingPopup = $"../../../../../BindingPopup"
 
@@ -36,6 +36,12 @@ func apply_settings() -> void:
 		var button: Button = action_buttons[action]
 		var event := _get_event_by_action(action)
 		_update_button_icons(button, _get_icons_by_event(event))
+
+
+## Restores the default input bindings and refreshes the buttons.
+func reset_to_defaults() -> void:
+	Settings.reset_input_settings()
+	apply_settings()
 
 
 func _on_button_pressed(action: StringName) -> void:

@@ -9,11 +9,7 @@ signal closed
 @onready var close_button: ButtonFx = $CloseButton
 @onready var restore_button: ButtonFx = $RestoreButton
 
-@onready var gameplay: ScrollContainer = $MarginContainer/VBox/HSplit/Tabs/GAMEPLAY
-@onready var assists: ScrollContainer = $MarginContainer/VBox/HSplit/Tabs/ASSISTS
-@onready var video: ScrollContainer = $MarginContainer/VBox/HSplit/Tabs/VIDEO
-@onready var audio: ScrollContainer = $MarginContainer/VBox/HSplit/Tabs/AUDIO
-@onready var input: ScrollContainer = $MarginContainer/VBox/HSplit/Tabs/INPUT
+@onready var video_tab: SettingsTab = $MarginContainer/VBox/HSplit/Tabs/VIDEO
 
 var _hovered_panel: Control = null
 
@@ -37,29 +33,16 @@ func _ready() -> void:
 
 func _on_active_tab_changed(index: int) -> void:
 	Sounds.play_button_press()
-	if tabs.get_tab_control(index) == video:
+	if tabs.get_tab_control(index) == video_tab:
 		background.visible = false
 	else:
 		background.visible = true
 
 
 func _on_restore_pressed() -> void:
-	match tabs.get_current_tab_control():
-		gameplay:
-			Settings.reset_section("gameplay")
-			gameplay.apply_settings()
-		assists:
-			Settings.reset_section("assists")
-			assists.apply_settings()
-		video:
-			Settings.reset_section("video")
-			video.apply_settings()
-		audio:
-			Settings.reset_section("audio")
-			audio.apply_settings()
-		input:
-			Settings.reset_input_settings()
-			input.apply_settings()
+	var active_tab := tabs.get_current_tab_control() as SettingsTab
+	if active_tab:
+		active_tab.reset_to_defaults()
 
 
 func _input(_event: InputEvent) -> void:

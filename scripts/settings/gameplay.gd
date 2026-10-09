@@ -1,4 +1,4 @@
-extends ScrollContainer
+extends SettingsTab
 
 @onready var language: OptionButton = $VBox/LanguagePanel/HBox/OptionButton
 @onready var animation_speed: OptionButton = $VBox/AnimationSpeedPanel/HBox/OptionButton
@@ -41,6 +41,12 @@ func apply_settings() -> void:
 
 	checkerboard.button_pressed = Settings.get_value(SECTION_NAME, "checkerboard")
 	checkerboard.toggled.emit(checkerboard.button_pressed)
+
+
+## Restores the default gameplay settings and reloads the controls.
+func reset_to_defaults() -> void:
+	Settings.reset_section(SECTION_NAME)
+	apply_settings()
 
 
 func _on_language_selected(index: int) -> void:

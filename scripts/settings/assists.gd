@@ -1,4 +1,4 @@
-extends ScrollContainer
+extends SettingsTab
 
 @onready var deadlock_hint: SwitchFx = $VBox/DeadlockHintPanel/HBox/CheckButton
 @onready var pushable_hint: SwitchFx = $VBox/PushableHintPanel/HBox/CheckButton
@@ -40,6 +40,12 @@ func apply_settings() -> void:
 
 	pushable_hint.button_pressed = Settings.get_value(SECTION_NAME, "pushable_hint")
 	pushable_hint.toggled.emit(pushable_hint.button_pressed)
+
+
+## Restores the default assist settings and reloads the controls.
+func reset_to_defaults() -> void:
+	Settings.reset_section(SECTION_NAME)
+	apply_settings()
 
 
 func _on_algorithm_selected(index: int) -> void:

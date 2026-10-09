@@ -1,4 +1,4 @@
-extends ScrollContainer
+extends SettingsTab
 
 @onready var master_volume: SliderBar = $VBox/MasterVolumePanel/HSplit/SliderBar
 @onready var music_volume: SliderBar = $VBox/MusicVolumePanel/HSplit/SliderBar
@@ -28,6 +28,12 @@ func apply_settings() -> void:
 	music_volume.value = Settings.get_value("audio", "music_volume")
 	sfx_volume.value = Settings.get_value("audio", "sfx_volume")
 	mute_on_unfocused.button_pressed = Settings.get_value("audio", "mute_on_unfocused")
+
+
+## Restores the default audio settings and reloads the controls.
+func reset_to_defaults() -> void:
+	Settings.reset_section(SECTION_NAME)
+	apply_settings()
 
 
 func _on_volume_changed(value: float, bus_index: int) -> void:
