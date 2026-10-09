@@ -17,12 +17,15 @@ func close():
 
 
 func _ready():
-	var project_version: String = ProjectSettings.get_setting("application/config/version", "Unknown")
+	var project_version: String = ProjectSettings.get_setting(
+		"application/config/version",
+		"Unknown",
+	)
 	var engine_info: Dictionary = Engine.get_version_info()
 	var engine_version: String = "%d.%d.%d" % [
 		engine_info["major"],
 		engine_info["minor"],
-		engine_info["patch"]
+		engine_info["patch"],
 	]
 	version_label.text = "Version: %s\nEngine: %s" % [project_version, engine_version]
 

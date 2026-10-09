@@ -3,6 +3,7 @@ extends RefCounted
 
 var lurd: String = ""
 
+
 func _init(s := ""):
 	lurd = s
 
@@ -22,7 +23,7 @@ func pushes() -> int:
 func rotate_cw():
 	var map = {
 		"U": "R", "R": "D", "D": "L", "L": "U",
-		"u": "r", "r": "d", "d": "l", "l": "u"
+		"u": "r", "r": "d", "d": "l", "l": "u",
 	}
 	var new_lurd := ""
 	for c in lurd:
@@ -33,7 +34,7 @@ func rotate_cw():
 func flip_horizontal():
 	var map = {
 		"L": "R", "R": "L",
-		"l": "r", "r": "l"
+		"l": "r", "r": "l",
 	}
 	var new_lurd := ""
 	for c in lurd:
@@ -44,7 +45,7 @@ func flip_horizontal():
 func flip_vertical():
 	var map = {
 		"U": "D", "D": "U",
-		"u": "d", "d": "u"
+		"u": "d", "d": "u",
 	}
 	var new_lurd := ""
 	for c in lurd:

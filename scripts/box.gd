@@ -63,11 +63,25 @@ func _ready() -> void:
 	indicator_area.mouse_exited.connect(_on_area_mouse_exited)
 
 	_indicator_tween = create_tween().set_loops()
-	_indicator_tween.tween_property(select_indicator, "scale", Vector3.ONE * indicator_scale_max, indicator_tween_duration / 2.0)
-	_indicator_tween.tween_property(select_indicator, "scale", Vector3.ONE * indicator_scale_min, indicator_tween_duration / 2.0)
+	_indicator_tween.tween_property(
+		select_indicator,
+		"scale",
+		Vector3.ONE * indicator_scale_max,
+		indicator_tween_duration / 2.0,
+	)
+	_indicator_tween.tween_property(
+		select_indicator,
+		"scale",
+		Vector3.ONE * indicator_scale_min,
+		indicator_tween_duration / 2.0,
+	)
 	_indicator_tween.pause()
 
-	_on_setting_changed("gameplay", "animation_speed", Settings.get_value("gameplay", "animation_speed"))
+	_on_setting_changed(
+		"gameplay",
+		"animation_speed",
+		Settings.get_value("gameplay", "animation_speed"),
+	)
 
 	if disabled:
 		_apply_disabled()
@@ -79,10 +93,14 @@ func _ready() -> void:
 func move(direction: Vector3) -> void:
 	is_moving = true
 	await create_tween() \
-		.set_ease(move_ease) \
-		.set_trans(move_transition) \
-		.tween_property(self, "global_position", global_position + direction, move_duration * _duration_multiplier) \
-		.finished
+			.set_ease(move_ease) \
+			.set_trans(move_transition) \
+			.tween_property(
+				self,
+				"global_position",
+				global_position + direction,
+				move_duration * _duration_multiplier) \
+			.finished
 	is_moving = false
 	move_finished.emit()
 
@@ -116,7 +134,13 @@ func _on_area_entered(area: Area3D) -> void:
 	move((global_position - player.global_position).normalized())
 
 
-func _on_area_input_event(_camera: Node, event: InputEvent, _event_position: Vector3, _normal: Vector3, _shape_idx: int) -> void:
+func _on_area_input_event(
+	_camera: Node,
+	event: InputEvent,
+	_event_position: Vector3,
+	_normal: Vector3,
+	_shape_idx: int,
+) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		_is_selected = not _is_selected
 		_apply_indicator()

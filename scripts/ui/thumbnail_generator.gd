@@ -52,7 +52,11 @@ func _process(_delta: float) -> void:
 	var fit_zoom = get_fit_zoom(level_map)
 
 	if camera.projection == Camera3D.PROJECTION_PERSPECTIVE:
-		camera.global_position = Vector3(center.x, fit_zoom / (2.0 * tan(deg_to_rad(camera.fov) / 2.0)), center.y)
+		camera.global_position = Vector3(
+			center.x,
+			fit_zoom / (2.0 * tan(deg_to_rad(camera.fov) / 2.0)),
+			center.y,
+		)
 	elif camera.projection == Camera3D.PROJECTION_ORTHOGONAL:
 		camera.size = fit_zoom
 	else:

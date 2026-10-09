@@ -19,26 +19,26 @@ const WINDOW_MODES: Array[DisplayServer.WindowMode] = [
 	DisplayServer.WINDOW_MODE_WINDOWED,
 	DisplayServer.WINDOW_MODE_MAXIMIZED,
 	DisplayServer.WINDOW_MODE_FULLSCREEN,
-	DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN
+	DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN,
 ]
 
 const SCREEN_SPACE_AA_MODES: Array[Viewport.ScreenSpaceAA] = [
 	Viewport.SCREEN_SPACE_AA_DISABLED,
 	Viewport.SCREEN_SPACE_AA_SMAA,
-	Viewport.SCREEN_SPACE_AA_FXAA
+	Viewport.SCREEN_SPACE_AA_FXAA,
 ]
 
 const MSAA_MODES: Array[Viewport.MSAA] = [
 	Viewport.MSAA_DISABLED,
 	Viewport.MSAA_2X,
 	Viewport.MSAA_4X,
-	Viewport.MSAA_8X
+	Viewport.MSAA_8X,
 ]
 
 const SCALING_3D_MODES: Array[Viewport.Scaling3DMode] = [
 	Viewport.SCALING_3D_MODE_BILINEAR,
 	Viewport.SCALING_3D_MODE_FSR,
-	Viewport.SCALING_3D_MODE_FSR2
+	Viewport.SCALING_3D_MODE_FSR2,
 ]
 
 

@@ -29,14 +29,14 @@ const DEFAULT_CONFIG = {
 		"fov": 60.0,
 		"screen_space_aa": Viewport.SCREEN_SPACE_AA_DISABLED,
 		"msaa": Viewport.MSAA_DISABLED,
-		"taa": false
+		"taa": false,
 	},
 	"audio": {
 		"master_volume": 1.0,
 		"music_volume": 1.0,
 		"sfx_volume": 1.0,
-		"mute_on_unfocused": true
-	}
+		"mute_on_unfocused": true,
+	},
 }
 
 const CONFIG_PATH = "user://settings.ini"

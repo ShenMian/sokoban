@@ -46,7 +46,7 @@ var ARCTIC_LAB := {
 	"player_hat_color": Color("#2A3546"),
 	"indicator_color": Color("#1D8EC4"),
 	"waypoint_color": Color("#D97A28"),
-	"path_preview_color": Color("#FF4D4D")
+	"path_preview_color": Color("#FF4D4D"),
 }
 
 var OCEAN_DEPTHS := {
@@ -61,14 +61,10 @@ var OCEAN_DEPTHS := {
 	"player_hat_color": Color("#001A33"),
 	"indicator_color": Color("#FDD017"),
 	"waypoint_color": Color("#00979a"),
-	"path_preview_color": Color("#00F5D4")
+	"path_preview_color": Color("#00F5D4"),
 }
 
-var THEMES := [
-	DESERT_OASIS,
-	ARCTIC_LAB,
-	OCEAN_DEPTHS
-]
+var THEMES := [DESERT_OASIS, ARCTIC_LAB, OCEAN_DEPTHS]
 
 
 func _ready() -> void:

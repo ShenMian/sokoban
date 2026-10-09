@@ -11,6 +11,7 @@ var collection_name: String
 var collection_count: int
 var level_index: int
 
+
 func load_level(new_collection_name: String, new_level_index: int) -> void:
 	collection_name = new_collection_name
 	collection_count = Database.get_collection_size(collection_name)

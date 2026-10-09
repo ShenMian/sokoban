@@ -21,7 +21,13 @@ func _ready() -> void:
 	area.mouse_exited.connect(_on_mouse_exited)
 
 
-func _on_input_event(_camera: Node, event: InputEvent, _event_position: Vector3, _normal: Vector3, _shape_idx: int):
+func _on_input_event(
+	_camera: Node,
+	event: InputEvent,
+	_event_position: Vector3,
+	_normal: Vector3,
+	_shape_idx: int,
+):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		clicked.emit()
 		get_viewport().set_input_as_handled()

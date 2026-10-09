@@ -75,14 +75,21 @@ func solve_fail(_error: String) -> void:
 	_solving = false
 	_stop_solving_tween()
 	solve_button.modulate = Color.RED
-	create_tween().tween_property(solve_button, "modulate", Color.WHITE, 2.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	create_tween() \
+			.tween_property(solve_button, "modulate", Color.WHITE, 2.0) \
+			.set_trans(Tween.TRANS_SINE) \
+			.set_ease(Tween.EASE_OUT)
 
 
 func _start_solving_tween() -> void:
 	_stop_solving_tween()
 	_solve_icon_tween = create_tween().set_loops()
-	_solve_icon_tween.tween_property(solve_button, "modulate", Color(0.5, 0.8, 1.0), 0.6).set_trans(Tween.TRANS_SINE)
-	_solve_icon_tween.tween_property(solve_button, "modulate", Color(0.0, 0.567, 0.823, 1.0), 0.6).set_trans(Tween.TRANS_SINE)
+	_solve_icon_tween \
+			.tween_property(solve_button, "modulate", Color(0.5, 0.8, 1.0), 0.6) \
+			.set_trans(Tween.TRANS_SINE)
+	_solve_icon_tween \
+			.tween_property(solve_button, "modulate", Color(0.0, 0.567, 0.823, 1.0), 0.6) \
+			.set_trans(Tween.TRANS_SINE)
 
 
 func _stop_solving_tween() -> void:

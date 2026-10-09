@@ -108,10 +108,10 @@ func _get_action_by_event(event: InputEventKey) -> StringName:
 
 func _events_match(a: InputEventKey, b: InputEventKey) -> bool:
 	return a.physical_keycode == b.physical_keycode \
-		and a.ctrl_pressed == b.ctrl_pressed \
-		and a.shift_pressed == b.shift_pressed \
-		and a.alt_pressed == b.alt_pressed \
-		and a.meta_pressed == b.meta_pressed
+			and a.ctrl_pressed == b.ctrl_pressed \
+			and a.shift_pressed == b.shift_pressed \
+			and a.alt_pressed == b.alt_pressed \
+			and a.meta_pressed == b.meta_pressed
 
 
 func _update_icons(icons: Array[Texture2D]) -> void:

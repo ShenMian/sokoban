@@ -4,7 +4,7 @@ enum Direction {
 	UP = 0,
 	RIGHT = 1,
 	DOWN = 2,
-	LEFT = 3
+	LEFT = 3,
 }
 
 enum AnimationSpeed {
@@ -17,7 +17,7 @@ enum AnimationSpeed {
 enum Strategy {
 	QUICK = 0,
 	PUSH_OPTIMAL = 1,
-	MOVE_OPTIMAL = 2
+	MOVE_OPTIMAL = 2,
 }
 
 enum Algorithm {

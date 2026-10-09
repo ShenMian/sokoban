@@ -53,7 +53,11 @@ func _process(delta: float):
 		size = _target_size
 
 	if global_position.distance_to(_target_position) > 0.001:
-		global_position = lerp(global_position, _target_position, clamp(delta * smooth_factor, 0.0, 1.0))
+		global_position = lerp(
+			global_position,
+			_target_position,
+			clamp(delta * smooth_factor, 0.0, 1.0),
+		)
 	else:
 		global_position = _target_position
 
