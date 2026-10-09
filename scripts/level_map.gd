@@ -514,8 +514,8 @@ func reset_camera_position() -> void:
 
 	camera._target_position = Vector3(center.x, fit_zoom, center.y)
 	camera.global_position = camera._target_position
-	camera.max_zoom_factor = fit_zoom
-	camera.zoom_factor = camera.max_zoom_factor
+	camera.max_zoom_factor = fit_zoom * 1.2
+	camera.zoom_factor = fit_zoom
 
 
 func get_fit_zoom(margin: float = 2.0) -> float:
