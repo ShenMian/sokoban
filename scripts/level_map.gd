@@ -21,8 +21,10 @@ const TUNNEL_CELL_SCENE = preload("res://scenes/tunnel_cell.tscn")
 @export var solver_algorithm: E.Algorithm
 @export var solver_strategy: E.Strategy
 
+## Dim boxes that cannot currently be pushed.
 @export var pushable_hint: bool
 
+## Height of waypoint markers.
 @export var waypoint_height: float = 0.01
 
 @export_group("Path Preview")
@@ -30,22 +32,26 @@ const TUNNEL_CELL_SCENE = preload("res://scenes/tunnel_cell.tscn")
 @export var path_preview_material: StandardMaterial3D
 @export var path_preview_width: float = 0.1
 @export var path_preview_height: float = 0.02
-
 @export_group("", "")
+
+## Show lower-bound heatmap.
 @export
 var show_lower_bounds: bool:
 	set(value):
 		show_lower_bounds = value
 		_build_lower_bounds()
 
+## Height of lower-bound heatmap cells.
 @export var lower_bounds_height := 0.01
 
+## Show tunnel overlay.
 @export
 var show_tunnels: bool:
 	set(value):
 		show_tunnels = value
 		_build_tunnels()
 
+## Height of tunnel overlay cells.
 @export var tunnels_height := 0.015
 
 var _is_instant: bool
@@ -75,7 +81,7 @@ func _ready() -> void:
 
 	await get_tree().process_frame
 	gameplay.hud.level_label.text = str(SceneTransition.level_index)
-	update_ui()
+	update_hud()
 
 
 func _process(_delta: float) -> void:
@@ -110,7 +116,7 @@ func _input(_event: InputEvent) -> void:
 		rebuild_player_and_boxes()
 		_build_lower_bounds()
 		_build_tunnels()
-		update_ui()
+		update_hud()
 		reset_camera_position()
 	elif Input.is_action_just_pressed("export_to_clipboard"):
 		DisplayServer.clipboard_set(get_map_xsb())
@@ -134,64 +140,78 @@ func _unhandled_input(event: InputEvent) -> void:
 			deselect_box()
 
 
+## Applies one undo step.
 func undo() -> void:
 	undo_inner()
 	deselect_box()
 	rebuild_player_and_boxes()
-	update_ui()
+	update_hud()
 
 
+## Applies one redo step.
 func redo() -> void:
 	redo_inner()
 	deselect_box()
 	rebuild_player_and_boxes()
-	update_ui()
+	update_hud()
 
 
+## Undoes all moves.
 func undo_all() -> void:
 	undo_all_inner()
 	deselect_box()
 	rebuild_player_and_boxes()
-	update_ui()
+	update_hud()
 
 
+## Starts async solve.
 func start_solve() -> void:
 	if _solving:
 		return
 
 	deselect_box()
 	_solving = true
-	update_ui()
+	update_hud()
 	start_solve_inner(solver_algorithm, solver_strategy)
 
 
+## Cancels async solve.
 func cancel_solve() -> void:
 	if not _solving:
 		return
 
 	cancel_solve_inner()
 	_solving = false
-	update_ui()
+	update_hud()
 
 
 func _on_solve_completed(directions: Array) -> void:
 	_solving = false
-	update_ui()
+	update_hud()
 	await _execute_path(directions)
 
 
 func _on_solve_failed(error: String) -> void:
 	_solving = false
-	update_ui()
+	update_hud()
 	push_warning("Solver failed: " + error)
 
 
+## Waits for player and box animations to finish.
 func wait_for_moves_finished() -> void:
 	if player.is_moving:
 		await player.move_finished
 	for box in boxes_container.get_children():
 		if box.is_moving:
 			await box.move_finished
+
+
+## Returns true if any box is animating.
+func _is_box_moving() -> bool:
+	for box in boxes_container.get_children():
+		if box.is_moving:
+			return true
+	return false
 
 
 func _on_setting_changed(section: String, key: String, value: Variant) -> void:
@@ -229,6 +249,7 @@ func _on_waypoint_clicked(to: Vector2i) -> void:
 	await _execute_path(get_box_move_path(to))
 
 
+## Executes a sequence of move directions.
 func _execute_path(directions: Array) -> void:
 	for direction in directions:
 		if is_solved():
@@ -239,16 +260,10 @@ func _execute_path(directions: Array) -> void:
 			await wait_for_moves_finished()
 	if _is_instant:
 		rebuild_player_and_boxes()
-	update_ui()
+	update_hud()
 
 
-func _is_box_moving() -> bool:
-	for box in boxes_container.get_children():
-		if box.is_moving:
-			return true
-	return false
-
-
+## Rebuilds boxes and player from model state.
 func rebuild_player_and_boxes() -> void:
 	for child in boxes_container.get_children():
 		child.queue_free()
@@ -256,8 +271,8 @@ func rebuild_player_and_boxes() -> void:
 	for box_position in get_box_positions():
 		var box: Box = BOX_SCENE.instantiate()
 		box.position = Vector3(box_position.x, 0.0, box_position.y)
-		box.selected.connect(on_box_selected.bind(box))
-		box.unselected.connect(on_box_unselected)
+		box.selected.connect(_on_box_selected.bind(box))
+		box.unselected.connect(_on_box_unselected)
 		box.move_finished.connect(_update_pushable_hint)
 		boxes_container.add_child(box)
 
@@ -268,6 +283,7 @@ func rebuild_player_and_boxes() -> void:
 	_update_pushable_hint()
 
 
+## Updates pushable hint for all boxes.
 func _update_pushable_hint() -> void:
 	if not pushable_hint:
 		for box in boxes_container.get_children():
@@ -283,7 +299,7 @@ func _update_pushable_hint() -> void:
 		box.disabled = not is_pushable
 
 
-func on_box_selected(box: Box) -> void:
+func _on_box_selected(box: Box) -> void:
 	if _selected_box != null and _selected_box != box:
 		_selected_box.deselect()
 
@@ -291,11 +307,12 @@ func on_box_selected(box: Box) -> void:
 	_build_waypoints(box.grid_position())
 
 
-func on_box_unselected() -> void:
+func _on_box_unselected() -> void:
 	_selected_box = null
 	_clear_waypoints()
 
 
+## Deselects the current box.
 func deselect_box() -> void:
 	if _selected_box != null:
 		var selected_box := _selected_box
@@ -304,27 +321,26 @@ func deselect_box() -> void:
 	_clear_waypoints()
 
 
+## Builds waypoints from a box position.
 func _build_waypoints(from: Vector2i) -> void:
 	_clear_waypoints()
 	for to in get_waypoints(from):
 		var waypoint = WAYPOINT_SCENE.instantiate()
 		waypoint.position = Vector3(to.x, waypoint_height, to.y)
-		waypoint.clicked.connect(func() -> void:
-			_on_waypoint_clicked(to)
-		)
-		waypoint.hovered.connect(func() -> void:
-			_show_path_preview(to)
-		)
+		waypoint.clicked.connect(func() -> void: _on_waypoint_clicked(to))
+		waypoint.hovered.connect(func() -> void: _show_path_preview(to))
 		waypoint.unhovered.connect(_clear_path_preview)
 		waypoints_container.add_child(waypoint)
 
 
+## Clears all waypoints and path preview.
 func _clear_waypoints() -> void:
 	for child in waypoints_container.get_children():
 		child.queue_free()
 	_clear_path_preview()
 
 
+## Builds lower-bound heatmap.
 func _build_lower_bounds() -> void:
 	for child in lower_bounds_container.get_children():
 		child.queue_free()
@@ -343,6 +359,7 @@ func _build_lower_bounds() -> void:
 		heatmap_cell.setup(min_costs[pos], max_lower_bound)
 
 
+## Builds tunnel overlay.
 func _build_tunnels() -> void:
 	for child in tunnels_container.get_children():
 		child.queue_free()
@@ -472,10 +489,10 @@ func _on_player_moved(to: Vector2i, pushed: bool) -> void:
 
 	var from := Vector2i(round(player.global_position.x), round(player.global_position.z))
 	player.move(to - from, pushed)
-	update_ui()
+	update_hud()
 
 
-func update_ui() -> void:
+func update_hud() -> void:
 	# Update HUD labels
 	gameplay.hud.moves_label.text = str(get_move_count())
 	gameplay.hud.pushes_label.text = str(get_push_count())
