@@ -129,5 +129,5 @@ func _transform_level() -> void:
 
 	level_map.deselect_box()
 	level_map.rebuild_player_and_boxes()
-	level_map.update_ui()
+	level_map.update_hud()
 	level_map.reset_camera_position()
