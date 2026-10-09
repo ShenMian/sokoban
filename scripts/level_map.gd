@@ -512,8 +512,8 @@ func reset_camera_position() -> void:
 	var center := get_dimensions() / 2.0
 	var fit_zoom := get_fit_zoom()
 
-	camera._target_position = Vector3(center.x, fit_zoom, center.y)
-	camera.global_position = camera._target_position
+	camera.target_position = Vector3(center.x, fit_zoom, center.y)
+	camera.global_position = camera.target_position
 	camera.max_zoom_factor = fit_zoom * 1.2
 	camera.zoom_factor = fit_zoom
 

@@ -8,15 +8,16 @@ var zoom_factor: float:
 	set(value):
 		zoom_factor = value
 		if self.is_3d_view():
-			_target_position.y = zoom_factor / (2.0 * tan(deg_to_rad(fov) / 2.0))
+			target_position.y = zoom_factor / (2.0 * tan(deg_to_rad(fov) / 2.0))
 		else:
 			_target_size = zoom_factor
 
 var min_zoom_factor: float = 2.0
 var max_zoom_factor: float = INF
 
+var target_position: Vector3
+
 var _is_dragging = false
-var _target_position: Vector3
 var _target_size: float = 10.0
 
 # Touch state
@@ -27,7 +28,7 @@ var _touch_initial_zoom: float = 0.0
 
 func _ready():
 	Settings.setting_changed.connect(_on_setting_changed)
-	_target_position = global_position
+	target_position = global_position
 
 	_on_setting_changed("gameplay", "2d_view", Settings.get_value("gameplay", "2d_view"))
 
@@ -43,7 +44,7 @@ func _on_setting_changed(section: String, key: String, value: Variant):
 		else:
 			projection = PROJECTION_PERSPECTIVE
 			self.zoom_factor = zoom_factor
-			global_position = _target_position
+			global_position = target_position
 
 
 func _process(delta: float):
@@ -52,14 +53,14 @@ func _process(delta: float):
 	else:
 		size = _target_size
 
-	if global_position.distance_to(_target_position) > 0.001:
+	if global_position.distance_to(target_position) > 0.001:
 		global_position = lerp(
 			global_position,
-			_target_position,
+			target_position,
 			clamp(delta * smooth_factor, 0.0, 1.0),
 		)
 	else:
-		global_position = _target_position
+		global_position = target_position
 
 
 func _input(event: InputEvent):
@@ -71,8 +72,8 @@ func _input(event: InputEvent):
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			zoom_out()
 	elif event is InputEventMouseMotion and _is_dragging:
-		_target_position.x -= event.relative.x * drag_sensitivity * zoom_factor * 0.001
-		_target_position.z -= event.relative.y * drag_sensitivity * zoom_factor * 0.001
+		target_position.x -= event.relative.x * drag_sensitivity * zoom_factor * 0.001
+		target_position.z -= event.relative.y * drag_sensitivity * zoom_factor * 0.001
 	elif event is InputEventScreenTouch:
 		_handle_screen_touch(event)
 	elif event is InputEventScreenDrag:
@@ -99,8 +100,8 @@ func _handle_screen_drag(event: InputEventScreenDrag):
 
 	if _touches.size() == 1:
 		# Single finger drag: pan
-		_target_position.x -= event.relative.x * drag_sensitivity * zoom_factor * 0.001
-		_target_position.z -= event.relative.y * drag_sensitivity * zoom_factor * 0.001
+		target_position.x -= event.relative.x * drag_sensitivity * zoom_factor * 0.001
+		target_position.z -= event.relative.y * drag_sensitivity * zoom_factor * 0.001
 	elif _touches.size() == 2:
 		# Two finger pinch: zoom
 		var points: Array = _touches.values()
@@ -110,8 +111,8 @@ func _handle_screen_drag(event: InputEventScreenDrag):
 			zoom_factor = clampf(_touch_initial_zoom * ratio, min_zoom_factor, max_zoom_factor)
 
 		# Two finger drag: pan (use average relative motion)
-		_target_position.x -= event.relative.x * drag_sensitivity * zoom_factor * 0.001 * 0.5
-		_target_position.z -= event.relative.y * drag_sensitivity * zoom_factor * 0.001 * 0.5
+		target_position.x -= event.relative.x * drag_sensitivity * zoom_factor * 0.001 * 0.5
+		target_position.z -= event.relative.y * drag_sensitivity * zoom_factor * 0.001 * 0.5
 
 
 func zoom_in():
