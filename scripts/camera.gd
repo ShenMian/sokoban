@@ -1,7 +1,10 @@
 extends Camera3D
 
+## Drag sensitivity for panning.
 @export var drag_sensitivity: float = 1.5
+## Zoom step amount.
 @export var zoom_sensitivity: float = 1.0
+## Interpolation speed for smoothing position and size.
 @export var smooth_factor: float = 15.0
 
 var zoom_factor: float:
@@ -18,9 +21,10 @@ var max_zoom_factor: float = INF
 var target_position: Vector3
 
 var _is_dragging = false
+# Target orthographic size in 2D view.
 var _target_size: float = 10.0
 
-# Touch state
+# Touch state.
 var _touches: Dictionary = {} # index -> position
 var _touch_initial_distance: float = 0.0
 var _touch_initial_zoom: float = 0.0
@@ -115,13 +119,16 @@ func _handle_screen_drag(event: InputEventScreenDrag):
 		target_position.z -= event.relative.y * drag_sensitivity * zoom_factor * 0.001 * 0.5
 
 
+## Zooms in by one step.
 func zoom_in():
 	zoom_factor = max(zoom_factor - zoom_sensitivity, min_zoom_factor)
 
 
+## Zooms out by one step.
 func zoom_out():
 	zoom_factor = min(zoom_factor + zoom_sensitivity, max_zoom_factor)
 
 
+## Returns true when the camera uses perspective projection.
 func is_3d_view() -> bool:
 	return projection == PROJECTION_PERSPECTIVE
