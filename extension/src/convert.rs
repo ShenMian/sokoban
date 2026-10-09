@@ -3,12 +3,12 @@
 use godot::prelude::*;
 use soukoban::prelude::*;
 
-/// Conversion to a Godot type.
+/// A trait for converting a `soukoban` value to its Godot representation.
 pub trait ToGodot {
-    /// The target Godot type.
+    /// The resulting Godot type.
     type Out;
 
-    /// Converts `self` into the corresponding Godot representation.
+    /// Converts the given value to the corresponding Godot value.
     fn to_gd(self) -> Self::Out;
 }
 
@@ -20,12 +20,12 @@ impl ToGodot for Point {
     }
 }
 
-/// Conversion to a `soukoban`` type.
+/// A trait for converting a Godot value to its `soukoban` representation.
 pub trait ToSoukoban {
-    /// The target `soukoban`` type.
+    /// The resulting `soukoban` type.
     type Out;
 
-    /// Converts `self` into the corresponding `soukoban` representation.
+    /// Converts the given value to the corresponding `soukoban` value.
     fn to_point(self) -> Self::Out;
 }
 

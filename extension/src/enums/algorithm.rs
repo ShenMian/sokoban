@@ -3,16 +3,16 @@ use soukoban::solver;
 
 /// Solver search algorithms.
 ///
-/// This is a mirror of [`soukoban::solver::Algorithm`] with `GodotConvert`
+/// This is a mirror of [`soukoban::solver::Algorithm`].
 #[derive(GodotConvert, Var, Export, Default, Clone, Copy, PartialEq, Eq, Debug)]
 #[godot(via = i32)]
 pub enum Algorithm {
-    /// A* search algorithm.
+    /// A* search.
     #[default]
     AStar,
-    /// IDA* search algorithm.
+    /// Iterative-deepening A* search.
     IDAStar,
-    /// BFS search algorithm.
+    /// Breadth-first search.
     Bfs,
 }
 

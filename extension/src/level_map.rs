@@ -47,8 +47,11 @@ struct LevelMap {
     #[export]
     base_goal_item_id: i32,
 
+    /// Themed floor item ID.
     floor_item_id: i32,
+    /// Themed wall item ID.
     wall_item_id: i32,
+    /// Themed goal item ID.
     goal_item_id: i32,
     floor_dark_item_id: i32,
     deadlock_item_id: i32,
@@ -293,7 +296,9 @@ impl LevelMap {
             .start(self.map().clone(), algorithm, strategy);
     }
 
-    /// Polls for the solver result. Returns `true` while the solver is still
+    /// Polls for the solver result.
+    ///
+    /// Returns `true` while the solver is still
     /// running. When the solver finishes, emits `solve_completed` or
     /// `solve_failed` and returns `false`.
     #[func]
@@ -315,7 +320,7 @@ impl LevelMap {
         }
     }
 
-    /// Cancels a running solve (if any).
+    /// Cancels the running solve, blocking until it stops.
     #[func(rename = cancel_solve_inner)]
     pub fn cancel_solve(&mut self) {
         self.solver_worker.cancel();
@@ -465,7 +470,7 @@ impl LevelMap {
         positions
     }
 
-    /// Rebuilds the GridMap.
+    /// Rebuilds the `GridMap`.
     #[func]
     pub fn rebuild(&mut self) {
         if !self.base().is_inside_tree() {
@@ -517,7 +522,7 @@ impl LevelMap {
         self.rebuild();
     }
 
-    /// Creates tinted MeshLibrary variants for floor, wall, goal, and deadlock tiles.
+    /// Creates tinted `MeshLibrary` variants for floor, wall, goal, and deadlock tiles.
     #[func]
     pub fn create_theme_variants(&mut self) {
         let mut mesh_library = self.base().get_mesh_library().unwrap();

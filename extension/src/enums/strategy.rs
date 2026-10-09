@@ -2,17 +2,19 @@ use godot::prelude::*;
 use soukoban::solver;
 
 /// Solver and box pathfinding strategies.
+///
+/// This is a mirror of [`solver::Strategy`].
 #[derive(GodotConvert, Var, Export, Default, Clone, Copy, PartialEq, Eq, Debug)]
 #[godot(via = i32)]
 pub enum Strategy {
-    /// Search for any solution as quickly as possible.
+    /// Finds any solution as quickly as possible.
     ///
     /// Using this strategy, A* search degrades into greedy best-first search.
     #[default]
     Quick,
-    /// Find the push optimal solution.
+    /// Finds the push-optimal solution.
     PushOptimal,
-    /// Find the move optimal solution.
+    /// Finds the move-optimal solution.
     MoveOptimal,
 }
 

@@ -25,6 +25,7 @@ pub struct SolverWorker {
 }
 
 impl SolverWorker {
+    /// Creates an idle worker.
     pub fn new() -> Self {
         Self {
             solver: None,
@@ -60,7 +61,9 @@ impl SolverWorker {
         self.handle = Some(handle);
     }
 
-    /// Polls for the solver result. Returns `Some` if the solver finished, otherwise `None`.
+    /// Polls for the solver result.
+    ///
+    /// Returns `Some` if the solver finished, otherwise `None`.
     pub fn poll(&mut self) -> Option<Result<Actions, SearchError>> {
         if !self.done.load(Ordering::Acquire) {
             return None;
@@ -74,7 +77,7 @@ impl SolverWorker {
         self.result.lock().unwrap().take()
     }
 
-    /// Cancels a running solve (if any).
+    /// Cancels the running solve, blocking until it stops.
     pub fn cancel(&mut self) {
         if let Some(solver) = self.solver.take() {
             solver.request_stop();

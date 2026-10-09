@@ -10,6 +10,7 @@ use godot::{
 use rusqlite::Connection;
 use soukoban::prelude::*;
 
+/// Singleton Godot class owning the SQLite connection.
 #[derive(GodotClass)]
 #[class(init, singleton)]
 pub struct Database {
@@ -45,7 +46,7 @@ impl Database {
             .unwrap()
     }
 
-    /// Imports all level files (.xsb) from a specified directory.
+    /// Imports all XSB files from a specified directory.
     #[func]
     pub fn import_levels_from_dir(&self, path: String) {
         let path = path.trim_end_matches('/').to_string();
