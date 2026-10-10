@@ -8,6 +8,8 @@ extends Node3D
 @onready var credits: Control = $MenuLayer/Credits
 @onready var victory_menu: VictoryMenu = $MenuLayer/VictoryMenu
 
+@onready var solver_panel: SolverPanel = $DebugLayer/SolverPanel
+
 const _TRANSFORM_LABELS := ["", "90°", "180°", "270°", "↔", "↔\n90°", "↔\n180°", "↔\n270°"]
 
 var _transform_state: int = 0
@@ -33,7 +35,7 @@ func _ready() -> void:
 	hud.undo_requested.connect(level_map.undo)
 	hud.redo_requested.connect(level_map.redo)
 	hud.undo_all_requested.connect(_on_undo_all)
-	hud.request_start_solve.connect(level_map.start_solve)
+	hud.request_start_solve.connect(_on_request_start_solve)
 	hud.request_stop_solve.connect(level_map.cancel_solve)
 	level_map.solve_completed.connect(hud.solve_complete)
 	level_map.solve_failed.connect(hud.solve_fail)
@@ -41,6 +43,11 @@ func _ready() -> void:
 	hud.transform_requested.connect(_transform_level)
 	hud.previous_level_requested.connect(_on_request_previous_level)
 	hud.next_level_requested.connect(_on_request_next_level)
+
+
+func _on_request_start_solve() -> void:
+	solver_panel.open(level_map)
+	level_map.start_solve()
 
 
 func _exit_tree() -> void:
@@ -94,11 +101,13 @@ func _input(_event: InputEvent) -> void:
 func _open_pause_menu():
 	level_map.deselect_box()
 	hud.hide()
+	solver_panel.suspend()
 	pause_menu.open()
 
 
 func _on_pause_closed() -> void:
 	hud.show()
+	solver_panel.resume()
 
 
 func _on_pause_request_settings() -> void:

@@ -1,0 +1,201 @@
+[gd_scene format=3 uid="uid://b4wgt14jxd8a"]
+
+[ext_resource type="Script" uid="uid://u5h1xgeelyo5" path="res://scripts/ui/solver_panel.gd" id="1_panel"]
+[ext_resource type="StyleBox" path="res://assets/styles/titlebar_blue.tres" id="2_titlebar"]
+[ext_resource type="Texture2D" uid="uid://bcigcw0l2rdpg" path="res://assets/textures/icons/cross.png" id="3_22m18"]
+[ext_resource type="Script" uid="uid://bc8nqwx2f77uu" path="res://scripts/ui/switch_fx.gd" id="3_switch"]
+[ext_resource type="Script" uid="uid://cr5yoytr47auc" path="res://scripts/ui/button_fx.gd" id="5_button"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.09, 0.09, 0.11, 0.88)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 4
+shadow_offset = Vector2(0, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_section"]
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 6.0
+bg_color = Color(1, 1, 1, 0.04)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="SolverPanel" type="PanelContainer" unique_id=1797938847 node_paths=PackedStringArray("handle", "title_label", "body")]
+custom_minimum_size = Vector2(240, 0)
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+script = ExtResource("1_panel")
+title = "Solver"
+handle = NodePath("VBox/TitleBar/Header")
+title_label = NodePath("VBox/TitleBar/Header/Title")
+body = NodePath("VBox/Body")
+
+[node name="VBox" type="VBoxContainer" parent="." unique_id=248875293]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="TitleBar" type="PanelContainer" parent="VBox" unique_id=1588754152]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_titlebar")
+
+[node name="Header" type="HBoxContainer" parent="VBox/TitleBar" unique_id=2111484509]
+layout_mode = 2
+mouse_filter = 0
+
+[node name="Title" type="Label" parent="VBox/TitleBar/Header" unique_id=159493837]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.92, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "Solver"
+
+[node name="CloseButton" type="Button" parent="VBox/TitleBar/Header" unique_id=1422237542]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+tooltip_text = "Close"
+icon = ExtResource("3_22m18")
+flat = true
+expand_icon = true
+script = ExtResource("5_button")
+metadata/_custom_type_script = "uid://cr5yoytr47auc"
+
+[node name="Body" type="VBoxContainer" parent="VBox" unique_id=751140269]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SolverSection" type="PanelContainer" parent="VBox/Body" unique_id=550755500]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_section")
+
+[node name="VBox" type="VBoxContainer" parent="VBox/Body/SolverSection" unique_id=2100912902]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="StatusRow" type="HBoxContainer" parent="VBox/Body/SolverSection/VBox" unique_id=1503548675]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBox/Body/SolverSection/VBox/StatusRow" unique_id=1335158429]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Status"
+
+[node name="StatusLabel" type="Label" parent="VBox/Body/SolverSection/VBox/StatusRow" unique_id=1360155080]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.62, 0.88, 1, 1)
+text = "IDLE"
+horizontal_alignment = 2
+
+[node name="AlgorithmRow" type="HBoxContainer" parent="VBox/Body/SolverSection/VBox" unique_id=190279232]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBox/Body/SolverSection/VBox/AlgorithmRow" unique_id=880307521]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Algorithm"
+
+[node name="AlgorithmValue" type="Label" parent="VBox/Body/SolverSection/VBox/AlgorithmRow" unique_id=542089222]
+unique_name_in_owner = true
+layout_mode = 2
+text = "A*"
+horizontal_alignment = 2
+
+[node name="StrategyRow" type="HBoxContainer" parent="VBox/Body/SolverSection/VBox" unique_id=1906350142]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBox/Body/SolverSection/VBox/StrategyRow" unique_id=339340866]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Strategy"
+
+[node name="StrategyValue" type="Label" parent="VBox/Body/SolverSection/VBox/StrategyRow" unique_id=579096285]
+unique_name_in_owner = true
+layout_mode = 2
+text = "FAST"
+horizontal_alignment = 2
+
+[node name="StatsRow" type="HBoxContainer" parent="VBox/Body/SolverSection/VBox" unique_id=926666871]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="NodesVBox" type="VBoxContainer" parent="VBox/Body/SolverSection/VBox/StatsRow" unique_id=1784008714]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="VBox/Body/SolverSection/VBox/StatsRow/NodesVBox" unique_id=572029859]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "NODES"
+horizontal_alignment = 1
+
+[node name="NodesValue" type="Label" parent="VBox/Body/SolverSection/VBox/StatsRow/NodesVBox" unique_id=1898702395]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "—"
+horizontal_alignment = 1
+
+[node name="TimeVBox" type="VBoxContainer" parent="VBox/Body/SolverSection/VBox/StatsRow" unique_id=925460325]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="VBox/Body/SolverSection/VBox/StatsRow/TimeVBox" unique_id=596078518]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "TIME"
+horizontal_alignment = 1
+
+[node name="TimeValue" type="Label" parent="VBox/Body/SolverSection/VBox/StatsRow/TimeVBox" unique_id=1975011393]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "—"
+horizontal_alignment = 1
+
+[node name="VisualizationSection" type="PanelContainer" parent="VBox/Body" unique_id=1921264601]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_section")
+
+[node name="VBox" type="VBoxContainer" parent="VBox/Body/VisualizationSection" unique_id=1098895415]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Header" type="Label" parent="VBox/Body/VisualizationSection/VBox" unique_id=848824365]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "VISUALIZATION"
+
+[node name="LowerBoundsRow" type="HBoxContainer" parent="VBox/Body/VisualizationSection/VBox" unique_id=1515552789]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBox/Body/VisualizationSection/VBox/LowerBoundsRow" unique_id=1606230924]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Lower bounds"
+
+[node name="LowerBoundsSwitch" type="CheckButton" parent="VBox/Body/VisualizationSection/VBox/LowerBoundsRow" unique_id=316611303]
+unique_name_in_owner = true
+layout_mode = 2
+script = ExtResource("3_switch")
+
+[node name="TunnelsRow" type="HBoxContainer" parent="VBox/Body/VisualizationSection/VBox" unique_id=2116615423]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBox/Body/VisualizationSection/VBox/TunnelsRow" unique_id=1382687452]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Tunnels"
+
+[node name="TunnelsSwitch" type="CheckButton" parent="VBox/Body/VisualizationSection/VBox/TunnelsRow" unique_id=440606741]
+unique_name_in_owner = true
+layout_mode = 2
+script = ExtResource("3_switch")
