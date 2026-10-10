@@ -61,6 +61,7 @@ func _process(_delta: float) -> void:
 			center.y,
 		)
 	elif camera.projection == Camera3D.PROJECTION_ORTHOGONAL:
+		camera.global_position = Vector3(center.x, fit_zoom, center.y)
 		camera.size = fit_zoom
 	else:
 		assert(false, "unreachable")
