@@ -73,6 +73,7 @@ func _ready() -> void:
 	box_leave_goal.connect(func(_position: Vector2i) -> void: leave_goal_player.play())
 	solve_completed.connect(_on_solve_completed)
 	solve_failed.connect(_on_solve_failed)
+	solve_cancelled.connect(_on_solve_cancelled)
 
 	assert(SceneTransition.level_id != null)
 	var level := Database.get_level(SceneTransition.level_id)
@@ -187,8 +188,6 @@ func cancel_solve() -> void:
 		return
 
 	cancel_solve_inner()
-	_solving = false
-	update_hud()
 
 
 func _on_solve_completed(directions: Array) -> void:
@@ -201,6 +200,11 @@ func _on_solve_failed(error: String) -> void:
 	_solving = false
 	update_hud()
 	push_warning("Solver failed: " + error)
+
+
+func _on_solve_cancelled() -> void:
+	_solving = false
+	update_hud()
 
 
 ## Waits for player and box animations to finish.

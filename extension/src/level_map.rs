@@ -126,6 +126,10 @@ impl LevelMap {
     #[signal]
     fn solve_failed(error: String);
 
+    /// Emitted when a running solve is cancelled.
+    #[signal]
+    fn solve_cancelled();
+
     /// Loads and displays a level from an XSB file at the given `index`.
     #[func]
     pub fn load_from_file(&mut self, path: String, index: i32) {
@@ -324,6 +328,7 @@ impl LevelMap {
     #[func(rename = cancel_solve_inner)]
     pub fn cancel_solve(&mut self) {
         self.solver_worker.cancel();
+        self.signals().solve_cancelled().emit();
     }
 
     /// Moves the player in the given direction.
