@@ -18,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://dk4kar7bm6o4q" path="res://assets/textures/icons/menu_list.png" id="11_s5y6v"]
 [ext_resource type="Texture2D" uid="uid://bdh3nf8a5fe4m" path="res://assets/textures/icons/next.png" id="12_w3w6i"]
 [ext_resource type="Script" uid="uid://dow5f4a5ctj3t" path="res://scripts/ui/hud.gd" id="13_hud"]
+[ext_resource type="PackedScene" uid="uid://b4wgt14jxd8a" path="res://scenes/ui/solver_panel.tscn" id="14_solver"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_00tan"]
 content_margin_left = 5.0
@@ -335,5 +336,13 @@ visible = false
 
 [node name="VictoryMenu" parent="MenuLayer" unique_id=222222222 instance=ExtResource("10_victory")]
 visible = false
+
+[node name="DebugLayer" type="CanvasLayer" parent="." unique_id=1774521310]
+layer = 3
+
+[node name="SolverPanel" parent="DebugLayer" unique_id=917452631 instance=ExtResource("14_solver")]
+visible = false
+offset_left = 16.0
+offset_top = 16.0
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="." unique_id=1799446341]
