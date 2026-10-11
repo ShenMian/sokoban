@@ -99,7 +99,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="VBox/Body/SolverSection/VBox/AlgorithmRow" unique_id=880307521]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Algorithm"
+text = "ALGORITHM"
 
 [node name="AlgorithmValue" type="Label" parent="VBox/Body/SolverSection/VBox/AlgorithmRow" unique_id=542089222]
 unique_name_in_owner = true
@@ -113,7 +113,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="VBox/Body/SolverSection/VBox/StrategyRow" unique_id=339340866]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Strategy"
+text = "STRATEGY"
 
 [node name="StrategyValue" type="Label" parent="VBox/Body/SolverSection/VBox/StrategyRow" unique_id=579096285]
 unique_name_in_owner = true
@@ -180,7 +180,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="VBox/Body/VisualizationSection/VBox/LowerBoundsRow" unique_id=1606230924]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Lower bounds"
+text = "LOWER_BOUNDS"
 
 [node name="LowerBoundsSwitch" type="CheckButton" parent="VBox/Body/VisualizationSection/VBox/LowerBoundsRow" unique_id=316611303]
 unique_name_in_owner = true
@@ -193,7 +193,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="VBox/Body/VisualizationSection/VBox/TunnelsRow" unique_id=1382687452]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Tunnels"
+text = "TUNNELS"
 
 [node name="TunnelsSwitch" type="CheckButton" parent="VBox/Body/VisualizationSection/VBox/TunnelsRow" unique_id=440606741]
 unique_name_in_owner = true
