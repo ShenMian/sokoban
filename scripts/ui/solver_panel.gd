@@ -65,7 +65,7 @@ func open(map: LevelMap) -> void:
 	_nodes_value.text = "0"
 	_generated_value.text = "0"
 	_speed_value.text = "—"
-	_time_value.text = "0.00s"
+	_time_value.text = format_duration(0.0)
 	_status_label.text = tr("SEARCHING")
 	_open = true
 	show()
@@ -161,7 +161,7 @@ func _update_stats() -> void:
 	var expanded := level_map.solve_expanded_nodes()
 	var elapsed := _elapsed_seconds()
 	_speed_value.text = "—" if elapsed <= 0.0 else "%d/s" % int(expanded / elapsed)
-	_time_value.text = "%.2fs" % elapsed
+	_time_value.text = format_duration(elapsed)
 	_nodes_value.text = str(expanded)
 	_generated_value.text = str(level_map.solve_generated_nodes())
 
@@ -171,3 +171,25 @@ func _elapsed_seconds() -> float:
 	if _solve_started_at <= 0.0:
 		return 0.0
 	return Time.get_ticks_msec() / 1000.0 - _solve_started_at
+
+
+func format_duration(seconds: float) -> String:
+	assert(seconds >= 0.0)
+
+	var ms := int(round(seconds * 1000.0))
+	var total_s := int(ms / 1000.0)
+
+	var d := int(total_s / 86400.0)
+	var h := int((total_s % 86400) / 3600.0)
+	var m := int((total_s % 3600) / 60.0)
+	var s := total_s % 60
+	var rem_ms := ms % 1000
+
+	var parts: Array[String] = []
+	if d > 0: parts.append("%dd" % d)
+	if h > 0: parts.append("%dh" % h)
+	if m > 0: parts.append("%dm" % m)
+	if s > 0: parts.append("%ds" % s)
+	if rem_ms > 0 or parts.is_empty(): parts.append("%dms" % rem_ms)
+
+	return " ".join(parts)
