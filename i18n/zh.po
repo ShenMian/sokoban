@@ -9,6 +9,15 @@ msgstr ""
 msgid "LEVEL_LIST"
 msgstr "关卡列表"
 
+msgid "DELETE_COLLECTION"
+msgstr "删除集合"
+
+msgid "DELETE_COLLECTION_CONFIRM"
+msgstr "删除集合 \"%s\"?"
+
+msgid "DELETE"
+msgstr "删除"
+
 # HUD
 
 msgid "LEVEL"

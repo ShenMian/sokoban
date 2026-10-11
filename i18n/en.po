@@ -9,6 +9,15 @@ msgstr ""
 msgid "LEVEL_LIST"
 msgstr "Level List"
 
+msgid "DELETE_COLLECTION"
+msgstr "Delete Collection"
+
+msgid "DELETE_COLLECTION_CONFIRM"
+msgstr "Delete collection \"%s\"?"
+
+msgid "DELETE"
+msgstr "Delete"
+
 # HUD
 
 msgid "LEVEL"

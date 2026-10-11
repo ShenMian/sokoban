@@ -1,8 +1,16 @@
 extends Control
 
+## Identifiers of the collection context menu items.
+enum CollectionMenuId {
+	DELETE,
+}
+
 @onready var collection_list: ItemList = $Margin/VBox/HSplit/CollectionList
 @onready var level_list: ItemList = $Margin/VBox/HSplit/LevelList
 @onready var thumbnail_generator: ThumbnailGenerator = $ThumbnailGenerator
+
+@onready var collection_menu: PopupMenu = $CollectionMenu
+@onready var delete_collection_dialog: ConfirmDialog = $DeleteCollectionDialog
 
 ## Minimum width of a level thumbnail, in pixels.
 @export var level_item_min_width: int = 120
@@ -32,9 +40,13 @@ var _scroll_touch_index: int = -1
 func _ready():
 	get_window().files_dropped.connect(_on_files_dropped)
 
-	collection_list.gui_input.connect(_on_collection_list_gui_input)
+	collection_list.item_selected.connect(_on_collection_item_selected)
+	collection_list.item_clicked.connect(_on_collection_item_clicked)
 	level_list.gui_input.connect(_on_level_list_gui_input)
 	level_list.resized.connect(_on_level_list_resized)
+
+	collection_menu.id_pressed.connect(_on_collection_menu_id_pressed)
+	delete_collection_dialog.confirmed.connect(_delete_collection)
 
 	thumbnail_generator.thumbnail_generated.connect(_on_preview_generated)
 
@@ -43,19 +55,16 @@ func _ready():
 		Database.import_levels_from_dir("res://assets/levels/")
 
 	_load_collections()
-	assert(collection_list.item_count > 0)
 
+	if collection_list.item_count == 0:
+		return
 	if SceneTransition.collection_name == "":
 		collection_list.select(0)
-		_on_collection_list_clicked(0)
+		_on_collection_item_selected(0)
 	else:
 		# Select the previous collection and level
-		var collection_index := 0
-		for idx in collection_list.item_count:
-			if collection_list.get_item_text(idx) == SceneTransition.collection_name:
-				collection_index = idx
-				break
-		_on_collection_list_clicked(collection_index)
+		var collection_index := maxi(_get_collection_index(SceneTransition.collection_name), 0)
+		_on_collection_item_selected(collection_index)
 		level_list.select(SceneTransition.level_index - 1)
 		level_list.ensure_current_is_visible()
 
@@ -83,6 +92,19 @@ func _load_collections():
 	for collection in Database.get_collections():
 		var idx = collection_list.add_item(collection["name"])
 		collection_list.set_item_tooltip(idx, collection.get("description", ""))
+
+	# Keeps the previously selected collection selected, if it still exists.
+	var selected := _get_collection_index(_selected_collection)
+	if selected != -1:
+		collection_list.select(selected)
+
+
+## Returns the index of the given collection in the list, or -1 if it is absent.
+func _get_collection_index(collection_name: String) -> int:
+	for idx in collection_list.item_count:
+		if collection_list.get_item_text(idx) == collection_name:
+			return idx
+	return -1
 
 
 func _process(_delta: float):
@@ -124,12 +146,42 @@ func _on_preview_generated(index: int, texture: Texture2D):
 	level_list.set_item_icon(index, texture)
 
 
-func _on_collection_list_clicked(index: int):
+func _on_collection_item_selected(index: int):
 	var collection_name := collection_list.get_item_text(index)
 	if collection_name == _selected_collection:
 		return
 	_selected_collection = collection_name
 	_load_levels()
+
+
+## Opens the collection context menu at the given list local position.
+func _open_collection_menu(pos: Vector2) -> void:
+	collection_menu.position = Vector2i(collection_list.get_global_position() + pos)
+	collection_menu.reset_size()
+	collection_menu.popup()
+
+
+func _on_collection_menu_id_pressed(id: int) -> void:
+	if id == CollectionMenuId.DELETE:
+		delete_collection_dialog.confirm_button.theme_type_variation = &"DangerButton"
+		delete_collection_dialog.open(tr("DELETE_COLLECTION_CONFIRM") % _selected_collection)
+
+
+func _delete_collection() -> void:
+	var index := _get_collection_index(_selected_collection)
+
+	Database.delete_collection(_selected_collection)
+	_selected_collection = ""
+	_load_collections()
+
+	if collection_list.item_count == 0:
+		# No collection is left to display.
+		_load_levels()
+	else:
+		# Selects the closest remaining collection.
+		var closest := mini(index, collection_list.item_count - 1)
+		collection_list.select(closest)
+		_on_collection_item_selected(closest)
 
 
 ## Populates the level list for the selected collection.
@@ -180,8 +232,11 @@ func _make_tooltip(data: Dictionary) -> String:
 	return "\n".join(lines)
 
 
-func _on_collection_list_gui_input(event: InputEvent):
-	_handle_list_input(collection_list, event, _on_collection_list_clicked)
+## Opens the context menu when a collection is right-clicked. Selecting is left
+## to the `item_selected` signal, which the engine also emits for right clicks.
+func _on_collection_item_clicked(_index: int, at_position: Vector2, mouse_button_index: int) -> void:
+	if mouse_button_index == MOUSE_BUTTON_RIGHT:
+		_open_collection_menu(at_position)
 
 
 func _on_level_list_gui_input(event: InputEvent):

@@ -30,6 +30,9 @@ impl Database {
         let full_path = project_settings.globalize_path(&path).to_string();
 
         let conn = Connection::open(&full_path).expect("failed to open database");
+        // Explicitly enable foreign key enforcement, including ON DELETE CASCADE.
+        conn.pragma_update(None, "foreign_keys", true)
+            .expect("failed to enable foreign keys");
         self.connection = Some(conn);
 
         if is_new {
@@ -187,6 +190,15 @@ impl Database {
             .unwrap()
             .map(Result::unwrap)
             .collect()
+    }
+
+    /// Deletes a collection.
+    #[func]
+    pub fn delete_collection(&self, collection_name: String) {
+        const DELETE_COLLECTION: &str = "DELETE FROM tb_collection WHERE name = ?";
+        self.conn()
+            .execute(DELETE_COLLECTION, (&collection_name,))
+            .unwrap();
     }
 
     /// Retrieves detailed information for a specific level by its ID.
