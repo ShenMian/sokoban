@@ -1,0 +1,83 @@
+[gd_scene format=3 uid="uid://cmaxswkbsgad1"]
+
+[ext_resource type="Script" uid="uid://crrcsqcodkjmy" path="res://scripts/ui/confirm_dialog.gd" id="1_cfd"]
+[ext_resource type="Script" uid="uid://cr5yoytr47auc" path="res://scripts/ui/button_fx.gd" id="2_bfx"]
+[ext_resource type="Theme" uid="uid://dvbbi3vt7rasu" path="res://assets/theme.tres" id="3_thm"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+content_margin_left = 20.0
+content_margin_top = 20.0
+content_margin_right = 20.0
+content_margin_bottom = 20.0
+bg_color = Color(0.2, 0.2, 0.2, 0.8)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.3)
+shadow_size = 10
+
+[node name="ConfirmDialog" type="Control" unique_id=1948010352]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_thm")
+script = ExtResource("1_cfd")
+
+[node name="Shade" type="ColorRect" parent="." unique_id=1387342936]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.3)
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=271144112]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="VBox" type="VBoxContainer" parent="Panel" unique_id=1350930603]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="TitleLabel" type="Label" parent="Panel/VBox" unique_id=2086495199]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "CONFIRM"
+horizontal_alignment = 1
+
+[node name="MessageLabel" type="Label" parent="Panel/VBox" unique_id=664515245]
+custom_minimum_size = Vector2(340, 0)
+layout_mode = 2
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Buttons" type="HBoxContainer" parent="Panel/VBox" unique_id=797394137]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="CancelButton" type="Button" parent="Panel/VBox/Buttons" unique_id=1717817337]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+text = "CANCEL"
+script = ExtResource("2_bfx")
+metadata/_custom_type_script = "uid://cr5yoytr47auc"
+
+[node name="ConfirmButton" type="Button" parent="Panel/VBox/Buttons" unique_id=970439239]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+text = "CONFIRM"
+script = ExtResource("2_bfx")
+metadata/_custom_type_script = "uid://cr5yoytr47auc"
