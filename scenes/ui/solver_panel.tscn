@@ -89,7 +89,6 @@ text = "STATUS"
 [node name="StatusLabel" type="Label" parent="VBox/Body/SolverSection/VBox/StatusRow" unique_id=1360155080]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.62, 0.88, 1, 1)
 text = "IDLE"
 horizontal_alignment = 2
 
@@ -118,7 +117,6 @@ text = "STRATEGY"
 [node name="StrategyValue" type="Label" parent="VBox/Body/SolverSection/VBox/StrategyRow" unique_id=579096285]
 unique_name_in_owner = true
 layout_mode = 2
-text = "FAST"
 horizontal_alignment = 2
 
 [node name="StatsRow" type="VBoxContainer" parent="VBox/Body/SolverSection/VBox" unique_id=926666871]
@@ -202,8 +200,6 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
-text = "—"
-horizontal_alignment = 1
 text = "—"
 horizontal_alignment = 1
 

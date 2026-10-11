@@ -15,6 +15,14 @@ const ALGORITHM_LABELS := ["A*", "IDA*", "BFS"]
 ## "FAST" to match the settings menu).
 const STRATEGY_LABELS := ["FAST", "PUSH_OPTIMAL", "MOVE_OPTIMAL"]
 
+## Font colors of the status label per solve state.
+const STATUS_COLORS := {
+	"SEARCHING": Color(0.62, 0.88, 1.0),
+	"SOLVED": Color(0.55, 0.9, 0.6),
+	"FAILED": Color(0.95, 0.45, 0.45),
+	"IDLE": Color(0.65, 0.65, 0.65),
+}
+
 ## Level map whose solve state this panel displays.
 var level_map: LevelMap
 
@@ -68,7 +76,7 @@ func open(map: LevelMap) -> void:
 	_generated_value.text = "0"
 	_speed_value.text = "—"
 	_time_value.text = format_duration(0.0)
-	_status_label.text = tr("SEARCHING")
+	_set_status("SEARCHING")
 	_open = true
 	show()
 
@@ -162,7 +170,13 @@ func _on_solve_cancelled() -> void:
 func _finish_with(status: String) -> void:
 	_solver_running = false
 	_update_stats()
+	_set_status(status)
+
+
+## Shows the given solve state with its color.
+func _set_status(status: String) -> void:
 	_status_label.text = tr(status)
+	_status_label.add_theme_color_override("font_color", STATUS_COLORS[status])
 
 
 ## Polls the solver counters and refreshes the stats rows.
