@@ -190,6 +190,32 @@ msgstr "可推动提示"
 msgid "PUSHABLE_TIP"
 msgstr "标记将当前可推动的箱子"
 
+# Solver Panel
+
+msgid "STATUS"
+msgstr "状态"
+
+msgid "NODES"
+msgstr "节点数"
+
+msgid "TIME"
+msgstr "耗时"
+
+msgid "VISUALIZATION"
+msgstr "可视化"
+
+msgid "IDLE"
+msgstr "空闲"
+
+msgid "SEARCHING"
+msgstr "搜索中"
+
+msgid "SOLVED"
+msgstr "已求解"
+
+msgid "FAILED"
+msgstr "失败"
+
 # Video
 
 msgid "VIDEO"

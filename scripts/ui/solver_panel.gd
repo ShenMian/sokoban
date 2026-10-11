@@ -57,13 +57,13 @@ func open(map: LevelMap) -> void:
 	_bind_level_map_signals()
 
 	_algorithm_value.text = ALGORITHM_LABELS[level_map.solver_algorithm]
-	_strategy_value.text = STRATEGY_LABELS[level_map.solver_strategy]
+	_strategy_value.text = tr(STRATEGY_LABELS[level_map.solver_strategy])
 
 	_solve_started_at = Time.get_ticks_msec() / 1000.0
 	_timer_running = true
 	_nodes_value.text = "—"
 	_time_value.text = "0.00s"
-	_status_label.text = "SEARCHING"
+	_status_label.text = tr("SEARCHING")
 	_open = true
 	show()
 
@@ -148,7 +148,7 @@ func _on_solve_cancelled() -> void:
 func _finish_with(status: String) -> void:
 	_timer_running = false
 	_time_value.text = "%.2fs" % _elapsed_seconds()
-	_status_label.text = status
+	_status_label.text = tr(status)
 
 
 ## Seconds elapsed since the current solve started.

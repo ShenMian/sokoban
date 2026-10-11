@@ -190,6 +190,32 @@ msgstr "Pushable Hint"
 msgid "PUSHABLE_TIP"
 msgstr "Highlight boxes that can currently be pushed"
 
+# Solver Panel
+
+msgid "STATUS"
+msgstr "Status"
+
+msgid "NODES"
+msgstr "Nodes"
+
+msgid "TIME"
+msgstr "Time"
+
+msgid "VISUALIZATION"
+msgstr "Visualization"
+
+msgid "IDLE"
+msgstr "Idle"
+
+msgid "SEARCHING"
+msgstr "Searching"
+
+msgid "SOLVED"
+msgstr "Solved"
+
+msgid "FAILED"
+msgstr "Failed"
+
 # Video
 
 msgid "VIDEO"
