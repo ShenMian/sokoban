@@ -12,6 +12,8 @@ mod database;
 mod enums;
 /// The core level map node: rendering, player/box movement, pathfinding, and solver integration.
 mod level_map;
+/// Concrete `SearchObserver` implementations.
+pub mod observers;
 /// Background thread worker for the solver.
 mod solver_worker;
 

@@ -22,6 +22,8 @@ var level_map: LevelMap
 @onready var _strategy_value: Label = %StrategyValue
 @onready var _status_label: Label = %StatusLabel
 @onready var _nodes_value: Label = %NodesValue
+@onready var _generated_value: Label = %GeneratedValue
+@onready var _speed_value: Label = %SpeedValue
 @onready var _time_value: Label = %TimeValue
 
 @onready var _lower_bounds_switch: CheckButton = %LowerBoundsSwitch
@@ -29,8 +31,7 @@ var level_map: LevelMap
 @onready var _close_button: ButtonFx = %CloseButton
 
 var _solve_started_at := 0.0
-# True while the elapsed-time readout should tick.
-var _timer_running := false
+var _solver_running := false
 # Whether the panel is meant to be on screen. Kept apart from `visible` so it
 # survives a temporary `suspend()`.
 var _open := false
@@ -60,8 +61,10 @@ func open(map: LevelMap) -> void:
 	_strategy_value.text = tr(STRATEGY_LABELS[level_map.solver_strategy])
 
 	_solve_started_at = Time.get_ticks_msec() / 1000.0
-	_timer_running = true
-	_nodes_value.text = "—"
+	_solver_running = true
+	_nodes_value.text = "0"
+	_generated_value.text = "0"
+	_speed_value.text = "—"
 	_time_value.text = "0.00s"
 	_status_label.text = tr("SEARCHING")
 	_open = true
@@ -73,7 +76,7 @@ func close() -> void:
 	_unbind_level_map_signals()
 
 	_open = false
-	_timer_running = false
+	_solver_running = false
 	hide()
 
 
@@ -128,8 +131,10 @@ func _on_tunnels_toggled(toggled_on: bool) -> void:
 
 
 func _process(_delta: float) -> void:
-	if _timer_running:
-		_time_value.text = "%.2fs" % _elapsed_seconds()
+	if not visible or not _solver_running:
+		return
+
+	_update_stats()
 
 
 func _on_solve_completed(_directions: Array) -> void:
@@ -146,9 +151,19 @@ func _on_solve_cancelled() -> void:
 
 ## Ends the display: pauses the clock and shows the final status.
 func _finish_with(status: String) -> void:
-	_timer_running = false
-	_time_value.text = "%.2fs" % _elapsed_seconds()
+	_solver_running = false
+	_update_stats()
 	_status_label.text = tr(status)
+
+
+## Polls the solver counters and refreshes the stats rows.
+func _update_stats() -> void:
+	var expanded := level_map.solve_expanded_nodes()
+	var elapsed := _elapsed_seconds()
+	_speed_value.text = "—" if elapsed <= 0.0 else "%d/s" % int(expanded / elapsed)
+	_time_value.text = "%.2fs" % elapsed
+	_nodes_value.text = str(expanded)
+	_generated_value.text = str(level_map.solve_generated_nodes())
 
 
 ## Seconds elapsed since the current solve started.

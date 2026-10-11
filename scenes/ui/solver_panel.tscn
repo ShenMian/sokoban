@@ -121,43 +121,89 @@ layout_mode = 2
 text = "FAST"
 horizontal_alignment = 2
 
-[node name="StatsRow" type="HBoxContainer" parent="VBox/Body/SolverSection/VBox" unique_id=926666871]
+[node name="StatsRow" type="VBoxContainer" parent="VBox/Body/SolverSection/VBox" unique_id=926666871]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="StatsRowTop" type="HBoxContainer" parent="VBox/Body/SolverSection/VBox/StatsRow" unique_id=926666872]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="NodesVBox" type="VBoxContainer" parent="VBox/Body/SolverSection/VBox/StatsRow" unique_id=1784008714]
+[node name="SpeedVBox" type="VBoxContainer" parent="VBox/Body/SolverSection/VBox/StatsRow/StatsRowTop" unique_id=1784008717]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="Label" type="Label" parent="VBox/Body/SolverSection/VBox/StatsRow/NodesVBox" unique_id=572029859]
+[node name="Label" type="Label" parent="VBox/Body/SolverSection/VBox/StatsRow/StatsRowTop/SpeedVBox" unique_id=572029862]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
-text = "NODES"
+text = "SPEED"
 horizontal_alignment = 1
 
-[node name="NodesValue" type="Label" parent="VBox/Body/SolverSection/VBox/StatsRow/NodesVBox" unique_id=1898702395]
+[node name="SpeedValue" type="Label" parent="VBox/Body/SolverSection/VBox/StatsRow/StatsRowTop/SpeedVBox" unique_id=1898702398]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
 text = "—"
 horizontal_alignment = 1
 
-[node name="TimeVBox" type="VBoxContainer" parent="VBox/Body/SolverSection/VBox/StatsRow" unique_id=925460325]
+[node name="TimeVBox" type="VBoxContainer" parent="VBox/Body/SolverSection/VBox/StatsRow/StatsRowTop" unique_id=925460325]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="Label" type="Label" parent="VBox/Body/SolverSection/VBox/StatsRow/TimeVBox" unique_id=596078518]
+[node name="Label" type="Label" parent="VBox/Body/SolverSection/VBox/StatsRow/StatsRowTop/TimeVBox" unique_id=596078518]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "TIME"
 horizontal_alignment = 1
 
-[node name="TimeValue" type="Label" parent="VBox/Body/SolverSection/VBox/StatsRow/TimeVBox" unique_id=1975011393]
+[node name="TimeValue" type="Label" parent="VBox/Body/SolverSection/VBox/StatsRow/StatsRowTop/TimeVBox" unique_id=1975011393]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
+text = "—"
+horizontal_alignment = 1
+
+[node name="StatsRowBottom" type="HBoxContainer" parent="VBox/Body/SolverSection/VBox/StatsRow" unique_id=926666873]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="NodesVBox" type="VBoxContainer" parent="VBox/Body/SolverSection/VBox/StatsRow/StatsRowBottom" unique_id=1784008714]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="VBox/Body/SolverSection/VBox/StatsRow/StatsRowBottom/NodesVBox" unique_id=572029859]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "EXPANDED"
+horizontal_alignment = 1
+
+[node name="NodesValue" type="Label" parent="VBox/Body/SolverSection/VBox/StatsRow/StatsRowBottom/NodesVBox" unique_id=1898702395]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "—"
+horizontal_alignment = 1
+
+[node name="GeneratedVBox" type="VBoxContainer" parent="VBox/Body/SolverSection/VBox/StatsRow/StatsRowBottom" unique_id=1784008716]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="VBox/Body/SolverSection/VBox/StatsRow/StatsRowBottom/GeneratedVBox" unique_id=572029861]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "GENERATED"
+horizontal_alignment = 1
+
+[node name="GeneratedValue" type="Label" parent="VBox/Body/SolverSection/VBox/StatsRow/StatsRowBottom/GeneratedVBox" unique_id=1898702397]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "—"
+horizontal_alignment = 1
 text = "—"
 horizontal_alignment = 1
 

@@ -8,7 +8,10 @@ use std::{
 
 use soukoban::{prelude::*, solver::Solver};
 
-use crate::enums::{algorithm::Algorithm, strategy::Strategy};
+use crate::{
+    enums::{algorithm::Algorithm, strategy::Strategy},
+    observers::SearchStats,
+};
 
 /// Solver thread stack size in bytes (64 MB).
 const SOLVER_STACK_SIZE: usize = 64 * 1024 * 1024;
@@ -18,6 +21,8 @@ pub struct SolverWorker {
     solver: Option<Solver>,
     /// Shared storage for the background solver result.
     result: Arc<Mutex<Option<Result<Actions, SearchError>>>>,
+    /// Statistics of the running or last search.
+    stats: SearchStats,
     /// Flag indicating that the solver thread has finished.
     done: Arc<AtomicBool>,
     /// Handle to the solver thread.
@@ -30,6 +35,7 @@ impl SolverWorker {
         Self {
             solver: None,
             result: Arc::new(Mutex::new(None)),
+            stats: SearchStats::new(),
             done: Arc::new(AtomicBool::new(false)),
             handle: None,
         }
@@ -48,17 +54,25 @@ impl SolverWorker {
         let solver = Solver::new(map, strategy.into());
         self.solver = Some(solver.clone());
 
+        let mut stats = SearchStats::new();
+        self.stats = stats.clone();
+
         let handle = thread::Builder::new()
             .name("solver".into())
             .stack_size(SOLVER_STACK_SIZE)
             .spawn(move || {
-                let result = solver.search(algorithm.into());
+                let result = solver.search_with_observer(algorithm.into(), &mut stats);
                 *result_slot.lock().unwrap() = Some(result);
                 done_flag.store(true, Ordering::Release);
             })
             .expect("failed to spawn solver thread");
 
         self.handle = Some(handle);
+    }
+
+    /// Returns the statistics of the running or last search.
+    pub fn stats(&self) -> &SearchStats {
+        &self.stats
     }
 
     /// Polls for the solver result.

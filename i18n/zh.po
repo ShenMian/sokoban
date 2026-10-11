@@ -198,6 +198,15 @@ msgstr "状态"
 msgid "NODES"
 msgstr "节点数"
 
+msgid "EXPANDED"
+msgstr "已展开"
+
+msgid "GENERATED"
+msgstr "已发现"
+
+msgid "SPEED"
+msgstr "速度"
+
 msgid "TIME"
 msgstr "耗时"
 

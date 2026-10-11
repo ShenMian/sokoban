@@ -198,6 +198,15 @@ msgstr "Status"
 msgid "NODES"
 msgstr "Nodes"
 
+msgid "EXPANDED"
+msgstr "Expanded"
+
+msgid "GENERATED"
+msgstr "Generated"
+
+msgid "SPEED"
+msgstr "Speed"
+
 msgid "TIME"
 msgstr "Time"
 
