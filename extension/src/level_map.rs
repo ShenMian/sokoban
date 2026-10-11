@@ -244,12 +244,14 @@ impl LevelMap {
     pub fn get_box_move_path(&self, to: Vector2i) -> Vec<Direction> {
         let waypoint = self.find_best_waypoint(to.to_point()).unwrap();
 
+        let start = std::time::Instant::now();
         let box_path = path_finding::construct_box_path(waypoint, &self.waypoints);
         let player_path = path_finding::construct_player_path(
             self.map(),
             self.map().player_position(),
             &box_path,
         );
+        godot_print!("Computing player path ({:?})", start.elapsed());
 
         player_path
             .windows(2)
@@ -274,11 +276,14 @@ impl LevelMap {
     /// Computes all reachable waypoint positions for the box at `box_position`.
     #[func]
     pub fn get_waypoints(&mut self, box_position: Vector2i) -> Vec<Vector2i> {
+        let start = std::time::Instant::now();
         let (mut waypoints, costs) = path_finding::compute_box_waypoints(
             self.map(),
             box_position.to_point(),
             self.pathfinding_strategy.into(),
         );
+        let waypoints_duration = start.elapsed();
+        godot_print!("Computing box waypoints ({waypoints_duration:?})");
 
         if self.deadlock_hint {
             let deadlocks = self.dead_positions();
