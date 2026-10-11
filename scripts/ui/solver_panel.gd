@@ -159,11 +159,12 @@ func _finish_with(status: String) -> void:
 ## Polls the solver counters and refreshes the stats rows.
 func _update_stats() -> void:
 	var expanded := level_map.solve_expanded_nodes()
+	var generated := level_map.solve_generated_nodes()
 	var elapsed := _elapsed_seconds()
-	_speed_value.text = "—" if elapsed <= 0.0 else "%d/s" % int(expanded / elapsed)
+	_speed_value.text = "—" if elapsed <= 0.0 else format_count(int(expanded / elapsed)) + "/s"
 	_time_value.text = format_duration(elapsed)
-	_nodes_value.text = str(expanded)
-	_generated_value.text = str(level_map.solve_generated_nodes())
+	_nodes_value.text = format_count(expanded)
+	_generated_value.text = format_count(generated)
 
 
 ## Seconds elapsed since the current solve started.
@@ -176,20 +177,37 @@ func _elapsed_seconds() -> float:
 func format_duration(seconds: float) -> String:
 	assert(seconds >= 0.0)
 
-	var ms := int(round(seconds * 1000.0))
-	var total_s := int(ms / 1000.0)
+	if seconds < 1.0:
+		return "%dms" % int(round(seconds * 1000.0))
 
-	var d := int(total_s / 86400.0)
-	var h := int((total_s % 86400) / 3600.0)
-	var m := int((total_s % 3600) / 60.0)
-	var s := total_s % 60
-	var rem_ms := ms % 1000
+	var value := seconds
+	var unit := "s"
+	for step in [["m", 60.0], ["h", 60.0], ["d", 24.0]]:
+		var factor: float = step[1]
+		if value < factor:
+			break
+		value /= factor
+		unit = str(step[0])
+	return _format_unit(value, unit)
 
-	var parts: Array[String] = []
-	if d > 0: parts.append("%dd" % d)
-	if h > 0: parts.append("%dh" % h)
-	if m > 0: parts.append("%dm" % m)
-	if s > 0: parts.append("%ds" % s)
-	if rem_ms > 0 or parts.is_empty(): parts.append("%dms" % rem_ms)
 
-	return " ".join(parts)
+func format_count(count: int) -> String:
+	assert(count >= 0)
+
+	if count < 1000:
+		return str(count)
+
+	var value := float(count)
+	var unit := ""
+	for u in ["k", "M", "B", "T"]:
+		value /= 1000.0
+		unit = u
+		if value < 1000.0:
+			break
+	return _format_unit(value, unit)
+
+
+func _format_unit(value: float, unit: String) -> String:
+	if value >= 100.0 or value == floor(value):
+		return "%d%s" % [int(value), unit]
+	return "%.1f%s" % [value, unit]
