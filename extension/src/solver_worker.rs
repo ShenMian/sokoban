@@ -10,7 +10,7 @@ use soukoban::{prelude::*, solver::Solver};
 
 use crate::{
     enums::{algorithm::Algorithm, strategy::Strategy},
-    observers::SearchStats,
+    observers::{BestSnapshot, BestState, SearchStats},
 };
 
 /// Solver thread stack size in bytes (64 MB).
@@ -23,6 +23,8 @@ pub struct SolverWorker {
     result: Arc<Mutex<Option<Result<Actions, SearchError>>>>,
     /// Statistics of the running or last search.
     stats: SearchStats,
+    /// Best state of the running or last search.
+    best: BestState,
     /// Flag indicating that the solver thread has finished.
     done: Arc<AtomicBool>,
     /// Handle to the solver thread.
@@ -36,6 +38,7 @@ impl SolverWorker {
             solver: None,
             result: Arc::new(Mutex::new(None)),
             stats: SearchStats::new(),
+            best: BestState::new(),
             done: Arc::new(AtomicBool::new(false)),
             handle: None,
         }
@@ -54,14 +57,16 @@ impl SolverWorker {
         let solver = Solver::new(map, strategy.into());
         self.solver = Some(solver.clone());
 
-        let mut stats = SearchStats::new();
+        let stats = SearchStats::new();
         self.stats = stats.clone();
+        let best = BestState::new();
+        self.best = best.clone();
 
         let handle = thread::Builder::new()
             .name("solver".into())
             .stack_size(SOLVER_STACK_SIZE)
             .spawn(move || {
-                let result = solver.search_with_observer(algorithm.into(), &mut stats);
+                let result = solver.search_with_observer(algorithm.into(), &mut (stats, best));
                 *result_slot.lock().unwrap() = Some(result);
                 done_flag.store(true, Ordering::Release);
             })
@@ -73,6 +78,11 @@ impl SolverWorker {
     /// Returns the statistics of the running or last search.
     pub fn stats(&self) -> &SearchStats {
         &self.stats
+    }
+
+    /// Returns the best state observed by the running or last search.
+    pub fn best(&self) -> Option<BestSnapshot> {
+        self.best.snapshot()
     }
 
     /// Polls for the solver result.

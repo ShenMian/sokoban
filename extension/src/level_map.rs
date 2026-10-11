@@ -342,6 +342,28 @@ impl LevelMap {
         self.solver_worker.stats().generated() as i64
     }
 
+    /// Returns the best state observed by the running solver as a dictionary
+    /// with the `player` position and sorted `boxes` positions, or an empty
+    /// dictionary if nothing has been expanded yet.
+    #[func]
+    pub fn solve_best_state(&self) -> VarDictionary {
+        let mut state = VarDictionary::new();
+        let Some(best) = self.solver_worker.best() else {
+            return state;
+        };
+        let mut boxes: Vec<Vector2i> = best
+            .state
+            .box_positions
+            .iter()
+            .copied()
+            .map(ToGodot::to_gd)
+            .collect();
+        boxes.sort_by_key(|position| (position.x, position.y));
+        state.set("player", best.state.player_position.to_gd());
+        state.set("boxes", boxes);
+        state
+    }
+
     /// Cancels the running solve, blocking until it stops.
     #[func(rename = cancel_solve_inner)]
     pub fn cancel_solve(&mut self) {

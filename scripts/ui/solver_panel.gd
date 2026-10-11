@@ -28,6 +28,7 @@ var level_map: LevelMap
 
 @onready var _lower_bounds_switch: CheckButton = %LowerBoundsSwitch
 @onready var _tunnels_switch: CheckButton = %TunnelsSwitch
+@onready var _best_state_switch: CheckButton = %BestStateSwitch
 @onready var _close_button: ButtonFx = %CloseButton
 
 var _solve_started_at := 0.0
@@ -45,6 +46,7 @@ func _ready():
 
 	_lower_bounds_switch.toggled.connect(_on_lower_bounds_toggled)
 	_tunnels_switch.toggled.connect(_on_tunnels_toggled)
+	_best_state_switch.toggled.connect(_on_best_state_toggled)
 	_close_button.pressed.connect(close)
 
 	Settings.setting_changed.connect(_on_setting_changed)
@@ -107,6 +109,7 @@ func _unbind_level_map_signals() -> void:
 func _apply_switch_settings() -> void:
 	_lower_bounds_switch.set_pressed_no_signal(Settings.get_value(SECTION_NAME, "lower_bounds"))
 	_tunnels_switch.set_pressed_no_signal(Settings.get_value(SECTION_NAME, "tunnels"))
+	_best_state_switch.set_pressed_no_signal(Settings.get_value(SECTION_NAME, "best_state"))
 
 
 ## Mirrors the visualization switches. The algorithm and strategy labels are
@@ -120,6 +123,8 @@ func _on_setting_changed(section: String, key: String, value: Variant):
 		_lower_bounds_switch.set_pressed_no_signal(value)
 	elif key == "tunnels":
 		_tunnels_switch.set_pressed_no_signal(value)
+	elif key == "best_state":
+		_best_state_switch.set_pressed_no_signal(value)
 
 
 func _on_lower_bounds_toggled(toggled_on: bool) -> void:
@@ -128,6 +133,10 @@ func _on_lower_bounds_toggled(toggled_on: bool) -> void:
 
 func _on_tunnels_toggled(toggled_on: bool) -> void:
 	Settings.set_and_save_value(SECTION_NAME, "tunnels", toggled_on)
+
+
+func _on_best_state_toggled(toggled_on: bool) -> void:
+	Settings.set_and_save_value(SECTION_NAME, "best_state", toggled_on)
 
 
 func _process(_delta: float) -> void:

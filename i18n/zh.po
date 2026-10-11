@@ -175,6 +175,12 @@ msgstr "隧道"
 msgid "TUNNELS_TIP"
 msgstr "可视化隧道"
 
+msgid "BEST_STATE"
+msgstr "最优状态"
+
+msgid "BEST_STATE_TIP"
+msgstr "在求解时显示求解器当前的最优状态"
+
 msgid "HINTS"
 msgstr "提示"
 

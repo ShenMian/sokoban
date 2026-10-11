@@ -1,11 +1,11 @@
 //! Concrete [`Observer`](soukoban::solver::Observer) implementations.
 
 use std::sync::{
-    Arc,
+    Arc, RwLock,
     atomic::{AtomicU64, Ordering},
 };
 
-use soukoban::solver::{Node, Observer};
+use soukoban::solver::{Node, Observer, State};
 
 /// Thread-safe search statistics for polling from another thread. Clone the
 /// handle to share it between the solving thread and polling threads.
@@ -51,5 +51,56 @@ impl Observer for SearchStats {
 
     fn on_successor(&mut self, _parent: &Node, _child: &Node) {
         self.inner.generated.fetch_add(1, Ordering::Relaxed);
+    }
+}
+
+/// Best state seen by the solver so far.
+#[derive(Clone, Debug)]
+pub struct BestSnapshot {
+    pub state: State,
+    pub pushes: i32,
+    pub heuristic: i32,
+}
+
+/// Thread-safe best-state tracker. Clone the handle to share it between the
+/// solving thread and polling threads.
+#[derive(Clone, Debug, Default)]
+pub struct BestState {
+    inner: Arc<RwLock<Option<BestSnapshot>>>,
+}
+
+impl BestState {
+    #[must_use]
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    #[must_use]
+    pub fn snapshot(&self) -> Option<BestSnapshot> {
+        self.inner.read().expect("lock poisoned").clone()
+    }
+
+    fn update(&self, node: &Node) {
+        let better = match &*self.inner.read().expect("lock poisoned") {
+            None => true,
+            Some(current) => (node.heuristic(), node.pushes) < (current.heuristic, current.pushes),
+        };
+        if better {
+            *self.inner.write().expect("lock poisoned") = Some(BestSnapshot {
+                state: node.state.clone(),
+                pushes: node.pushes,
+                heuristic: node.heuristic(),
+            });
+        }
+    }
+}
+
+impl Observer for BestState {
+    fn on_search_start(&mut self, root: &Node) {
+        self.update(root);
+    }
+
+    fn on_node_expanded(&mut self, node: &Node) {
+        self.update(node);
     }
 }

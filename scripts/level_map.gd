@@ -60,9 +60,19 @@ var show_tunnels: bool:
 ## Height of tunnel overlay cells.
 @export var tunnels_height := 0.015
 
+## Teleport the pieces to the solver's current best state while solving.
+@export
+var show_best_state: bool = true:
+	set(value):
+		show_best_state = value
+		if not value and is_node_ready():
+			_clear_best_state()
+
 var _is_instant: bool
 var _selected_box: Box
 var _solving: bool = false
+# Last best-state snapshot, to skip redundant rebuilds.
+var _best_state := {}
 
 
 func _ready() -> void:
@@ -94,6 +104,9 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if _solving:
 		poll_solve()
+		# `poll_solve()` may have just ended the solve.
+		if _solving:
+			_update_best_state()
 		return
 
 	if Input.is_action_just_pressed("undo_all"):
@@ -192,19 +205,49 @@ func cancel_solve() -> void:
 
 func _on_solve_completed(directions: Array) -> void:
 	_solving = false
+	_clear_best_state()
 	update_hud()
 	await _execute_path(directions)
 
 
 func _on_solve_failed(error: String) -> void:
 	_solving = false
+	_clear_best_state()
 	update_hud()
 	push_warning("Solver failed: " + error)
 
 
 func _on_solve_cancelled() -> void:
 	_solving = false
+	_clear_best_state()
 	update_hud()
+
+
+## Teleports the pieces to the solver's best state, so the search can be
+## watched converging. The solver works on a copy, so the real game state is
+## untouched and `rebuild_player_and_boxes()` restores it.
+func _update_best_state() -> void:
+	if not show_best_state:
+		return
+	var state: Dictionary = solve_best_state()
+	if state == _best_state:
+		return
+	_best_state = state
+	if _best_state.is_empty():
+		return
+	var boxes := boxes_container.get_children()
+	var positions: Array = _best_state["boxes"]
+	for i in range(boxes.size()):
+		boxes[i].position = Vector3(positions[i].x, 0.0, positions[i].y)
+	var player_position: Vector2i = _best_state["player"]
+	player.position = Vector3(player_position.x, 0.0, player_position.y)
+
+
+func _clear_best_state() -> void:
+	_best_state = {}
+	if not is_node_ready():
+		return
+	rebuild_player_and_boxes()
 
 
 ## Waits for player and box animations to finish.
@@ -248,6 +291,8 @@ func _on_setting_changed(section: String, key: String, value: Variant) -> void:
 			show_lower_bounds = value
 		elif key == "tunnels":
 			show_tunnels = value
+		elif key == "best_state":
+			show_best_state = value
 		elif key == "algorithm":
 			solver_algorithm = value
 		elif key == "solver_strategy":

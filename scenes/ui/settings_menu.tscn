@@ -428,6 +428,28 @@ size_flags_horizontal = 10
 script = ExtResource("6_jrqig")
 metadata/_custom_type_script = "uid://bc8nqwx2f77uu"
 
+[node name="BestStatePanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox" unique_id=1992379499]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+metadata/title = "BEST_STATE"
+metadata/description = "BEST_STATE_TIP"
+
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox/BestStatePanel" unique_id=138547891]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox/BestStatePanel/HBox" unique_id=452740767]
+layout_mode = 2
+mouse_filter = 1
+text = "BEST_STATE"
+
+[node name="CheckButton" type="CheckButton" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox/BestStatePanel/HBox" unique_id=1979703113]
+layout_mode = 2
+size_flags_horizontal = 10
+script = ExtResource("6_jrqig")
+metadata/_custom_type_script = "uid://bc8nqwx2f77uu"
+
 [node name="HintsLabel" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox" unique_id=1729122816]
 layout_mode = 2
 theme = ExtResource("2_f4mfi")

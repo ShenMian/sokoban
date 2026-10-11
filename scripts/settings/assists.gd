@@ -6,6 +6,7 @@ extends SettingsTab
 @onready var solver_strategy: OptionButton = $VBox/StrategyPanel/HBox/OptionButton
 @onready var lower_bounds: SwitchFx = $VBox/LowerBoundsPanel/HBox/CheckButton
 @onready var tunnels: SwitchFx = $VBox/TunnelsPanel/HBox/CheckButton
+@onready var best_state: SwitchFx = $VBox/BestStatePanel/HBox/CheckButton
 
 const SECTION_NAME := "assists"
 
@@ -15,6 +16,7 @@ func _ready() -> void:
 	solver_strategy.item_selected.connect(_on_strategy_selected)
 	lower_bounds.toggled.connect(_on_lower_bounds_toggled)
 	tunnels.toggled.connect(_on_tunnels_toggled)
+	best_state.toggled.connect(_on_best_state_toggled)
 	deadlock_hint.toggled.connect(_on_deadlock_hint_toggled)
 	pushable_hint.toggled.connect(_on_pushable_hint_toggled)
 
@@ -34,6 +36,9 @@ func apply_settings() -> void:
 
 	tunnels.button_pressed = Settings.get_value(SECTION_NAME, "tunnels")
 	tunnels.toggled.emit(tunnels.button_pressed)
+
+	best_state.button_pressed = Settings.get_value(SECTION_NAME, "best_state")
+	best_state.toggled.emit(best_state.button_pressed)
 
 	deadlock_hint.button_pressed = Settings.get_value(SECTION_NAME, "deadlock_hint")
 	deadlock_hint.toggled.emit(deadlock_hint.button_pressed)
@@ -62,6 +67,10 @@ func _on_lower_bounds_toggled(toggled_on: bool) -> void:
 
 func _on_tunnels_toggled(toggled_on: bool) -> void:
 	Settings.set_and_save_value(SECTION_NAME, "tunnels", toggled_on)
+
+
+func _on_best_state_toggled(toggled_on: bool) -> void:
+	Settings.set_and_save_value(SECTION_NAME, "best_state", toggled_on)
 
 
 func _on_deadlock_hint_toggled(toggled_on: bool) -> void:

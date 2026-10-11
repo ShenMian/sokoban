@@ -175,6 +175,12 @@ msgstr "Tunnels"
 msgid "TUNNELS_TIP"
 msgstr "Visualize tunnels"
 
+msgid "BEST_STATE"
+msgstr "Best State"
+
+msgid "BEST_STATE_TIP"
+msgstr "Show the solver's current best state while solving"
+
 msgid "HINTS"
 msgstr "Hints"
 

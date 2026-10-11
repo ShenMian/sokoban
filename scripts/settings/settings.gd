@@ -23,6 +23,7 @@ var _default_config = {
 		"solver_strategy": E.Strategy.QUICK,
 		"lower_bounds": false,
 		"tunnels": false,
+		"best_state": true,
 	},
 	"video": {
 		"window_mode": DisplayServer.WINDOW_MODE_WINDOWED,
