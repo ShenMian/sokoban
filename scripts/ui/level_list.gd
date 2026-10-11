@@ -282,8 +282,7 @@ func _on_level_list_resized():
 	var content_width := _get_content_width(level_list)
 	var h_separation := level_list.get_theme_constant("h_separation")
 
-	var items_per_row := int(content_width / level_item_min_width)
-	assert(items_per_row > 0)
+	var items_per_row := maxi(int(content_width / level_item_min_width), 1)
 	var item_width := int(content_width / items_per_row - h_separation)
 
 	level_list.max_columns = items_per_row
