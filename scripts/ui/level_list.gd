@@ -150,15 +150,16 @@ func _load_levels():
 		var label = str(idx + 1)
 		level_list.add_item(label, preview_placeholder, true)
 
-		var tooltip := _make_tooltip(_levels[idx])
+		var data := _levels[idx]
+		var tooltip := _make_tooltip(data)
 		if tooltip.is_empty():
 			level_list.set_item_tooltip_enabled(idx, false)
 		else:
 			level_list.set_item_tooltip(idx, tooltip)
 
-		if _levels[idx].get("solved"):
+		if data.get("solved"):
 			level_list.set_item_custom_bg_color(idx, solved_color)
-		elif _levels[idx].get("solving"):
+		elif data.get("solving"):
 			level_list.set_item_custom_bg_color(idx, solving_color)
 		else:
 			level_list.set_item_custom_bg_color(idx, unsolved_color)
@@ -167,8 +168,8 @@ func _load_levels():
 ## Builds the tooltip text shown for a level.
 func _make_tooltip(data: Dictionary) -> String:
 	var lines := PackedStringArray()
-	for key: String in data.keys():
-		if key in ["title", "author"]:
+	for key: String in ["title", "author"]:
+		if data.has(key):
 			lines.append("%s: %s" % [key.capitalize(), data[key]])
 	if data.has("comments"):
 		var comment: String = data["comments"]
