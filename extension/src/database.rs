@@ -151,6 +151,8 @@ impl Database {
     }
 
     /// Retrieves the level ID for a given 1-based index in a collection.
+    ///
+    /// Returns `-1` if no such level exists.
     #[func]
     pub fn get_level_id_by_index(&self, collection_name: String, level_index: i64) -> i64 {
         const QUERY_LEVEL_ID: &str = "
@@ -161,7 +163,7 @@ impl Database {
             .query_row(QUERY_LEVEL_ID, (collection_name, level_index), |row| {
                 row.get(0)
             })
-            .unwrap()
+            .unwrap_or(-1)
     }
 
     /// Retrieves all levels within a collection, including solve status.

@@ -7,9 +7,9 @@ signal transition_finished
 
 var level_id: int
 
-var collection_name: String
+var collection_name: String = ""
 var collection_count: int
-var level_index: int
+var level_index: int = -1
 
 
 ## Loads a level from a collection and transitions to gameplay.

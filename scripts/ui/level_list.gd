@@ -56,17 +56,19 @@ func _ready():
 
 	_load_collections()
 
+	# Select the first or previously selected collection
 	if collection_list.item_count == 0:
 		return
-	if SceneTransition.collection_name == "":
-		collection_list.select(0)
-		_on_collection_item_selected(0)
-	else:
-		# Select the previous collection and level
-		var collection_index := maxi(_get_collection_index(SceneTransition.collection_name), 0)
-		_on_collection_item_selected(collection_index)
-		level_list.select(SceneTransition.level_index - 1)
-		level_list.ensure_current_is_visible()
+	var collection_idx = 0 if SceneTransition.collection_name == "" else _get_collection_index(SceneTransition.collection_name)
+	collection_list.select(collection_idx)
+	_on_collection_item_selected(collection_idx)
+
+	# Select the first or previously selected level
+	if level_list.item_count == 0:
+		return
+	var level_idx := 0 if SceneTransition.level_index == -1 else SceneTransition.level_index - 1
+	level_list.select(level_idx)
+	level_list.ensure_current_is_visible()
 
 
 func _input(_event: InputEvent) -> void:
