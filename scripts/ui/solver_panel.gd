@@ -181,8 +181,8 @@ func _set_status(status: String) -> void:
 
 ## Polls the solver counters and refreshes the stats rows.
 func _update_stats() -> void:
-	var expanded := level_map.solve_expanded_nodes()
-	var generated := level_map.solve_generated_nodes()
+	var expanded := level_map.get_solver_expanded_count()
+	var generated := level_map.get_solver_generated_count()
 	var elapsed := _elapsed_seconds()
 	_speed_value.text = "—" if elapsed <= 0.0 else format_count(int(expanded / elapsed)) + "/s"
 	_time_value.text = format_duration(elapsed)

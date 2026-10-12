@@ -36,7 +36,7 @@ func _ready() -> void:
 	hud.redo_requested.connect(level_map.redo)
 	hud.undo_all_requested.connect(_on_undo_all)
 	hud.request_start_solve.connect(_on_request_start_solve)
-	hud.request_stop_solve.connect(level_map.cancel_solve)
+	hud.request_stop_solve.connect(level_map.stop_solver)
 	level_map.solve_completed.connect(hud.solve_complete)
 	level_map.solve_failed.connect(hud.solve_fail)
 	hud.pause_requested.connect(_open_pause_menu)
@@ -47,7 +47,7 @@ func _ready() -> void:
 
 func _on_request_start_solve() -> void:
 	solver_panel.open(level_map)
-	level_map.start_solve()
+	level_map.start_solver()
 
 
 func _exit_tree() -> void:

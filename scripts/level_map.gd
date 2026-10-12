@@ -105,8 +105,8 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if _solving:
-		poll_solve()
-		# `poll_solve()` may have just ended the solve.
+		poll_solver()
+		# `poll_solver()` may have just ended the solve.
 		if _solving:
 			_update_best_state()
 		return
@@ -186,23 +186,23 @@ func undo_all() -> void:
 	update_hud()
 
 
-## Starts async solve.
-func start_solve() -> void:
+## Starts solver.
+func start_solver() -> void:
 	if _solving:
 		return
 
 	deselect_box()
 	_solving = true
 	update_hud()
-	start_solve_inner(solver_algorithm, solver_strategy)
+	start_solver_inner(solver_algorithm, solver_strategy)
 
 
-## Cancels async solve.
-func cancel_solve() -> void:
+## Stops solver.
+func stop_solver() -> void:
 	if not _solving:
 		return
 
-	cancel_solve_inner()
+	stop_solver_inner()
 
 
 func _on_solve_completed(directions: Array) -> void:
@@ -231,7 +231,7 @@ func _on_solve_cancelled() -> void:
 func _update_best_state() -> void:
 	if not show_best_state:
 		return
-	var state: Dictionary = solve_best_state()
+	var state: Dictionary = get_solver_best_state()
 	if state == _best_state:
 		return
 	_best_state = state
