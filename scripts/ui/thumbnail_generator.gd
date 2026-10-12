@@ -47,6 +47,7 @@ func _process(_delta: float) -> void:
 	var generation := _generation
 	var index: int = _queue.pop_front()
 
+	MapTheme.ensure_all(level_map)
 	level_map.load_from_string(levels[index]["map_xsb"])
 	rebuild_player_and_boxes()
 

@@ -4,10 +4,7 @@ use std::{
 };
 
 use godot::{
-    classes::{
-        ArrayMesh, FileAccess, GridMap, IGridMap, MeshLibrary, StandardMaterial3D,
-        file_access::ModeFlags,
-    },
+    classes::{FileAccess, GridMap, IGridMap, file_access::ModeFlags},
     meta::ToGodot as _,
     prelude::*,
 };
@@ -33,7 +30,6 @@ struct LevelMap {
     deadlock_hint: bool,
 
     #[export]
-    #[var(set = set_deadlock_tint)]
     deadlock_tint: Color,
 
     #[export]
@@ -47,11 +43,8 @@ struct LevelMap {
     #[export]
     base_goal_item_id: i32,
 
-    /// Themed floor item ID.
     floor_item_id: i32,
-    /// Themed wall item ID.
     wall_item_id: i32,
-    /// Themed goal item ID.
     goal_item_id: i32,
     floor_dark_item_id: i32,
     deadlock_item_id: i32,
@@ -89,10 +82,6 @@ impl IGridMap for LevelMap {
             level,
             base,
         }
-    }
-
-    fn ready(&mut self) {
-        self.create_theme_variants();
     }
 }
 
@@ -559,65 +548,6 @@ impl LevelMap {
         }
     }
 
-    /// Updates the deadlock tint color and rebuilds theme variants.
-    #[func]
-    pub fn set_deadlock_tint(&mut self, color: Color) {
-        self.deadlock_tint = color;
-        self.create_theme_variants();
-        self.rebuild();
-    }
-
-    /// Creates tinted `MeshLibrary` variants for floor, wall, goal, and deadlock tiles.
-    #[func]
-    pub fn create_theme_variants(&mut self) {
-        let mut mesh_library = self.base().get_mesh_library().unwrap();
-
-        let map_theme = self.base().get_node_as::<Node>("/root/MapTheme");
-        let floor_color: Color = map_theme.get("floor_color").to();
-        let wall_color: Color = map_theme.get("wall_color").to();
-        let goal_color: Color = map_theme.get("goal_color").to();
-
-        self.floor_item_id = self.create_colored_variant(
-            &mut mesh_library,
-            self.base_floor_item_id,
-            "theme_floor",
-            |_| floor_color,
-        );
-        self.wall_item_id = self.create_colored_variant(
-            &mut mesh_library,
-            self.base_wall_item_id,
-            "theme_wall",
-            |_| wall_color,
-        );
-        self.goal_item_id = self.create_colored_variant(
-            &mut mesh_library,
-            self.base_goal_item_id,
-            "theme_goal",
-            |_| goal_color,
-        );
-
-        self.floor_dark_item_id = self.create_colored_variant(
-            &mut mesh_library,
-            self.floor_item_id,
-            "floor_dark",
-            |color| color.darkened(0.15),
-        );
-
-        let deadlock_tint = self.deadlock_tint;
-        self.deadlock_item_id = self.create_colored_variant(
-            &mut mesh_library,
-            self.floor_item_id,
-            "floor_deadlock",
-            |color| color * deadlock_tint,
-        );
-        self.deadlock_dark_item_id = self.create_colored_variant(
-            &mut mesh_library,
-            self.floor_item_id,
-            "floor_deadlock_dark",
-            |color| color.darkened(0.15) * deadlock_tint,
-        );
-    }
-
     fn map(&self) -> &Map {
         self.level.map()
     }
@@ -636,48 +566,5 @@ impl LevelMap {
             }
         }
         best
-    }
-
-    fn create_colored_variant<F>(
-        &self,
-        mesh_library: &mut Gd<MeshLibrary>,
-        base_item_id: i32,
-        name: &str,
-        f: F,
-    ) -> i32
-    where
-        F: Fn(Color) -> Color,
-    {
-        debug_assert_ne!(base_item_id, GridMap::INVALID_CELL_ITEM);
-
-        let mut item_id = mesh_library.find_item_by_name(name);
-        if item_id == -1 {
-            item_id = mesh_library.get_last_unused_item_id();
-            mesh_library.create_item(item_id);
-            mesh_library.set_item_name(item_id, name);
-        }
-
-        let mesh = mesh_library
-            .get_item_mesh(base_item_id)
-            .unwrap()
-            .cast::<ArrayMesh>();
-
-        let material = mesh.surface_get_material(0).unwrap();
-        let mut new_material = material.cast::<StandardMaterial3D>().duplicate_resource();
-
-        let color = new_material.get_albedo();
-        new_material.set_albedo(f(color));
-        new_material.set("albedo_texture", &Variant::nil());
-        new_material.set("vertex_color_use_as_albedo", &false.to_variant());
-
-        let mut new_mesh = mesh.duplicate_resource();
-        new_mesh.surface_set_material(0, &new_material);
-
-        mesh_library.set_item_mesh(item_id, &new_mesh);
-
-        let transform = mesh_library.get_item_mesh_transform(base_item_id);
-        mesh_library.set_item_mesh_transform(item_id, transform);
-
-        item_id
     }
 }
