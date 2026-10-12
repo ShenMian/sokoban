@@ -6,6 +6,7 @@
 [ext_resource type="Theme" uid="uid://el10yav48fuk" path="res://assets/title_theme.tres" id="4_er3qt"]
 [ext_resource type="PackedScene" uid="uid://cn7iy24ba0l5v" path="res://scenes/ui/thumbnail_generator.tscn" id="5_lt178"]
 [ext_resource type="PackedScene" uid="uid://cmaxswkbsgad1" path="res://scenes/ui/confirm_dialog.tscn" id="6_cfd"]
+[ext_resource type="Script" uid="uid://bag18kk4op38v" path="res://scripts/ui/context_menu.gd" id="7_ctx"]
 
 [sub_resource type="Gradient" id="Gradient_gkmvm"]
 colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 0)
@@ -89,6 +90,7 @@ icon_mode = 0
 
 [node name="CollectionMenu" type="PopupMenu" parent="." unique_id=2008405525]
 theme = ExtResource("1_3cspp")
+script = ExtResource("7_ctx")
 item_count = 1
 item_0/text = "DELETE"
 item_0/id = 0
