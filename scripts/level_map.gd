@@ -428,11 +428,12 @@ func _build_tunnels() -> void:
 	if not show_tunnels:
 		return
 
-	var positions := get_tunnels()
-	for pos in positions:
-		var tunnel_cell = TUNNEL_CELL_SCENE.instantiate()
-		tunnel_cell.position = Vector3(pos.x, tunnels_height, pos.y)
+	var tunnels := get_tunnels()
+	for tunnel in tunnels:
+		var tunnel_cell: TunnelCell = TUNNEL_CELL_SCENE.instantiate()
+		tunnel_cell.position = Vector3(tunnel[0].x, tunnels_height, tunnel[0].y)
 		tunnels_container.add_child(tunnel_cell)
+		tunnel_cell.setup(tunnel[1])
 
 
 ## Draws the smoothed path preview toward the hovered waypoint.

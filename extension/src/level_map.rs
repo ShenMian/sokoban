@@ -485,18 +485,19 @@ impl LevelMap {
         dict
     }
 
-    /// Returns positions that form solver-detected tunnels (macro moves).
+    /// Returns solver-detected tunnels as `(position, push direction)`
+    /// pairs, with directions as `E.Direction`.
     #[func]
-    pub fn get_tunnels(&self) -> Vec<Vector2i> {
+    pub fn get_tunnels(&self) -> VarArray {
         let solver = Solver::new(self.map().clone(), Strategy::Quick.into());
-        let mut positions = Vec::new();
-        let mut visited = FxHashSet::default();
-        for tunnel in solver.context().tunnels() {
-            if visited.insert(tunnel.position) {
-                positions.push(tunnel.position.to_gd());
-            }
-        }
-        positions
+        solver
+            .context()
+            .tunnels()
+            .iter()
+            .map(|tunnel| {
+                varray![tunnel.position.to_gd(), Direction::from(tunnel.direction)].to_variant()
+            })
+            .collect()
     }
 
     /// Rebuilds the `GridMap`.
