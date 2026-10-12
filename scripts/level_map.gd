@@ -85,7 +85,7 @@ func _ready() -> void:
 	solve_failed.connect(_on_solve_failed)
 	solve_cancelled.connect(_on_solve_cancelled)
 
-	MapTheme.ensure_all(self)
+	MapTheme.apply_theme_for_variants(self)
 
 	assert(SceneTransition.level_id != null)
 	var level := Database.get_level(SceneTransition.level_id)
@@ -276,7 +276,7 @@ func _on_setting_changed(section: String, key: String, value: Variant) -> void:
 		elif key == "pathfinding_strategy":
 			pathfinding_strategy = value
 		elif key == "theme":
-			MapTheme.ensure_all(self)
+			MapTheme.apply_theme_for_variants(self)
 			rebuild()
 			rebuild_player_and_boxes()
 		elif key == "checkerboard":

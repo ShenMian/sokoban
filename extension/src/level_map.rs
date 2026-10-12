@@ -35,19 +35,17 @@ struct LevelMap {
     #[export]
     pathfinding_strategy: Strategy,
 
-    #[export_group(name = "Base Meshes", prefix = "base_")]
     #[export]
-    base_floor_item_id: i32,
-    #[export]
-    base_wall_item_id: i32,
-    #[export]
-    base_goal_item_id: i32,
-
     floor_item_id: i32,
+    #[export]
     wall_item_id: i32,
+    #[export]
     goal_item_id: i32,
+    #[export]
     floor_dark_item_id: i32,
+    #[export]
     deadlock_item_id: i32,
+    #[export]
     deadlock_dark_item_id: i32,
 
     waypoints: FxHashMap<DirectedPosition, DirectedPosition>,
@@ -67,9 +65,6 @@ impl IGridMap for LevelMap {
             deadlock_hint: true,
             deadlock_tint: Color::from_rgb(0.5, 0.5, 0.5),
             pathfinding_strategy: Strategy::default(),
-            base_floor_item_id: GridMap::INVALID_CELL_ITEM,
-            base_wall_item_id: GridMap::INVALID_CELL_ITEM,
-            base_goal_item_id: GridMap::INVALID_CELL_ITEM,
             floor_dark_item_id: GridMap::INVALID_CELL_ITEM,
             deadlock_item_id: GridMap::INVALID_CELL_ITEM,
             deadlock_dark_item_id: GridMap::INVALID_CELL_ITEM,
