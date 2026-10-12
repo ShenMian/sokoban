@@ -3,6 +3,12 @@
 [ext_resource type="Script" uid="uid://crrcsqcodkjmy" path="res://scripts/ui/confirm_dialog.gd" id="1_cfd"]
 [ext_resource type="Script" uid="uid://cr5yoytr47auc" path="res://scripts/ui/button_fx.gd" id="2_bfx"]
 [ext_resource type="Theme" uid="uid://dvbbi3vt7rasu" path="res://assets/theme.tres" id="3_thm"]
+[ext_resource type="Shader" uid="uid://o7om27yfrbib" path="res://assets/shaders/blur.gdshader" id="4_shd"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_blur"]
+shader = ExtResource("4_shd")
+shader_parameter/amount = 1.0
+shader_parameter/brightness = 0.8
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
 content_margin_left = 20.0
@@ -27,14 +33,14 @@ grow_vertical = 2
 theme = ExtResource("3_thm")
 script = ExtResource("1_cfd")
 
-[node name="Shade" type="ColorRect" parent="." unique_id=1387342936]
+[node name="BlurBackground" type="ColorRect" parent="." unique_id=2058273354]
+material = SubResource("ShaderMaterial_blur")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.3)
 
 [node name="Panel" type="PanelContainer" parent="." unique_id=271144112]
 layout_mode = 1
