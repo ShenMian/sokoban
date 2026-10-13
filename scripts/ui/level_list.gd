@@ -5,12 +5,19 @@ enum CollectionMenuId {
 	DELETE,
 }
 
+## Identifiers of the level context menu items.
+enum LevelMenuId {
+	DELETE,
+}
+
 @onready var collection_list: ItemList = $Margin/VBox/HSplit/CollectionList
 @onready var level_list: ItemList = $Margin/VBox/HSplit/LevelList
 @onready var thumbnail_generator: ThumbnailGenerator = $ThumbnailGenerator
 
 @onready var collection_menu: PopupMenu = $CollectionMenu
+@onready var level_menu: PopupMenu = $LevelMenu
 @onready var delete_collection_dialog: ConfirmDialog = $DeleteCollectionDialog
+@onready var delete_level_dialog: ConfirmDialog = $DeleteLevelDialog
 
 ## Minimum width of a level thumbnail, in pixels.
 @export var level_item_min_width: int = 120
@@ -33,6 +40,9 @@ var _generated_previews: Array[int] = []
 
 var _selected_collection: String
 
+## Index of the level the context menu was opened on, or -1 if there is none.
+var _menu_level_index: int = -1
+
 var _is_touch_scrolling: bool
 var _scroll_touch_index: int = -1
 
@@ -43,10 +53,13 @@ func _ready():
 	collection_list.item_selected.connect(_on_collection_item_selected)
 	collection_list.item_clicked.connect(_on_collection_item_clicked)
 	level_list.gui_input.connect(_on_level_list_gui_input)
+	level_list.item_clicked.connect(_on_level_item_clicked)
 	level_list.resized.connect(_on_level_list_resized)
 
 	collection_menu.id_pressed.connect(_on_collection_menu_id_pressed)
+	level_menu.id_pressed.connect(_on_level_menu_id_pressed)
 	delete_collection_dialog.confirmed.connect(_delete_collection)
+	delete_level_dialog.confirmed.connect(_delete_level)
 
 	thumbnail_generator.thumbnail_generated.connect(_on_preview_generated)
 
@@ -239,6 +252,42 @@ func _make_tooltip(data: Dictionary) -> String:
 func _on_collection_item_clicked(_index: int, at_position: Vector2, mouse_button_index: int) -> void:
 	if mouse_button_index == MOUSE_BUTTON_RIGHT:
 		_open_collection_menu(at_position)
+
+
+## Opens the context menu when a level is right-clicked.
+func _on_level_item_clicked(index: int, at_position: Vector2, mouse_button_index: int) -> void:
+	if mouse_button_index == MOUSE_BUTTON_RIGHT:
+		_open_level_menu(index, at_position)
+
+
+## Opens the level context menu at the given list local position.
+func _open_level_menu(index: int, pos: Vector2) -> void:
+	_menu_level_index = index
+	level_menu.position = Vector2i(level_list.get_global_position() + pos)
+	level_menu.reset_size()
+	level_menu.popup()
+
+
+func _on_level_menu_id_pressed(id: int) -> void:
+	if id == LevelMenuId.DELETE:
+		delete_level_dialog.confirm_button.theme_type_variation = &"DangerButton"
+		delete_level_dialog.open(tr("DELETE_LEVEL_CONFIRM") % (_menu_level_index + 1))
+
+
+func _delete_level() -> void:
+	if _menu_level_index == -1:
+		return
+
+	var level_id: int = _levels[_menu_level_index]["id"]
+	var scroll_value := level_list.get_v_scroll_bar().value
+
+	Database.delete_level(_selected_collection, level_id)
+	_load_levels()
+
+	# Keeps the viewport in place
+	level_list.get_v_scroll_bar().value = scroll_value
+
+	_menu_level_index = -1
 
 
 func _on_level_list_gui_input(event: InputEvent):

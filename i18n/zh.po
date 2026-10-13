@@ -18,6 +18,12 @@ msgstr "删除集合 \"%s\"?"
 msgid "DELETE"
 msgstr "删除"
 
+msgid "DELETE_LEVEL"
+msgstr "删除关卡"
+
+msgid "DELETE_LEVEL_CONFIRM"
+msgstr "删除关卡 %s?"
+
 # HUD
 
 msgid "LEVEL"

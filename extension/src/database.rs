@@ -203,6 +203,30 @@ impl Database {
             .unwrap();
     }
 
+    /// Removes a level from a collection and compacts the remaining level indexes.
+    #[func]
+    pub fn delete_level(&self, collection_name: String, level_id: i64) {
+        const DELETE_LEVEL: &str = "
+            DELETE FROM tb_collection_level
+            WHERE collection_id = (SELECT id FROM tb_collection WHERE name = ?1)
+              AND level_id = ?2";
+        const REINDEX_LEVELS: &str = "
+            WITH ranked AS MATERIALIZED (
+                SELECT level_id, ROW_NUMBER() OVER (ORDER BY idx, level_id) AS idx
+                FROM tb_collection_level
+                WHERE collection_id = (SELECT id FROM tb_collection WHERE name = ?1)
+            )
+            UPDATE tb_collection_level AS cl
+            SET idx = (SELECT ranked.idx FROM ranked WHERE ranked.level_id = cl.level_id)
+            WHERE cl.collection_id = (SELECT id FROM tb_collection WHERE name = ?1)";
+
+        let tx = self.conn().unchecked_transaction().unwrap();
+        tx.execute(DELETE_LEVEL, (&collection_name, level_id))
+            .unwrap();
+        tx.execute(REINDEX_LEVELS, (&collection_name,)).unwrap();
+        tx.commit().unwrap();
+    }
+
     /// Retrieves detailed information for a specific level by its ID.
     #[func]
     pub fn get_level(&self, level_id: i64) -> VarDictionary {

@@ -18,6 +18,12 @@ msgstr "Delete collection \"%s\"?"
 msgid "DELETE"
 msgstr "Delete"
 
+msgid "DELETE_LEVEL"
+msgstr "Delete Level"
+
+msgid "DELETE_LEVEL_CONFIRM"
+msgstr "Delete level %s?"
+
 # HUD
 
 msgid "LEVEL"
