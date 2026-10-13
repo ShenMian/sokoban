@@ -357,7 +357,7 @@ impl LevelMap {
 
     /// Moves the player in the given direction.
     #[func]
-    pub fn move_by(&mut self, direction: Direction) {
+    pub fn move_player(&mut self, direction: Direction) {
         let direction: direction::Direction = direction.into();
 
         let box_positions = self.map().box_positions().clone();

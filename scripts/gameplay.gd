@@ -137,6 +137,6 @@ func _transform_level() -> void:
 	hud.transform_label.text = _TRANSFORM_LABELS[_transform_state]
 
 	level_map.deselect_box()
-	level_map.rebuild_player_and_boxes()
+	level_map.place_player_and_boxes()
 	level_map.update_hud()
 	level_map.reset_camera_position()

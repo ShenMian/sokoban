@@ -72,7 +72,7 @@ var _is_instant: bool
 var _selected_box: Box
 var _solving: bool = false
 # Last best-state snapshot, to skip redundant rebuilds.
-var _best_state := {}
+var _last_best_state := {}
 
 
 func _ready() -> void:
@@ -94,7 +94,7 @@ func _ready() -> void:
 	var snapshot := Database.get_snapshot(SceneTransition.level_id, true)
 	fast_forward(snapshot)
 
-	rebuild_player_and_boxes()
+	_respawn_player_and_boxes()
 
 	reset_camera_position()
 
@@ -135,7 +135,7 @@ func _input(_event: InputEvent) -> void:
 		var content := DisplayServer.clipboard_get()
 		Database.import_level_from_string(content, "Imported")
 		load_from_string(content)
-		rebuild_player_and_boxes()
+		_respawn_player_and_boxes()
 		_build_lower_bounds()
 		_build_tunnels()
 		update_hud()
@@ -166,7 +166,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func undo() -> void:
 	undo_inner()
 	deselect_box()
-	rebuild_player_and_boxes()
+	place_player_and_boxes()
 	update_hud()
 
 
@@ -174,7 +174,7 @@ func undo() -> void:
 func redo() -> void:
 	redo_inner()
 	deselect_box()
-	rebuild_player_and_boxes()
+	place_player_and_boxes()
 	update_hud()
 
 
@@ -182,7 +182,7 @@ func redo() -> void:
 func undo_all() -> void:
 	undo_all_inner()
 	deselect_box()
-	rebuild_player_and_boxes()
+	place_player_and_boxes()
 	update_hud()
 
 
@@ -227,29 +227,24 @@ func _on_solve_cancelled() -> void:
 
 ## Teleports the pieces to the solver's best state, so the search can be
 ## watched converging. The solver works on a copy, so the real game state is
-## untouched and `rebuild_player_and_boxes()` restores it.
+## untouched and `place_player_and_boxes()` restores it.
 func _update_best_state() -> void:
 	if not show_best_state:
 		return
-	var state: Dictionary = get_solver_best_state()
-	if state == _best_state:
+	var best_state: Dictionary = get_solver_best_state()
+	if best_state == _last_best_state:
 		return
-	_best_state = state
-	if _best_state.is_empty():
+	_last_best_state = best_state
+	if _last_best_state.is_empty():
 		return
-	var boxes := boxes_container.get_children()
-	var positions: Array = _best_state["boxes"]
-	for i in range(boxes.size()):
-		boxes[i].position = Vector3(positions[i].x, 0.0, positions[i].y)
-	var player_position: Vector2i = _best_state["player"]
-	player.position = Vector3(player_position.x, 0.0, player_position.y)
+	place_player_and_boxes(_last_best_state["boxes"], _last_best_state["player"])
 
 
 func _clear_best_state() -> void:
-	_best_state = {}
+	_last_best_state = {}
 	if not is_node_ready():
 		return
-	rebuild_player_and_boxes()
+	place_player_and_boxes()
 
 
 ## Waits for player and box animations to finish.
@@ -278,7 +273,7 @@ func _on_setting_changed(section: String, key: String, value: Variant) -> void:
 		elif key == "theme":
 			MapTheme.apply_theme_for_variants(self)
 			rebuild()
-			rebuild_player_and_boxes()
+			_respawn_player_and_boxes()
 		elif key == "checkerboard":
 			checkerboard_shading = value
 			rebuild()
@@ -311,40 +306,53 @@ func _execute_path(directions: Array) -> void:
 	for direction in directions:
 		if is_solved():
 			break
-		move_by(direction)
+		move_player(direction)
 		# Wait for animations to finish if not instant
 		if not _is_instant:
 			await wait_for_moves_finished()
 	if _is_instant:
-		rebuild_player_and_boxes()
+		place_player_and_boxes()
 	update_hud()
 
 
-## Rebuilds boxes and player from model state.
-func rebuild_player_and_boxes() -> void:
-	for child in boxes_container.get_children():
-		child.queue_free()
-
-	for box_position in get_box_positions():
-		var box: Box = BOX_SCENE.instantiate()
-		box.position = Vector3(box_position.x, 0.0, box_position.y)
-		box.selected.connect(_on_box_selected.bind(box))
-		box.unselected.connect(_on_box_unselected)
-		box.move_finished.connect(_update_pushable_hint)
-		boxes_container.add_child(box)
-
-	var player_position := get_player_position()
+## Moves the boxes and player to the given positions.
+func place_player_and_boxes(
+	box_positions: Array = get_box_positions(),
+	player_position: Vector2i = get_player_position(),
+) -> void:
+	var boxes := boxes_container.get_children()
+	for i in range(boxes.size()):
+		boxes[i].position = Vector3(box_positions[i].x, 0.0, box_positions[i].y)
 	player.position = Vector3(player_position.x, 0.0, player_position.y)
 	player.set_facing(get_player_direction())
 
 	_update_pushable_hint()
 
 
+## Recreates the box nodes and places everything from the model state.
+func _respawn_player_and_boxes() -> void:
+	for child in boxes_container.get_children():
+		boxes_container.remove_child(child)
+		child.queue_free()
+
+	var box_positions := get_box_positions()
+	for box_position in box_positions:
+		var box: Box = BOX_SCENE.instantiate()
+		box.selected.connect(_on_box_selected.bind(box))
+		box.unselected.connect(_on_box_unselected)
+		box.move_finished.connect(_update_pushable_hint)
+		boxes_container.add_child(box)
+
+	place_player_and_boxes(box_positions)
+
+
 ## Updates pushable hint for all boxes.
+##
+## The hint reflects the live game state, so it is turned off while the solver
+## runs with the best state shown, since the pieces are teleported away.
 func _update_pushable_hint() -> void:
-	if not pushable_hint:
-		for box in boxes_container.get_children():
-			box.disabled = false
+	if not pushable_hint or (_solving and show_best_state):
+		_clear_pushable_hint()
 		return
 
 	var pushable_positions := get_pushable_box_positions()
@@ -354,6 +362,12 @@ func _update_pushable_hint() -> void:
 			return pos == grid_pos
 		)
 		box.disabled = not is_pushable
+
+
+## Shows every box as pushable, clearing the dimming.
+func _clear_pushable_hint() -> void:
+	for box in boxes_container.get_children():
+		box.disabled = false
 
 
 func _on_box_selected(box: Box) -> void:
