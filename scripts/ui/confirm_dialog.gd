@@ -4,9 +4,11 @@ class_name ConfirmDialog
 signal canceled
 signal confirmed
 
-## Text overrides.
+## Override the dialog title.
 @export var title: String
+## Override the confirm button text.
 @export var confirm_text: String
+## Override the cancel button text.
 @export var cancel_text: String
 
 @onready var title_label: Label = $Panel/VBox/TitleLabel

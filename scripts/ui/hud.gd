@@ -36,6 +36,7 @@ var _solve_icon_tween: Tween
 
 
 func _ready() -> void:
+	# Scale HUD panels and show pause button on touchscreen devices
 	if DisplayServer.is_touchscreen_available():
 		status_panel.pivot_offset = Vector2(status_panel.size.x / 2.0, 0.0)
 		status_panel.scale = Vector2(touch_ui_scale, touch_ui_scale)
