@@ -45,7 +45,7 @@ func open(actions: Actions):
 	else:
 		optimal_push_label.text = "(%s %d)" % [tr("BEST"), best_push.pushes()]
 
-	next_button.visible = SceneTransition.has_next_level()
+	next_button.disabled = not SceneTransition.has_next_level()
 	show()
 	audio_player.play()
 	animation_player.play("show")
