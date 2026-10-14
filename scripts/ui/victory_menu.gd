@@ -9,11 +9,11 @@ signal request_menu
 @onready var optimal_move_label: Label = %OptimalMoveLabel
 @onready var optimal_push_label: Label = %OptimalPushLabel
 
-@onready var audio_player: AudioStreamPlayer = $AudioPlayer
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
-
 @onready var next_button: Button = $Panel/VBox/VBox/NextButton
 @onready var menu_button: Button = $Panel/VBox/VBox/MenuButton
+
+@onready var audio_player: AudioStreamPlayer = $AudioPlayer
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 
 ## Shows the victory menu with the given solution stats.
