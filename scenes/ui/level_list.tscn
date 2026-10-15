@@ -9,6 +9,8 @@
 [ext_resource type="Script" uid="uid://bag18kk4op38v" path="res://scripts/ui/context_menu.gd" id="7_ctx"]
 [ext_resource type="Script" uid="uid://cr5yoytr47auc" path="res://scripts/ui/button_fx.gd" id="8_bfx"]
 [ext_resource type="Texture2D" uid="uid://drar2gripb10s" path="res://assets/textures/icons/bars_horizontal.svg" id="9_more"]
+[ext_resource type="Script" uid="uid://l50oo5efnl7ta" path="res://scripts/ui/touch_item_list.gd" id="10_touch"]
+[ext_resource type="Script" uid="uid://oitsffd0v7ltm" path="res://scripts/ui/level_item_list.gd" id="11_level_item"]
 
 [sub_resource type="Gradient" id="Gradient_gkmvm"]
 colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 0)
@@ -25,7 +27,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_3cspp")
 script = ExtResource("2_o24fg")
-preview_placeholder = SubResource("GradientTexture2D_tr5s6")
 
 [node name="Background" type="TextureRect" parent="." unique_id=570934678]
 modulate = Color(0.50219375, 0.50219357, 0.5021936, 1)
@@ -97,8 +98,10 @@ theme_override_constants/v_separation = 10
 theme_override_font_sizes/font_size = 26
 allow_rmb_select = true
 text_overrun_behavior = 5
+script = ExtResource("10_touch")
+metadata/_custom_type_script = "uid://l50oo5efnl7ta"
 
-[node name="LevelList" type="ItemList" parent="Margin/VBox/HSplit" unique_id=2025772780]
+[node name="LevelList" type="ItemList" parent="Margin/VBox/HSplit" unique_id=2025772780 node_paths=PackedStringArray("thumbnail_generator")]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -106,6 +109,10 @@ size_flags_stretch_ratio = 0.8
 theme = ExtResource("1_3cspp")
 allow_rmb_select = true
 icon_mode = 0
+script = ExtResource("11_level_item")
+thumbnail_generator = NodePath("../../../../ThumbnailGenerator")
+preview_placeholder = SubResource("GradientTexture2D_tr5s6")
+metadata/_custom_type_script = "uid://oitsffd0v7ltm"
 
 [node name="MoreMenu" type="PopupMenu" parent="." unique_id=1830100005]
 theme = ExtResource("1_3cspp")
