@@ -10,6 +10,12 @@ enum LevelMenuId {
 	DELETE,
 }
 
+## Identifiers of the more menu items.
+enum MoreMenuId {
+	IMPORT_FROM_FILE,
+	IMPORT_FROM_CLIPBOARD,
+}
+
 @onready var collection_list: ItemList = $Margin/VBox/HSplit/CollectionList
 @onready var level_list: ItemList = $Margin/VBox/HSplit/LevelList
 @onready var thumbnail_generator: ThumbnailGenerator = $ThumbnailGenerator
@@ -18,6 +24,10 @@ enum LevelMenuId {
 @onready var level_menu: PopupMenu = $LevelMenu
 @onready var delete_collection_dialog: ConfirmDialog = $DeleteCollectionDialog
 @onready var delete_level_dialog: ConfirmDialog = $DeleteLevelDialog
+
+@onready var more_button: ButtonFx = $Margin/VBox/TitleBar/MoreButton
+@onready var more_menu: PopupMenu = $MoreMenu
+@onready var import_file_dialog: FileDialog = $ImportFileDialog
 
 ## Minimum width of a level thumbnail, in pixels.
 @export var level_item_min_width: int = 120
@@ -49,6 +59,10 @@ var _scroll_touch_index: int = -1
 
 func _ready():
 	get_window().files_dropped.connect(_on_files_dropped)
+
+	more_button.pressed.connect(_on_more_pressed)
+	more_menu.id_pressed.connect(_on_more_menu_id_pressed)
+	import_file_dialog.file_selected.connect(_on_import_file_selected)
 
 	collection_list.item_selected.connect(_on_collection_item_selected)
 	collection_list.item_clicked.connect(_on_collection_item_clicked)
@@ -86,10 +100,7 @@ func _ready():
 
 func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("import_from_clipboard"):
-		var content := DisplayServer.clipboard_get()
-		Database.import_level_from_string(content, "Imported")
-		Database.import_levels_from_string(content, "Imported")
-		_load_collections()
+		_import_from_clipboard()
 
 
 func _on_files_dropped(files: PackedStringArray):
@@ -98,6 +109,35 @@ func _on_files_dropped(files: PackedStringArray):
 			Database.import_levels_from_dir(path)
 		elif FileAccess.file_exists(path):
 			Database.import_levels_from_file(path)
+	_load_collections()
+
+
+## Opens the more menu below the more button.
+func _on_more_pressed() -> void:
+	more_menu.position = Vector2i(more_button.global_position + Vector2(0, more_button.size.y))
+	more_menu.reset_size()
+	more_menu.popup()
+
+
+func _on_more_menu_id_pressed(id: int) -> void:
+	match id:
+		MoreMenuId.IMPORT_FROM_FILE:
+			import_file_dialog.popup_file_dialog()
+		MoreMenuId.IMPORT_FROM_CLIPBOARD:
+			_import_from_clipboard()
+
+
+## Imports the selected file into a collection named after the file.
+func _on_import_file_selected(path: String) -> void:
+	Database.import_levels_from_file(path)
+	_load_collections()
+
+
+## Imports a level or a solution from the clipboard.
+func _import_from_clipboard() -> void:
+	var content := DisplayServer.clipboard_get()
+	Database.import_level_from_string(content, "Imported")
+	Database.import_levels_from_string(content, "Imported")
 	_load_collections()
 
 

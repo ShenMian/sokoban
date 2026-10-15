@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://cn7iy24ba0l5v" path="res://scenes/ui/thumbnail_generator.tscn" id="5_lt178"]
 [ext_resource type="PackedScene" uid="uid://cmaxswkbsgad1" path="res://scenes/ui/confirm_dialog.tscn" id="6_cfd"]
 [ext_resource type="Script" uid="uid://bag18kk4op38v" path="res://scripts/ui/context_menu.gd" id="7_ctx"]
+[ext_resource type="Script" uid="uid://cr5yoytr47auc" path="res://scripts/ui/button_fx.gd" id="8_bfx"]
+[ext_resource type="Texture2D" uid="uid://drar2gripb10s" path="res://assets/textures/icons/bars_horizontal.png" id="9_more"]
 
 [sub_resource type="Gradient" id="Gradient_gkmvm"]
 colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 0)
@@ -54,12 +56,30 @@ theme_override_constants/margin_bottom = 20
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="TitleLabel" type="Label" parent="Margin/VBox" unique_id=1226334398]
+[node name="TitleBar" type="HBoxContainer" parent="Margin/VBox" unique_id=1830100001]
 layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="TitleLabel" type="Label" parent="Margin/VBox/TitleBar" unique_id=1226334398]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
 theme = ExtResource("4_er3qt")
 theme_override_font_sizes/font_size = 35
 text = "LEVEL_LIST"
+vertical_alignment = 1
 uppercase = true
+
+[node name="MoreButton" type="Button" parent="Margin/VBox/TitleBar" unique_id=1830100002]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "MORE"
+icon = ExtResource("9_more")
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("8_bfx")
+metadata/_custom_type_script = "uid://cr5yoytr47auc"
 
 [node name="HSplit" type="HSplitContainer" parent="Margin/VBox" unique_id=1080622152]
 layout_mode = 2
@@ -114,3 +134,22 @@ visible = false
 layout_mode = 1
 title = "DELETE_LEVEL"
 confirm_text = "DELETE"
+
+[node name="MoreMenu" type="PopupMenu" parent="." unique_id=1830100005]
+theme = ExtResource("1_3cspp")
+item_count = 2
+item_0/text = "IMPORT_FROM_FILE"
+item_0/id = 0
+item_1/text = "IMPORT_FROM_CLIPBOARD"
+item_1/id = 1
+script = ExtResource("7_ctx")
+
+[node name="ImportFileDialog" type="FileDialog" parent="." unique_id=1830100004]
+title = "IMPORT_FROM_FILE"
+size = Vector2i(800, 500)
+ok_button_text = "IMPORT"
+mode_overrides_title = false
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.xsb,*.txt;Sokoban Levels")
+use_native_dialog = true

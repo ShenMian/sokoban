@@ -446,6 +446,15 @@ msgstr "Solve"
 msgid "SOLVE_DESC"
 msgstr "Use the solver to automatically complete the current level"
 
+msgid "MORE"
+msgstr "More"
+
+msgid "IMPORT_FROM_FILE"
+msgstr "Import from File"
+
+msgid "IMPORT"
+msgstr "Import"
+
 msgid "IMPORT_FROM_CLIPBOARD"
 msgstr "Import from Clipboard"
 

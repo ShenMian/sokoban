@@ -83,7 +83,7 @@ impl Database {
         self.upsert_levels_from_str(&levels_xsb, &collection_name);
     }
 
-    /// Imports a level or a level with solution from an XSB or LURD format string.
+    /// Imports a level or a solution from an XSB or LURD format string.
     #[func]
     pub fn import_level_from_string(&self, string: String, collection_name: String) {
         let collection_id = self.upsert_collection(&collection_name);

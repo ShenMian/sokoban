@@ -446,6 +446,15 @@ msgstr "求解"
 msgid "SOLVE_DESC"
 msgstr "使用求解器自动完成当前关卡"
 
+msgid "MORE"
+msgstr "更多"
+
+msgid "IMPORT_FROM_FILE"
+msgstr "从文件导入"
+
+msgid "IMPORT"
+msgstr "导入"
+
 msgid "IMPORT_FROM_CLIPBOARD"
 msgstr "从剪贴板导入"
 
