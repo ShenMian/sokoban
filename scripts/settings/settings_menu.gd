@@ -10,6 +10,7 @@ signal closed
 @onready var restore_button: ButtonFx = $RestoreButton
 
 @onready var video_tab: SettingsTab = $MarginContainer/VBox/HSplit/Tabs/VIDEO
+@onready var input_tab: SettingsTab = $MarginContainer/VBox/HSplit/Tabs/INPUT
 
 var _hovered_panel: Control = null
 
@@ -29,6 +30,9 @@ func _ready() -> void:
 	tabs.tab_changed.connect(_on_active_tab_changed)
 	close_button.pressed.connect(close)
 	restore_button.pressed.connect(_on_restore_pressed)
+
+	if OS.has_feature("mobile"):
+		tabs.set_tab_hidden(input_tab.get_index(), true)
 
 
 func _on_active_tab_changed(index: int) -> void:
