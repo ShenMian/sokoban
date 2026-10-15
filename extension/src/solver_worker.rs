@@ -102,6 +102,8 @@ impl SolverWorker {
     }
 
     /// Cancels the running solve, blocking until it stops.
+    ///
+    /// The interrupted result is left in place for [`Self::poll`] to report.
     pub fn cancel(&mut self) {
         if let Some(solver) = self.solver.take() {
             solver.request_stop();
@@ -109,8 +111,6 @@ impl SolverWorker {
         if let Some(handle) = self.handle.take() {
             // Wait for the solver thread to exit.
             let _ = handle.join();
-            self.done.store(false, Ordering::Release);
-            *self.result.lock().unwrap() = None;
         }
     }
 }

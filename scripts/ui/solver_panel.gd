@@ -19,7 +19,7 @@ const STRATEGY_LABELS := ["FAST", "PUSH_OPTIMAL", "MOVE_OPTIMAL"]
 const STATUS_COLORS := {
 	"SEARCHING": Color(0.62, 0.88, 1.0),
 	"SOLVED": Color(0.55, 0.9, 0.6),
-	"FAILED": Color(0.95, 0.45, 0.45),
+	"NO_SOLUTION": Color(0.95, 0.45, 0.45),
 	"IDLE": Color(0.65, 0.65, 0.65),
 }
 
@@ -65,11 +65,11 @@ func _ready():
 ## Shows the panel for `map` and starts the elapsed-time counter.
 func open(map: LevelMap) -> void:
 	level_map = map
-	_bind_level_map_signals()
+	if not _open:
+		_bind_level_map_signals()
 
 	_algorithm_value.text = ALGORITHM_LABELS[level_map.solver_algorithm]
 	_strategy_value.text = tr(STRATEGY_LABELS[level_map.solver_strategy])
-
 	_solve_started_at = Time.get_ticks_msec() / 1000.0
 	_solver_running = true
 	_nodes_value.text = "0"
@@ -77,6 +77,7 @@ func open(map: LevelMap) -> void:
 	_speed_value.text = "—"
 	_time_value.text = format_duration(0.0)
 	_set_status("SEARCHING")
+
 	_open = true
 	show()
 
@@ -104,13 +105,13 @@ func resume() -> void:
 
 func _bind_level_map_signals() -> void:
 	level_map.solve_completed.connect(_on_solve_completed)
-	level_map.solve_failed.connect(_on_solve_failed)
+	level_map.solve_no_solution.connect(_on_solve_no_solution)
 	level_map.solve_cancelled.connect(_on_solve_cancelled)
 
 
 func _unbind_level_map_signals() -> void:
 	level_map.solve_completed.disconnect(_on_solve_completed)
-	level_map.solve_failed.disconnect(_on_solve_failed)
+	level_map.solve_no_solution.disconnect(_on_solve_no_solution)
 	level_map.solve_cancelled.disconnect(_on_solve_cancelled)
 
 
@@ -158,8 +159,8 @@ func _on_solve_completed(_directions: Array) -> void:
 	_finish_with("SOLVED")
 
 
-func _on_solve_failed(_error: String) -> void:
-	_finish_with("FAILED")
+func _on_solve_no_solution() -> void:
+	_finish_with("NO_SOLUTION")
 
 
 func _on_solve_cancelled() -> void:

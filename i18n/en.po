@@ -234,8 +234,8 @@ msgstr "Searching"
 msgid "SOLVED"
 msgstr "Solved"
 
-msgid "FAILED"
-msgstr "Failed"
+msgid "NO_SOLUTION"
+msgstr "No Solution"
 
 # Video
 

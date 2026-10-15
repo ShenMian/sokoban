@@ -32,7 +32,7 @@ signal pause_requested
 @export var touch_ui_scale: float = 1.25
 
 var _solving: bool = false
-var _solve_icon_tween: Tween
+var _solve_button_tween: Tween
 
 
 func _ready() -> void:
@@ -56,9 +56,7 @@ func _ready() -> void:
 
 func _on_solve_button_pressed() -> void:
 	if _solving:
-		_solving = false
-		_stop_solving_tween()
-		solve_button.modulate = Color.WHITE
+		_reset_solve_button()
 		request_stop_solve.emit()
 	else:
 		_solving = true
@@ -68,36 +66,40 @@ func _on_solve_button_pressed() -> void:
 
 ## Resets the solve button after a successful solve.
 func solve_complete(_directions: Array) -> void:
+	_reset_solve_button()
+
+
+## Resets the solve button when the solver proves the level unsolvable.
+func solve_no_solution() -> void:
+	_reset_solve_button()
+	solve_button.modulate = Color.RED
+	_solve_button_tween = create_tween()
+	_solve_button_tween.tween_property(solve_button, "modulate", Color.WHITE, 2.0) \
+			.set_trans(Tween.TRANS_SINE) \
+			.set_ease(Tween.EASE_OUT)
+
+
+## Stops the solving pulse and restores the button's default color.
+func _reset_solve_button() -> void:
 	_solving = false
 	_stop_solving_tween()
 	solve_button.modulate = Color.WHITE
 
 
-## Flashes the solve button red after a failed solve.
-func solve_fail(_error: String) -> void:
-	_solving = false
-	_stop_solving_tween()
-	solve_button.modulate = Color.RED
-	create_tween() \
-			.tween_property(solve_button, "modulate", Color.WHITE, 2.0) \
-			.set_trans(Tween.TRANS_SINE) \
-			.set_ease(Tween.EASE_OUT)
-
-
 ## Pulses the solve button while a solve is running.
 func _start_solving_tween() -> void:
 	_stop_solving_tween()
-	_solve_icon_tween = create_tween().set_loops()
-	_solve_icon_tween \
+	_solve_button_tween = create_tween().set_loops()
+	_solve_button_tween \
 			.tween_property(solve_button, "modulate", Color(0.5, 0.8, 1.0), 0.6) \
 			.set_trans(Tween.TRANS_SINE)
-	_solve_icon_tween \
+	_solve_button_tween \
 			.tween_property(solve_button, "modulate", Color(0.0, 0.567, 0.823, 1.0), 0.6) \
 			.set_trans(Tween.TRANS_SINE)
 
 
 ## Stops the solve button pulse.
 func _stop_solving_tween() -> void:
-	if _solve_icon_tween:
-		_solve_icon_tween.kill()
-		_solve_icon_tween = null
+	if _solve_button_tween:
+		_solve_button_tween.kill()
+		_solve_button_tween = null

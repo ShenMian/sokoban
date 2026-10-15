@@ -38,7 +38,7 @@ func _ready() -> void:
 	hud.request_start_solve.connect(_on_request_start_solve)
 	hud.request_stop_solve.connect(level_map.stop_solver)
 	level_map.solve_completed.connect(hud.solve_complete)
-	level_map.solve_failed.connect(hud.solve_fail)
+	level_map.solve_no_solution.connect(hud.solve_no_solution)
 	hud.pause_requested.connect(_open_pause_menu)
 	hud.transform_requested.connect(_transform_level)
 	hud.previous_level_requested.connect(_on_request_previous_level)

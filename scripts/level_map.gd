@@ -82,7 +82,7 @@ func _ready() -> void:
 	box_enter_goal.connect(func(_position: Vector2i) -> void: enter_goal_player.play())
 	box_leave_goal.connect(func(_position: Vector2i) -> void: leave_goal_player.play())
 	solve_completed.connect(_on_solve_completed)
-	solve_failed.connect(_on_solve_failed)
+	solve_no_solution.connect(_on_solve_no_solution)
 	solve_cancelled.connect(_on_solve_cancelled)
 
 	MapTheme.apply_theme_for_variants(self)
@@ -212,11 +212,10 @@ func _on_solve_completed(directions: Array) -> void:
 	await _execute_path(directions)
 
 
-func _on_solve_failed(error: String) -> void:
+func _on_solve_no_solution() -> void:
 	_solving = false
 	_clear_best_state()
 	update_hud()
-	push_warning("Solver failed: " + error)
 
 
 func _on_solve_cancelled() -> void:

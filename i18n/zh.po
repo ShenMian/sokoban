@@ -234,8 +234,8 @@ msgstr "搜索中"
 msgid "SOLVED"
 msgstr "已求解"
 
-msgid "FAILED"
-msgstr "失败"
+msgid "NO_SOLUTION"
+msgstr "无解"
 
 # Video
 

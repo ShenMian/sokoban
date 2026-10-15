@@ -106,9 +106,9 @@ impl LevelMap {
     #[signal]
     fn solve_completed(directions: Vec<i32>);
 
-    /// Emitted when the background solver fails.
+    /// Emitted when the background solver proves the level has no solution.
     #[signal]
-    fn solve_failed(error: String);
+    fn solve_no_solution();
 
     /// Emitted when a running solve is cancelled.
     #[signal]
@@ -292,8 +292,8 @@ impl LevelMap {
     /// Polls for the solver result.
     ///
     /// Returns `true` while the solver is still
-    /// running. When the solver finishes, emits `solve_completed` or
-    /// `solve_failed` and returns `false`.
+    /// running. When the solver finishes, emits `solve_completed`,
+    /// `solve_no_solution` or `solve_cancelled` and returns `false`.
     #[func]
     pub fn poll_solver(&mut self) -> bool {
         match self.solver_worker.poll() {
@@ -305,8 +305,12 @@ impl LevelMap {
                 self.signals().solve_completed().emit(directions);
                 false
             }
-            Some(Err(err)) => {
-                self.signals().solve_failed().emit(err.to_string());
+            Some(Err(SearchError::NoSolution)) => {
+                self.signals().solve_no_solution().emit();
+                false
+            }
+            Some(Err(SearchError::Interrupted)) => {
+                self.signals().solve_cancelled().emit();
                 false
             }
             None => true,
@@ -348,11 +352,11 @@ impl LevelMap {
         state
     }
 
-    /// Cancels the running solve, blocking until it stops.
+    /// Cancels the running solve, blocking until it stops. The result is
+    /// reported by `poll_solver`.
     #[func(rename = stop_solver_inner)]
     pub fn stop_solver(&mut self) {
         self.solver_worker.cancel();
-        self.signals().solve_cancelled().emit();
     }
 
     /// Moves the player in the given direction.
