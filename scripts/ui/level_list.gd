@@ -16,6 +16,9 @@ enum MoreMenuId {
 	IMPORT_FROM_CLIPBOARD,
 }
 
+## Collection that imported levels go into when the source has no usable name.
+const IMPORTED_COLLECTION := "Imported"
+
 @onready var collection_list: ItemList = $Margin/VBox/HSplit/CollectionList
 @onready var level_list: ItemList = $Margin/VBox/HSplit/LevelList
 @onready var thumbnail_generator: ThumbnailGenerator = $ThumbnailGenerator
@@ -129,15 +132,30 @@ func _on_more_menu_id_pressed(id: int) -> void:
 
 ## Imports the selected file into a collection named after the file.
 func _on_import_file_selected(path: String) -> void:
-	Database.import_levels_from_file(path)
+	var content := FileAccess.get_file_as_string(path)
+	if content.is_empty():
+		push_warning("failed to read the file: %s (%s)" % [
+			path,
+			error_string(FileAccess.get_open_error())
+		])
+		return
+
+	# Android file pickers return content URIs. Some providers percent-encode the file path in the
+	# last segment, so decode it before taking the name
+	var decoded := path.get_file().uri_decode()
+	var collection_name := decoded.get_file().get_basename()
+	if collection_name.is_empty():
+		collection_name = IMPORTED_COLLECTION
+
+	Database.import_levels_from_string(content, collection_name)
 	_load_collections()
 
 
 ## Imports a level or a solution from the clipboard.
 func _import_from_clipboard() -> void:
 	var content := DisplayServer.clipboard_get()
-	Database.import_level_from_string(content, "Imported")
-	Database.import_levels_from_string(content, "Imported")
+	Database.import_level_from_string(content, IMPORTED_COLLECTION)
+	Database.import_levels_from_string(content, IMPORTED_COLLECTION)
 	_load_collections()
 
 
