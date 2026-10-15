@@ -19,21 +19,19 @@ func close():
 
 
 func _ready():
-	var project_version: String = ProjectSettings.get_setting(
-		"application/config/version",
-		"Unknown",
-	)
-	var engine_info: Dictionary = Engine.get_version_info()
-	var engine_version: String = "%d.%d.%d" % [
-		engine_info["major"],
-		engine_info["minor"],
-		engine_info["patch"],
-	]
-	version_label.text = "Version: %s\nEngine: %s" % [project_version, engine_version]
-
 	rich_text_label.meta_clicked.connect(_on_meta_clicked)
 	close_button.pressed.connect(close)
 
+	var project_version: String = ProjectSettings.get_setting("application/config/version")
+	var engine_version: Dictionary = Engine.get_version_info()
+	version_label.text = "Version: %s\nEngine: %d.%d.%d" % [
+		project_version,
+		engine_version["major"],
+		engine_version["minor"],
+		engine_version["patch"]
+	]
+
 
 func _on_meta_clicked(meta: Variant):
+	assert(meta is String)
 	OS.shell_open(str(meta))
