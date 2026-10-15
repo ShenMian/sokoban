@@ -46,8 +46,10 @@ func _ready():
 
 	collection_list.item_selected.connect(_on_collection_item_selected)
 	collection_list.item_clicked.connect(_on_collection_item_clicked)
+	collection_list.item_long_pressed.connect(_on_collection_item_long_pressed)
 	level_list.item_tapped.connect(_on_level_tapped)
 	level_list.item_clicked.connect(_on_level_item_clicked)
+	level_list.item_long_pressed.connect(_on_level_item_long_pressed)
 
 	collection_menu.id_pressed.connect(_on_collection_menu_id_pressed)
 	level_menu.id_pressed.connect(_on_level_menu_id_pressed)
@@ -169,6 +171,11 @@ func _on_collection_item_clicked(_index: int, at_position: Vector2, mouse_button
 		_open_collection_menu(at_position)
 
 
+## Opens the context menu when a collection is long-pressed on a touchscreen.
+func _on_collection_item_long_pressed(_index: int, at_position: Vector2) -> void:
+	_open_collection_menu(at_position)
+
+
 ## Opens the collection context menu at the given list local position.
 func _open_collection_menu(pos: Vector2) -> void:
 	collection_menu.position = Vector2i(collection_list.get_global_position() + pos)
@@ -208,6 +215,11 @@ func _load_levels():
 func _on_level_item_clicked(index: int, at_position: Vector2, mouse_button_index: int) -> void:
 	if mouse_button_index == MOUSE_BUTTON_RIGHT:
 		_open_level_menu(index, at_position)
+
+
+## Opens the context menu when a level is long-pressed on a touchscreen.
+func _on_level_item_long_pressed(index: int, at_position: Vector2) -> void:
+	_open_level_menu(index, at_position)
 
 
 func _on_level_tapped(index: int):
