@@ -107,7 +107,24 @@ theme = ExtResource("1_3cspp")
 allow_rmb_select = true
 icon_mode = 0
 
-[node name="ThumbnailGenerator" parent="." unique_id=319219157 instance=ExtResource("5_lt178")]
+[node name="MoreMenu" type="PopupMenu" parent="." unique_id=1830100005]
+theme = ExtResource("1_3cspp")
+item_count = 2
+item_0/text = "IMPORT_FROM_FILE"
+item_0/id = 0
+item_1/text = "IMPORT_FROM_CLIPBOARD"
+item_1/id = 1
+script = ExtResource("7_ctx")
+
+[node name="ImportFileDialog" type="FileDialog" parent="." unique_id=1830100004]
+title = "IMPORT_FROM_FILE"
+size = Vector2i(800, 500)
+ok_button_text = "IMPORT"
+mode_overrides_title = false
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.xsb,*.txt;Sokoban Levels")
+use_native_dialog = true
 
 [node name="CollectionMenu" type="PopupMenu" parent="." unique_id=2008405525]
 theme = ExtResource("1_3cspp")
@@ -135,21 +152,4 @@ layout_mode = 1
 title = "DELETE_LEVEL"
 confirm_text = "DELETE"
 
-[node name="MoreMenu" type="PopupMenu" parent="." unique_id=1830100005]
-theme = ExtResource("1_3cspp")
-item_count = 2
-item_0/text = "IMPORT_FROM_FILE"
-item_0/id = 0
-item_1/text = "IMPORT_FROM_CLIPBOARD"
-item_1/id = 1
-script = ExtResource("7_ctx")
-
-[node name="ImportFileDialog" type="FileDialog" parent="." unique_id=1830100004]
-title = "IMPORT_FROM_FILE"
-size = Vector2i(800, 500)
-ok_button_text = "IMPORT"
-mode_overrides_title = false
-file_mode = 0
-access = 2
-filters = PackedStringArray("*.xsb,*.txt;Sokoban Levels")
-use_native_dialog = true
+[node name="ThumbnailGenerator" parent="." unique_id=319219157 instance=ExtResource("5_lt178")]
