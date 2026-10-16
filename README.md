@@ -5,9 +5,15 @@ A Sokoban game built with [Godot] and [Rust].
 [![CI](https://github.com/ShenMian/sokoban/actions/workflows/ci.yml/badge.svg)](https://github.com/ShenMian/sokoban/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
 
-|              Gameplay               |               Level List                |              Settings               |
-| :---------------------------------: | :-------------------------------------: | :---------------------------------: |
-| ![Gameplay](docs/imgs/gameplay.png) | ![Level List](docs/imgs/level_list.png) | ![Settings](docs/imgs/settings.png) |
+|              Gameplay               |               Level List                |
+| :---------------------------------: | :-------------------------------------: |
+| ![Gameplay](docs/imgs/gameplay.png) | ![Level List](docs/imgs/level_list.png) |
+
+<!-- split table -->
+
+|              Settings               |                Solver                |
+| :---------------------------------: | :----------------------------------: |
+| ![Settings](docs/imgs/settings.png) | ![Solver](docs/imgs/solver.png)      |
 
 ## Documentation
 
