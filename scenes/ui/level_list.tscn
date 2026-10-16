@@ -9,8 +9,8 @@
 [ext_resource type="Script" uid="uid://bag18kk4op38v" path="res://scripts/ui/context_menu.gd" id="7_ctx"]
 [ext_resource type="Script" uid="uid://cr5yoytr47auc" path="res://scripts/ui/button_fx.gd" id="8_bfx"]
 [ext_resource type="Texture2D" uid="uid://drar2gripb10s" path="res://assets/textures/icons/bars_horizontal.svg" id="9_more"]
-[ext_resource type="Script" uid="uid://l50oo5efnl7ta" path="res://scripts/ui/touch_item_list.gd" id="10_touch"]
-[ext_resource type="Script" uid="uid://oitsffd0v7ltm" path="res://scripts/ui/level_item_list.gd" id="11_level_item"]
+[ext_resource type="Script" uid="uid://kr2wymnx0ljy" path="res://scripts/ui/touch_item_list.gd" id="10_touch"]
+[ext_resource type="Script" uid="uid://cwl6m8l87lykc" path="res://scripts/ui/level_item_list.gd" id="11_level_item"]
 
 [sub_resource type="Gradient" id="Gradient_gkmvm"]
 colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 0)

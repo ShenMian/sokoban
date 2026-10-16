@@ -13,7 +13,7 @@ shadow_color = Color(0, 0, 0, 0.4)
 shadow_size = 4
 shadow_offset = Vector2(0, 2)
 
-[node name="DraggablePanel" type="PanelContainer" node_paths=PackedStringArray("handle", "title_label", "body")]
+[node name="DraggablePanel" type="PanelContainer" unique_id=340433378 node_paths=PackedStringArray("handle", "title_label", "body")]
 theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 script = ExtResource("1_panel")
 handle = NodePath("VBox/TitleBar/Header")
