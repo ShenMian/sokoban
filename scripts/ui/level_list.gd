@@ -116,12 +116,17 @@ func _on_import_file_selected(path: String) -> void:
 		])
 		return
 
-	# Android file pickers return content URIs. Some providers percent-encode the file path in the
-	# last segment, so decode it before taking the name
-	var decoded := path.get_file().uri_decode()
-	var collection_name := decoded.get_file().get_basename()
-	if collection_name.is_empty():
-		collection_name = IMPORTED_COLLECTION
+	var collection_name
+	if path.begins_with("content://"):
+		# Android file pickers return content URIs. Some providers percent-encode the file path in
+		# the last segment, so decode it before taking the name
+		var document_id := path.get_file().uri_decode()
+		if document_id.contains("/") or document_id.contains("."):
+			collection_name = document_id.get_file().get_basename()
+		else:
+			collection_name = IMPORTED_COLLECTION
+	else:
+		collection_name = path.get_file().get_basename()
 
 	Database.import_levels_from_string(content, collection_name)
 	_load_collections()
