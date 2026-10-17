@@ -130,7 +130,7 @@ ok_button_text = "IMPORT"
 mode_overrides_title = false
 file_mode = 0
 access = 2
-filters = PackedStringArray("*.xsb,*.txt;Sokoban Levels")
+filters = PackedStringArray("*.xsb,*.sok,*.txt;Sokoban Levels")
 use_native_dialog = true
 
 [node name="CollectionMenu" type="PopupMenu" parent="." unique_id=2008405525]
