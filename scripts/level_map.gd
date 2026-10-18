@@ -5,7 +5,7 @@ const WAYPOINT_SCENE = preload("res://scenes/waypoint.tscn")
 const HEATMAP_CELL_SCENE = preload("res://scenes/heatmap_cell.tscn")
 const TUNNEL_CELL_SCENE = preload("res://scenes/tunnel_cell.tscn")
 
-@onready var gameplay = $".."
+@onready var hud = $"../HudLayer/HUD"
 @onready var camera: Camera3D = $"../Camera"
 
 @onready var player: Player = $Player
@@ -99,7 +99,7 @@ func _ready() -> void:
 	reset_camera_position()
 
 	await get_tree().process_frame
-	gameplay.hud.level_label.text = str(SceneTransition.level_index)
+	hud.level_label.text = str(SceneTransition.level_index)
 	update_hud()
 
 
@@ -565,31 +565,31 @@ func _on_player_moved(to: Vector2i, pushed: bool) -> void:
 ## Refreshes the HUD counters and toolbar button states.
 func update_hud() -> void:
 	# Update HUD labels
-	gameplay.hud.moves_label.text = str(get_move_count())
-	gameplay.hud.pushes_label.text = str(get_push_count())
+	hud.moves_label.text = str(get_move_count())
+	hud.pushes_label.text = str(get_push_count())
 
 	_update_pushable_hint()
 
 	# Update toolbar buttons
 	if _solving:
-		gameplay.hud.undo_button.disabled = true
-		gameplay.hud.redo_button.disabled = true
-		gameplay.hud.undo_all_button.disabled = true
-		gameplay.hud.solve_button.disabled = false
-		gameplay.hud.transform_button.disabled = true
+		hud.undo_button.disabled = true
+		hud.redo_button.disabled = true
+		hud.undo_all_button.disabled = true
+		hud.solve_button.disabled = false
+		hud.transform_button.disabled = true
 	else:
 		if player.is_moving or _is_box_moving():
-			gameplay.hud.undo_button.disabled = true
-			gameplay.hud.redo_button.disabled = true
-			gameplay.hud.undo_all_button.disabled = true
-			gameplay.hud.solve_button.disabled = true
-			gameplay.hud.transform_button.disabled = true
+			hud.undo_button.disabled = true
+			hud.redo_button.disabled = true
+			hud.undo_all_button.disabled = true
+			hud.solve_button.disabled = true
+			hud.transform_button.disabled = true
 		else:
-			gameplay.hud.undo_button.disabled = !can_undo()
-			gameplay.hud.redo_button.disabled = !can_redo()
-			gameplay.hud.undo_all_button.disabled = !can_undo()
-			gameplay.hud.solve_button.disabled = false
-			gameplay.hud.transform_button.disabled = false
+			hud.undo_button.disabled = !can_undo()
+			hud.redo_button.disabled = !can_redo()
+			hud.undo_all_button.disabled = !can_undo()
+			hud.solve_button.disabled = false
+			hud.transform_button.disabled = false
 
 
 func _on_solved() -> void:
