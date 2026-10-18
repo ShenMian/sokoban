@@ -131,16 +131,7 @@ func _process(_delta: float) -> void:
 
 
 func _input(_event: InputEvent) -> void:
-	if Input.is_action_just_pressed("import_from_clipboard"):
-		var content := DisplayServer.clipboard_get()
-		Database.import_level_from_string(content, "Imported")
-		load_from_string(content)
-		_respawn_player_and_boxes()
-		_build_lower_bounds()
-		_build_tunnels()
-		update_hud()
-		reset_camera_position()
-	elif Input.is_action_just_pressed("export_to_clipboard"):
+	if Input.is_action_just_pressed("export_to_clipboard"):
 		DisplayServer.clipboard_set(get_map_xsb())
 
 
