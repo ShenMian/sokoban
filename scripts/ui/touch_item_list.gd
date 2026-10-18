@@ -10,6 +10,12 @@ signal item_long_pressed(index: int, at_position: Vector2)
 @export var long_press_duration: float = 0.5
 ## Distance in pixels a touch may travel before it counts as a drag.
 @export var drag_deadzone: float = 16.0
+## Width in pixels of the empty gutter between the items and the scrollbar.
+@export var scrollbar_gutter: int = 4
+## Width in pixels of the scrollbar grabber with a mouse.
+@export var scrollbar_grabber_width: int = 8
+## Width in pixels of the scrollbar grabber on a touchscreen.
+@export var touch_scrollbar_grabber_width: int = 24
 
 var _touch_index: int = -1
 var _touch_position: Vector2
@@ -22,11 +28,27 @@ var _long_press_timer: Timer
 
 func _ready() -> void:
 	gui_input.connect(_on_gui_input)
+	_setup_scrollbar()
 
 	_long_press_timer = Timer.new()
 	_long_press_timer.one_shot = true
 	_long_press_timer.timeout.connect(_on_long_press_timeout)
 	add_child(_long_press_timer)
+
+
+## Widens the scrollbar by the gutter and draws the grabber on its right edge.
+func _setup_scrollbar() -> void:
+	var scrollbar := get_v_scroll_bar()
+	var grabber_width := touch_scrollbar_grabber_width if DisplayServer.is_touchscreen_available() else scrollbar_grabber_width
+
+	var track := StyleBoxFlat.new()
+	track.bg_color = Color(0, 0, 0, 0)
+	track.content_margin_left = grabber_width / 2.0
+	track.content_margin_right = grabber_width / 2.0
+
+	scrollbar.add_theme_stylebox_override("scroll", track)
+	scrollbar.add_theme_stylebox_override("scroll_focus", track)
+	scrollbar.add_theme_constant_override("padding_left", scrollbar_gutter)
 
 
 ## Handles mouse and touch clicks on the list.
