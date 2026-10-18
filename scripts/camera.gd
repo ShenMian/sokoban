@@ -131,6 +131,24 @@ func zoom_out():
 	zoom_factor = min(zoom_factor + zoom_sensitivity, max_zoom_factor)
 
 
+## Returns the zoom level that fits a map of the given dimensions in view.
+func fit_zoom(dimensions: Vector2i, margin: float = 2.0) -> float:
+	var viewport := get_viewport()
+	var aspect = float(viewport.size.x) / float(viewport.size.y)
+	return max((dimensions.x + margin) / aspect, dimensions.y + margin)
+
+
+## Centers the camera and fits a map of the given dimensions in view.
+func reset_for_map(dimensions: Vector2i, margin: float = 2.0) -> void:
+	var fit := fit_zoom(dimensions, margin)
+	var center := Vector2(dimensions) / 2.0
+
+	target_position = Vector3(center.x, fit, center.y)
+	global_position = target_position
+	max_zoom_factor = fit * 1.2
+	zoom_factor = fit
+
+
 ## Returns true when the camera uses perspective projection.
 func is_3d_view() -> bool:
 	return projection == PROJECTION_PERSPECTIVE

@@ -2,6 +2,7 @@ extends Node3D
 
 @onready var level_map: LevelMap = $LevelMap
 @onready var hud: HUD = $HudLayer/HUD
+@onready var camera: Camera3D = $Camera
 
 @onready var pause_menu: PauseMenu = $MenuLayer/PauseMenu
 @onready var settings_menu: SettingsMenu = $MenuLayer/SettingsMenu
@@ -139,4 +140,4 @@ func _transform_level() -> void:
 	level_map.deselect_box()
 	level_map.place_player_and_boxes()
 	level_map.update_hud()
-	level_map.reset_camera_position()
+	camera.reset_for_map(level_map.get_dimensions())

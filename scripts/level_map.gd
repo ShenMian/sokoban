@@ -87,7 +87,7 @@ func _ready() -> void:
 
 	_respawn_player_and_boxes()
 
-	reset_camera_position()
+	camera.reset_for_map(get_dimensions())
 
 	await get_tree().process_frame
 	hud.level_label.text = str(SceneTransition.level_index)
@@ -473,22 +473,3 @@ func update_hud() -> void:
 
 func _on_solved() -> void:
 	enter_goal_player.stop()
-
-
-## Centers the camera and fits the whole level in view.
-func reset_camera_position() -> void:
-	var center := get_dimensions() / 2.0
-	var fit_zoom := get_fit_zoom()
-
-	camera.target_position = Vector3(center.x, fit_zoom, center.y)
-	camera.global_position = camera.target_position
-	camera.max_zoom_factor = fit_zoom * 1.2
-	camera.zoom_factor = fit_zoom
-
-
-## Returns the zoom level that fits the level in the viewport.
-func get_fit_zoom(margin: float = 2.0) -> float:
-	var viewport := get_viewport()
-	var aspect = float(viewport.size.x) / float(viewport.size.y)
-	var dimensions := get_dimensions()
-	return max((dimensions.x + margin) / aspect, dimensions.y + margin)
