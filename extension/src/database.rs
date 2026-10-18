@@ -330,18 +330,23 @@ impl Database {
     }
 
     fn upsert_levels_from_str(&self, levels_xsb: &str, collection_name: &str) {
-        self.conn().execute("BEGIN TRANSACTION", ()).unwrap();
+        let tx = self.conn().unchecked_transaction().unwrap();
 
         let collection_id: i64 = self.upsert_collection(collection_name);
 
-        let levels = Level::load_from_str(levels_xsb);
-        for (i, level) in levels.map(Result::unwrap).enumerate() {
+        let mut idx = 0;
+        for level in Level::load_from_str(levels_xsb) {
+            let Ok(level) = level else {
+                godot_warn!("skipping an unparsable level in \"{collection_name}\"");
+                continue;
+            };
+
+            idx += 1;
             let level_id = self.upsert_level(level);
-            let idx = i as i64 + 1;
             self.add_level_to_collection(collection_id, level_id, Some(idx));
         }
 
-        self.conn().execute("COMMIT TRANSACTION", ()).unwrap();
+        tx.commit().unwrap();
     }
 
     fn upsert_collection(&self, name: &str) -> i64 {
