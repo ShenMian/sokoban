@@ -7,6 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://0cexp28cej4" path="res://assets/audio/sfx/box_enter_goal.ogg" id="4_ublle"]
 [ext_resource type="AudioStream" uid="uid://dchc8ar6lkdcr" path="res://assets/audio/sfx/box_leave_goal.ogg" id="5_8v2yb"]
 [ext_resource type="Script" uid="uid://cdvhvo5800t5h" path="res://scripts/path_preview.gd" id="6_pprev"]
+[ext_resource type="Script" uid="uid://df5javmbnfux" path="res://scripts/waypoint_layer.gd" id="7_wlayer"]
 
 [node name="LevelMap" type="LevelMap" unique_id=873965418]
 mesh_library = ExtResource("1_12kai")
@@ -27,6 +28,7 @@ stream = ExtResource("5_8v2yb")
 volume_db = -10.0
 
 [node name="Waypoints" type="Node3D" parent="." unique_id=1829147570]
+script = ExtResource("7_wlayer")
 
 [node name="PathPreview" type="MeshInstance3D" parent="." unique_id=1707999523]
 cast_shadow = 0

@@ -1,7 +1,6 @@
 extends LevelMap
 
 const BOX_SCENE = preload("res://scenes/box.tscn")
-const WAYPOINT_SCENE = preload("res://scenes/waypoint.tscn")
 const HEATMAP_CELL_SCENE = preload("res://scenes/heatmap_cell.tscn")
 const TUNNEL_CELL_SCENE = preload("res://scenes/tunnel_cell.tscn")
 
@@ -10,7 +9,7 @@ const TUNNEL_CELL_SCENE = preload("res://scenes/tunnel_cell.tscn")
 
 @onready var player: Player = $Player
 @onready var boxes_container: Node3D = $Boxes
-@onready var waypoints_container: Node3D = $Waypoints
+@onready var waypoints: WaypointLayer = $Waypoints
 @onready var lower_bounds_container: Node3D = $LowerBounds
 @onready var tunnels_container: Node3D = $Tunnels
 @onready var path_preview: PathPreview = $PathPreview
@@ -25,9 +24,6 @@ const TUNNEL_CELL_SCENE = preload("res://scenes/tunnel_cell.tscn")
 
 ## Dim boxes that cannot currently be pushed.
 @export var pushable_hint: bool
-
-## Height of waypoint markers.
-@export var waypoint_height: float = 0.01
 
 ## Show lower-bound heatmap.
 @export
@@ -75,6 +71,10 @@ func _ready() -> void:
 	solve_cancelled.connect(_on_solve_cancelled)
 
 	path_preview.setup(self)
+	waypoints.setup(self)
+	waypoints.waypoint_clicked.connect(_on_waypoint_clicked)
+	waypoints.waypoint_hovered.connect(path_preview.show_path)
+	waypoints.waypoint_unhovered.connect(path_preview.clear)
 
 	MapTheme.apply_theme_for_variants(self)
 
@@ -366,7 +366,7 @@ func select_box(box: Box) -> void:
 		return
 	deselect_box()
 	_selected_box = box
-	_build_waypoints(box.grid_position())
+	waypoints.show_for(box.grid_position())
 
 
 ## Deselects the current box.
@@ -377,22 +377,9 @@ func deselect_box() -> void:
 	_clear_waypoints()
 
 
-## Builds waypoints from a box position.
-func _build_waypoints(from: Vector2i) -> void:
-	_clear_waypoints()
-	for to in get_waypoints(from):
-		var waypoint = WAYPOINT_SCENE.instantiate()
-		waypoint.position = Vector3(to.x, waypoint_height, to.y)
-		waypoint.clicked.connect(func() -> void: _on_waypoint_clicked(to))
-		waypoint.hovered.connect(path_preview.show_path.bind(to))
-		waypoint.unhovered.connect(path_preview.clear)
-		waypoints_container.add_child(waypoint)
-
-
-## Clears all waypoints and path preview.
+## Clears the waypoints and the path preview.
 func _clear_waypoints() -> void:
-	for child in waypoints_container.get_children():
-		child.queue_free()
+	waypoints.clear()
 	path_preview.clear()
 
 
