@@ -13,7 +13,7 @@ const TUNNEL_CELL_SCENE = preload("res://scenes/tunnel_cell.tscn")
 @onready var waypoints_container: Node3D = $Waypoints
 @onready var lower_bounds_container: Node3D = $LowerBounds
 @onready var tunnels_container: Node3D = $Tunnels
-@onready var path_preview_container: Node3D = $PathPreview
+@onready var path_preview: PathPreview = $PathPreview
 
 @onready var enter_goal_player: AudioStreamPlayer3D = $Player/EnterGoalPlayer
 @onready var leave_goal_player: AudioStreamPlayer3D = $Player/LeaveGoalPlayer
@@ -28,17 +28,6 @@ const TUNNEL_CELL_SCENE = preload("res://scenes/tunnel_cell.tscn")
 
 ## Height of waypoint markers.
 @export var waypoint_height: float = 0.01
-
-@export_group("Path Preview")
-## Whether hovering a waypoint shows a path preview.
-@export_custom(PROPERTY_HINT_GROUP_ENABLE, "") var enable_path_preview: bool = true
-## Material of the path preview ribbon.
-@export var path_preview_material: StandardMaterial3D
-## Width of the path preview ribbon.
-@export var path_preview_width: float = 0.1
-## Height of the path preview ribbon above the floor.
-@export var path_preview_height: float = 0.02
-@export_group("", "")
 
 ## Show lower-bound heatmap.
 @export
@@ -84,6 +73,8 @@ func _ready() -> void:
 	solve_completed.connect(_on_solve_completed)
 	solve_no_solution.connect(_on_solve_no_solution)
 	solve_cancelled.connect(_on_solve_cancelled)
+
+	path_preview.setup(self)
 
 	MapTheme.apply_theme_for_variants(self)
 
@@ -393,8 +384,8 @@ func _build_waypoints(from: Vector2i) -> void:
 		var waypoint = WAYPOINT_SCENE.instantiate()
 		waypoint.position = Vector3(to.x, waypoint_height, to.y)
 		waypoint.clicked.connect(func() -> void: _on_waypoint_clicked(to))
-		waypoint.hovered.connect(func() -> void: _show_path_preview(to))
-		waypoint.unhovered.connect(_clear_path_preview)
+		waypoint.hovered.connect(path_preview.show_path.bind(to))
+		waypoint.unhovered.connect(path_preview.clear)
 		waypoints_container.add_child(waypoint)
 
 
@@ -402,7 +393,7 @@ func _build_waypoints(from: Vector2i) -> void:
 func _clear_waypoints() -> void:
 	for child in waypoints_container.get_children():
 		child.queue_free()
-	_clear_path_preview()
+	path_preview.clear()
 
 
 ## Builds lower-bound heatmap.
@@ -438,118 +429,6 @@ func _build_tunnels() -> void:
 		tunnel_cell.position = Vector3(tunnel[0].x, tunnels_height, tunnel[0].y)
 		tunnels_container.add_child(tunnel_cell)
 		tunnel_cell.setup(tunnel[1])
-
-
-## Draws the smoothed path preview toward the hovered waypoint.
-func _show_path_preview(to: Vector2i) -> void:
-	if not enable_path_preview:
-		return
-
-	var box_path := get_box_path(to)
-	if box_path.size() < 2:
-		return
-	var path2d := _smooth_path(box_path, 0.3, 8)
-
-	var path3d: Array[Vector3] = []
-	for point in path2d:
-		path3d.append(Vector3(point.x + 0.5, path_preview_height, point.y + 0.5))
-
-	path_preview_container.mesh = _create_path_mesh(path3d, path_preview_width)
-	path_preview_container.material_override = path_preview_material
-
-
-## Rounds the corners of a tile path into a smooth polyline.
-func _smooth_path(path: Array[Vector2i], corner_radius: float, resolution: int) -> Array[Vector2]:
-	if path.size() < 3:
-		var raw_path: Array[Vector2] = []
-		for point in path:
-			raw_path.append(Vector2(point))
-		return raw_path
-
-	var smoothed: Array[Vector2] = []
-	smoothed.append(Vector2(path[0]))
-
-	for i in range(1, path.size() - 1):
-		var prev := Vector2(path[i - 1])
-		var curr := Vector2(path[i])
-		var next := Vector2(path[i + 1])
-
-		var dir_in := (curr - prev).normalized()
-		var dir_out := (next - curr).normalized()
-
-		# If the segment is straight or a 180° U-turn, skip smoothing
-		if abs(dir_in.dot(dir_out)) > 0.99:
-			smoothed.append(curr)
-			continue
-
-		var max_radius = min(curr.distance_to(prev) / 2.0, curr.distance_to(next) / 2.0)
-		var actual_radius = min(corner_radius, max_radius)
-
-		var curve_start = curr - dir_in * actual_radius
-		var curve_end = curr + dir_out * actual_radius
-
-		# Quadratic Bezier curve interpolation
-		for j in range(resolution + 1):
-			var t := float(j) / resolution
-			var point = curve_start * (1 - t) * (1 - t) + curr * 2 * (1 - t) * t + curve_end * t * t
-			smoothed.append(point)
-
-	smoothed.append(Vector2(path[-1]))
-
-	return smoothed
-
-
-## Builds a triangle-strip ribbon mesh along the given path.
-func _create_path_mesh(smoothed_path: Array[Vector3], width: float) -> ImmediateMesh:
-	assert(smoothed_path.size() >= 2)
-
-	var mesh := ImmediateMesh.new()
-	mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLE_STRIP)
-
-	var half_width := width / 2.0
-	for i in range(smoothed_path.size()):
-		var curr := smoothed_path[i]
-		var dir_prev := Vector3.ZERO
-		var dir_next := Vector3.ZERO
-
-		if i > 0:
-			dir_prev = (curr - smoothed_path[i - 1]).normalized()
-		if i < smoothed_path.size() - 1:
-			dir_next = (smoothed_path[i + 1] - curr).normalized()
-
-		var side: Vector3
-		if dir_prev == Vector3.ZERO:
-			# Start point
-			side = dir_next.cross(Vector3.UP).normalized() * half_width
-		elif dir_next == Vector3.ZERO:
-			# End point
-			side = dir_prev.cross(Vector3.UP).normalized() * half_width
-		else:
-			# Corner
-			var tangent := (dir_prev + dir_next).normalized()
-			if tangent == Vector3.ZERO:
-				side = dir_prev.cross(Vector3.UP).normalized() * half_width
-			else:
-				var miter := tangent.cross(Vector3.UP).normalized()
-				var normal_prev := dir_prev.cross(Vector3.UP).normalized()
-				var dot_val := miter.dot(normal_prev)
-
-				if abs(dot_val) < 0.001:
-					side = normal_prev * half_width
-				else:
-					var miter_len := half_width / dot_val
-					side = miter * miter_len
-
-		mesh.surface_add_vertex(curr + side)
-		mesh.surface_add_vertex(curr - side)
-
-	mesh.surface_end()
-	return mesh
-
-
-## Clears the path preview mesh.
-func _clear_path_preview() -> void:
-	path_preview_container.mesh = null
 
 
 func _on_player_moved(to: Vector2i, pushed: bool) -> void:

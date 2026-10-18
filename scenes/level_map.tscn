@@ -6,12 +6,12 @@
 [ext_resource type="Material" uid="uid://nh33k8bm3jcq" path="res://assets/materials/path_preview_material.tres" id="3_28enl"]
 [ext_resource type="AudioStream" uid="uid://0cexp28cej4" path="res://assets/audio/sfx/box_enter_goal.ogg" id="4_ublle"]
 [ext_resource type="AudioStream" uid="uid://dchc8ar6lkdcr" path="res://assets/audio/sfx/box_leave_goal.ogg" id="5_8v2yb"]
+[ext_resource type="Script" uid="uid://cdvhvo5800t5h" path="res://scripts/path_preview.gd" id="6_pprev"]
 
 [node name="LevelMap" type="LevelMap" unique_id=873965418]
 mesh_library = ExtResource("1_12kai")
 cell_size = Vector3(1, 1, 1)
 script = ExtResource("2_28enl")
-path_preview_material = ExtResource("3_28enl")
 
 [node name="Boxes" type="Node3D" parent="." unique_id=1610368111]
 
@@ -30,6 +30,8 @@ volume_db = -10.0
 
 [node name="PathPreview" type="MeshInstance3D" parent="." unique_id=1707999523]
 cast_shadow = 0
+script = ExtResource("6_pprev")
+material = ExtResource("3_28enl")
 
 [node name="LowerBounds" type="Node3D" parent="." unique_id=913879998]
 
