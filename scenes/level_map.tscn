@@ -8,6 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://dchc8ar6lkdcr" path="res://assets/audio/sfx/box_leave_goal.ogg" id="5_8v2yb"]
 [ext_resource type="Script" uid="uid://cdvhvo5800t5h" path="res://scripts/path_preview.gd" id="6_pprev"]
 [ext_resource type="Script" uid="uid://df5javmbnfux" path="res://scripts/waypoint_layer.gd" id="7_wlayer"]
+[ext_resource type="Script" uid="uid://bvuo32d2u1wl3" path="res://scripts/lower_bounds_layer.gd" id="8_lbounds"]
 
 [node name="LevelMap" type="LevelMap" unique_id=873965418]
 mesh_library = ExtResource("1_12kai")
@@ -36,5 +37,6 @@ script = ExtResource("6_pprev")
 material = ExtResource("3_28enl")
 
 [node name="LowerBounds" type="Node3D" parent="." unique_id=913879998]
+script = ExtResource("8_lbounds")
 
 [node name="Tunnels" type="Node3D" parent="." unique_id=1198208942]

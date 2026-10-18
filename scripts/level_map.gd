@@ -1,7 +1,6 @@
 extends LevelMap
 
 const BOX_SCENE = preload("res://scenes/box.tscn")
-const HEATMAP_CELL_SCENE = preload("res://scenes/heatmap_cell.tscn")
 const TUNNEL_CELL_SCENE = preload("res://scenes/tunnel_cell.tscn")
 
 @onready var hud = $"../HudLayer/HUD"
@@ -10,7 +9,7 @@ const TUNNEL_CELL_SCENE = preload("res://scenes/tunnel_cell.tscn")
 @onready var player: Player = $Player
 @onready var boxes_container: Node3D = $Boxes
 @onready var waypoints: WaypointLayer = $Waypoints
-@onready var lower_bounds_container: Node3D = $LowerBounds
+@onready var lower_bounds: LowerBoundsLayer = $LowerBounds
 @onready var tunnels_container: Node3D = $Tunnels
 @onready var path_preview: PathPreview = $PathPreview
 
@@ -24,16 +23,6 @@ const TUNNEL_CELL_SCENE = preload("res://scenes/tunnel_cell.tscn")
 
 ## Dim boxes that cannot currently be pushed.
 @export var pushable_hint: bool
-
-## Show lower-bound heatmap.
-@export
-var show_lower_bounds: bool:
-	set(value):
-		show_lower_bounds = value
-		_build_lower_bounds()
-
-## Height of lower-bound heatmap cells.
-@export var lower_bounds_height := 0.01
 
 ## Show tunnel overlay.
 @export
@@ -72,6 +61,7 @@ func _ready() -> void:
 
 	path_preview.setup(self)
 	waypoints.setup(self)
+	lower_bounds.setup(self)
 	waypoints.waypoint_clicked.connect(_on_waypoint_clicked)
 	waypoints.waypoint_hovered.connect(path_preview.show_path)
 	waypoints.waypoint_unhovered.connect(path_preview.clear)
@@ -266,7 +256,7 @@ func _on_setting_changed(section: String, key: String, value: Variant) -> void:
 			pushable_hint = value
 			_update_pushable_hint()
 		elif key == "lower_bounds":
-			show_lower_bounds = value
+			lower_bounds.enable = value
 		elif key == "tunnels":
 			show_tunnels = value
 		elif key == "best_state":
@@ -381,25 +371,6 @@ func deselect_box() -> void:
 func _clear_waypoints() -> void:
 	waypoints.clear()
 	path_preview.clear()
-
-
-## Builds lower-bound heatmap.
-func _build_lower_bounds() -> void:
-	for child in lower_bounds_container.get_children():
-		child.queue_free()
-
-	if not show_lower_bounds:
-		return
-
-	var min_costs: Dictionary = get_min_costs(solver_strategy)
-	if min_costs.is_empty():
-		return
-	var max_lower_bound: int = min_costs.values().max()
-	for pos in min_costs:
-		var heatmap_cell: HeatmapCell = HEATMAP_CELL_SCENE.instantiate()
-		heatmap_cell.position = Vector3(pos.x, lower_bounds_height, pos.y)
-		lower_bounds_container.add_child(heatmap_cell)
-		heatmap_cell.setup(min_costs[pos], max_lower_bound)
 
 
 ## Builds tunnel overlay.
