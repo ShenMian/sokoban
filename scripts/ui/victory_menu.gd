@@ -23,7 +23,7 @@ func open(actions: Actions):
 	moves_label.text = str(actions.moves())
 	pushes_label.text = str(actions.pushes())
 
-	var level_id: int = SceneTransition.level_id
+	var level_id: int = SceneTransition.get_level_id()
 	var prev_solution := Database.get_best_solution(level_id)
 	Database.add_solution(level_id, str(actions))
 	var best_solution := Database.get_best_solution(level_id)

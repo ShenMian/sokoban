@@ -85,11 +85,11 @@ func _on_request_menu() -> void:
 ## Persists the current level progress as a snapshot.
 func _auto_save():
 	if level_map.is_solved():
-		Database.clear_snapshot(SceneTransition.level_id, true)
+		Database.clear_snapshot(SceneTransition.get_level_id(), true)
 	elif level_map.get_actions_lurd().is_empty():
-		Database.clear_snapshot(SceneTransition.level_id, true)
+		Database.clear_snapshot(SceneTransition.get_level_id(), true)
 	else:
-		Database.add_snapshot(SceneTransition.level_id, level_map.get_actions_lurd(), true)
+		Database.add_snapshot(SceneTransition.get_level_id(), level_map.get_actions_lurd(), true)
 
 
 func _input(_event: InputEvent) -> void:

@@ -58,11 +58,11 @@ func _ready() -> void:
 
 	MapTheme.apply_theme_for_variants(self)
 
-	assert(SceneTransition.level_id != null)
-	var level := Database.get_level(SceneTransition.level_id)
+	assert(SceneTransition.get_level_id() != null)
+	var level := Database.get_level(SceneTransition.get_level_id())
 	load_from_string(level.get("map_xsb"))
 
-	var snapshot := Database.get_snapshot(SceneTransition.level_id, true)
+	var snapshot := Database.get_snapshot(SceneTransition.get_level_id(), true)
 	fast_forward(snapshot)
 
 	_respawn_player_and_boxes()
