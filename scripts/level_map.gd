@@ -1,7 +1,6 @@
 extends LevelMap
 
 const BOX_SCENE = preload("res://scenes/box.tscn")
-const TUNNEL_CELL_SCENE = preload("res://scenes/tunnel_cell.tscn")
 
 @onready var hud = $"../HudLayer/HUD"
 @onready var camera: Camera3D = $"../Camera"
@@ -10,7 +9,7 @@ const TUNNEL_CELL_SCENE = preload("res://scenes/tunnel_cell.tscn")
 @onready var boxes_container: Node3D = $Boxes
 @onready var waypoints: WaypointLayer = $Waypoints
 @onready var lower_bounds: LowerBoundsLayer = $LowerBounds
-@onready var tunnels_container: Node3D = $Tunnels
+@onready var tunnels: TunnelLayer = $Tunnels
 @onready var path_preview: PathPreview = $PathPreview
 
 @onready var enter_goal_player: AudioStreamPlayer3D = $Player/EnterGoalPlayer
@@ -23,16 +22,6 @@ const TUNNEL_CELL_SCENE = preload("res://scenes/tunnel_cell.tscn")
 
 ## Dim boxes that cannot currently be pushed.
 @export var pushable_hint: bool
-
-## Show tunnel overlay.
-@export
-var show_tunnels: bool:
-	set(value):
-		show_tunnels = value
-		_build_tunnels()
-
-## Height of tunnel overlay cells.
-@export var tunnels_height := 0.015
 
 ## Teleport the pieces to the solver's current best state while solving.
 @export
@@ -62,6 +51,7 @@ func _ready() -> void:
 	path_preview.setup(self)
 	waypoints.setup(self)
 	lower_bounds.setup(self)
+	tunnels.setup(self)
 	waypoints.waypoint_clicked.connect(_on_waypoint_clicked)
 	waypoints.waypoint_hovered.connect(path_preview.show_path)
 	waypoints.waypoint_unhovered.connect(path_preview.clear)
@@ -258,7 +248,7 @@ func _on_setting_changed(section: String, key: String, value: Variant) -> void:
 		elif key == "lower_bounds":
 			lower_bounds.enable = value
 		elif key == "tunnels":
-			show_tunnels = value
+			tunnels.enable = value
 		elif key == "best_state":
 			show_best_state = value
 		elif key == "algorithm":
@@ -371,22 +361,6 @@ func deselect_box() -> void:
 func _clear_waypoints() -> void:
 	waypoints.clear()
 	path_preview.clear()
-
-
-## Builds tunnel overlay.
-func _build_tunnels() -> void:
-	for child in tunnels_container.get_children():
-		child.queue_free()
-
-	if not show_tunnels:
-		return
-
-	var tunnels := get_tunnels()
-	for tunnel in tunnels:
-		var tunnel_cell: TunnelCell = TUNNEL_CELL_SCENE.instantiate()
-		tunnel_cell.position = Vector3(tunnel[0].x, tunnels_height, tunnel[0].y)
-		tunnels_container.add_child(tunnel_cell)
-		tunnel_cell.setup(tunnel[1])
 
 
 func _on_player_moved(to: Vector2i, pushed: bool) -> void:

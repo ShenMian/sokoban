@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://cdvhvo5800t5h" path="res://scripts/path_preview.gd" id="6_pprev"]
 [ext_resource type="Script" uid="uid://df5javmbnfux" path="res://scripts/waypoint_layer.gd" id="7_wlayer"]
 [ext_resource type="Script" uid="uid://bvuo32d2u1wl3" path="res://scripts/lower_bounds_layer.gd" id="8_lbounds"]
+[ext_resource type="Script" uid="uid://c8agla8des0tg" path="res://scripts/tunnel_layer.gd" id="9_tlayer"]
 
 [node name="LevelMap" type="LevelMap" unique_id=873965418]
 mesh_library = ExtResource("1_12kai")
@@ -40,3 +41,4 @@ material = ExtResource("3_28enl")
 script = ExtResource("8_lbounds")
 
 [node name="Tunnels" type="Node3D" parent="." unique_id=1198208942]
+script = ExtResource("9_tlayer")
