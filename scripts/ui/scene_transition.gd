@@ -1,14 +1,17 @@
-extends CanvasLayer
+extends Node
 
-signal transition_finished
-
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
-@onready var overlay: ColorRect = $ColorRect
+const GAMEPLAY_SCENE_PATH := "res://scenes/gameplay.tscn"
+const LEVEL_LIST_SCENE_PATH := "res://scenes/ui/level_list.tscn"
 
 var collection_name: String = ""
 var level_index: int = -1
 
 var _level_id: int
+var _gameplay_scene: PackedScene
+
+
+func _ready() -> void:
+	_gameplay_scene = await _load_packed_scene(GAMEPLAY_SCENE_PATH)
 
 
 ## Loads a level from a collection and transitions to gameplay.
@@ -16,7 +19,9 @@ func load_level(new_collection_name: String, new_level_index: int) -> void:
 	collection_name = new_collection_name
 	level_index = new_level_index
 	_level_id = Database.get_level_id_by_index(collection_name, level_index)
-	change_scene_to_file("res://scenes/gameplay.tscn")
+
+	var scene := await _get_gameplay_scene()
+	get_tree().change_scene_to_packed(scene)
 
 
 ## Returns true if there is a previous level in the collection.
@@ -55,31 +60,29 @@ func load_next_level() -> void:
 
 ## Transitions to the level list (main menu).
 func load_main_menu() -> void:
-	change_scene_to_file("res://scenes/ui/level_list.tscn")
+	var scene := await _load_packed_scene(LEVEL_LIST_SCENE_PATH)
+	get_tree().change_scene_to_packed(scene)
 
 
-## Fades out, loads the given scene, then fades back in.
-func change_scene_to_file(path: String) -> void:
-	overlay.visible = true
-	animation_player.play("fade_in")
+## Returns the gameplay scene, waiting for its background load if it is still
+## running.
+func _get_gameplay_scene() -> PackedScene:
+	while _gameplay_scene == null:
+		await get_tree().process_frame
+	return _gameplay_scene
 
-	var scene: PackedScene
+
+## Loads a scene, using a threaded load where the platform supports it.
+func _load_packed_scene(path: String) -> PackedScene:
 	if OS.has_feature("web"):
 		# Threaded resource loading is broken on the web when both extension
 		# support and thread support are enabled, so the status never leaves
 		# THREAD_LOAD_IN_PROGRESS.
 		# - https://github.com/godotengine/godot/issues/104498
 		# - https://github.com/godotengine/godot/issues/112958
-		scene = load(path) as PackedScene
-	else:
-		ResourceLoader.load_threaded_request(path)
-		while ResourceLoader.load_threaded_get_status(path) == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
-			await get_tree().process_frame
-		scene = ResourceLoader.load_threaded_get(path) as PackedScene
+		return load(path) as PackedScene
 
-	get_tree().change_scene_to_packed(scene)
-
-	animation_player.play_backwards("fade_in")
-	await animation_player.animation_finished
-	overlay.visible = false
-	transition_finished.emit()
+	ResourceLoader.load_threaded_request(path)
+	while ResourceLoader.load_threaded_get_status(path) == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
+		await get_tree().process_frame
+	return ResourceLoader.load_threaded_get(path) as PackedScene
