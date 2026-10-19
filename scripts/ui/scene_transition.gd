@@ -8,14 +8,12 @@ signal transition_finished
 var level_id: int
 
 var collection_name: String = ""
-var collection_count: int
 var level_index: int = -1
 
 
 ## Loads a level from a collection and transitions to gameplay.
 func load_level(new_collection_name: String, new_level_index: int) -> void:
 	collection_name = new_collection_name
-	collection_count = Database.get_collection_size(collection_name)
 	level_index = new_level_index
 	level_id = Database.get_level_id_by_index(collection_name, level_index)
 	change_scene_to_file("res://scenes/gameplay.tscn")
@@ -28,7 +26,12 @@ func has_previous_level() -> bool:
 
 ## Returns true if there is a next level in the collection.
 func has_next_level() -> bool:
-	return level_index < collection_count
+	return level_index < get_collection_size()
+
+
+## Returns the number of levels in the collection.
+func get_collection_size() -> int:
+	return Database.get_collection_size(collection_name)
 
 
 ## Loads the previous level in the collection.
