@@ -88,7 +88,9 @@ func rebuild_player_and_boxes() -> void:
 	var box_positions := level_map.get_box_positions()
 
 	var multi_mesh := boxes.multimesh
-	multi_mesh.instance_count = box_positions.size()
+	if multi_mesh.instance_count < box_positions.size():
+		multi_mesh.instance_count = box_positions.size()
+	multi_mesh.visible_instance_count = box_positions.size()
 	for i in range(box_positions.size()):
 		var position = Vector3(box_positions[i].x, 0.0, box_positions[i].y) + OFFSET
 		multi_mesh.set_instance_transform(i, Transform3D().translated(position))
