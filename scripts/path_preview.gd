@@ -91,35 +91,35 @@ func _smooth_path(path: Array[Vector2i], corner_radius: float, resolution: int) 
 func _create_path_mesh(smoothed_path: Array[Vector3], ribbon_width: float) -> ImmediateMesh:
 	assert(smoothed_path.size() >= 2)
 
-	var mesh := ImmediateMesh.new()
-	mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLE_STRIP)
+	var immediate_mesh := ImmediateMesh.new()
+	immediate_mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLE_STRIP)
 
 	var half_width := ribbon_width / 2.0
 	for i in range(smoothed_path.size()):
 		var curr := smoothed_path[i]
-		var dir_prev := Vector3.ZERO
-		var dir_next := Vector3.ZERO
+		var direction_prev := Vector3.ZERO
+		var direction_next := Vector3.ZERO
 
 		if i > 0:
-			dir_prev = (curr - smoothed_path[i - 1]).normalized()
+			direction_prev = (curr - smoothed_path[i - 1]).normalized()
 		if i < smoothed_path.size() - 1:
-			dir_next = (smoothed_path[i + 1] - curr).normalized()
+			direction_next = (smoothed_path[i + 1] - curr).normalized()
 
 		var side: Vector3
-		if dir_prev == Vector3.ZERO:
+		if direction_prev == Vector3.ZERO:
 			# Start point
-			side = dir_next.cross(Vector3.UP).normalized() * half_width
-		elif dir_next == Vector3.ZERO:
+			side = direction_next.cross(Vector3.UP).normalized() * half_width
+		elif direction_next == Vector3.ZERO:
 			# End point
-			side = dir_prev.cross(Vector3.UP).normalized() * half_width
+			side = direction_prev.cross(Vector3.UP).normalized() * half_width
 		else:
 			# Corner
-			var tangent := (dir_prev + dir_next).normalized()
+			var tangent := (direction_prev + direction_next).normalized()
 			if tangent == Vector3.ZERO:
-				side = dir_prev.cross(Vector3.UP).normalized() * half_width
+				side = direction_prev.cross(Vector3.UP).normalized() * half_width
 			else:
 				var miter := tangent.cross(Vector3.UP).normalized()
-				var normal_prev := dir_prev.cross(Vector3.UP).normalized()
+				var normal_prev := direction_prev.cross(Vector3.UP).normalized()
 				var dot_val := miter.dot(normal_prev)
 
 				if abs(dot_val) < 0.001:
@@ -128,8 +128,8 @@ func _create_path_mesh(smoothed_path: Array[Vector3], ribbon_width: float) -> Im
 					var miter_len := half_width / dot_val
 					side = miter * miter_len
 
-		mesh.surface_add_vertex(curr + side)
-		mesh.surface_add_vertex(curr - side)
+		immediate_mesh.surface_add_vertex(curr + side)
+		immediate_mesh.surface_add_vertex(curr - side)
 
-	mesh.surface_end()
-	return mesh
+	immediate_mesh.surface_end()
+	return immediate_mesh
