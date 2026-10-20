@@ -20,7 +20,10 @@ func moves() -> int:
 
 ## Returns the number of pushes made.
 func pushes() -> int:
-	return _count_uppercase(lurd)
+	var count := 0
+	for letter in "URDL":
+		count += lurd.count(letter)
+	return count
 
 
 ## Rotates every action 90° clockwise.
@@ -61,12 +64,3 @@ func flip_vertical():
 
 func _to_string() -> String:
 	return lurd
-
-
-## Returns the number of uppercase letters in the given text.
-func _count_uppercase(text: String) -> int:
-	var count := 0
-	for i in range(text.length()):
-		if text[i] >= "A" and text[i] <= "Z":
-			count += 1
-	return count
