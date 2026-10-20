@@ -10,6 +10,17 @@
 [ext_resource type="Script" uid="uid://df5javmbnfux" path="res://scripts/waypoint_layer.gd" id="7_wlayer"]
 [ext_resource type="Script" uid="uid://bvuo32d2u1wl3" path="res://scripts/lower_bounds_layer.gd" id="8_lbounds"]
 [ext_resource type="Script" uid="uid://c8agla8des0tg" path="res://scripts/tunnel_layer.gd" id="9_tlayer"]
+[ext_resource type="Material" uid="uid://dolx0vl1hcm6b" path="res://assets/materials/waypoint_normal_material.tres" id="10_wnorm"]
+[ext_resource type="Material" uid="uid://bjmab2ru3iajr" path="res://assets/materials/waypoint_hover_material.tres" id="11_whover"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_waypt"]
+size = Vector2(1, 1)
+center_offset = Vector3(0.5, 0, 0.5)
+
+[sub_resource type="MultiMesh" id="MultiMesh_waypt"]
+resource_local_to_scene = true
+transform_format = 1
+mesh = SubResource("PlaneMesh_waypt")
 
 [node name="LevelMap" type="LevelMap" unique_id=873965418]
 mesh_library = ExtResource("1_12kai")
@@ -31,6 +42,17 @@ volume_db = -10.0
 
 [node name="Waypoints" type="Node3D" parent="." unique_id=1829147570]
 script = ExtResource("7_wlayer")
+
+[node name="Markers" type="MultiMeshInstance3D" parent="Waypoints" unique_id=1541049337]
+material_override = ExtResource("10_wnorm")
+cast_shadow = 0
+multimesh = SubResource("MultiMesh_waypt")
+
+[node name="HoverMarker" type="MeshInstance3D" parent="Waypoints" unique_id=2076623411]
+visible = false
+material_override = ExtResource("11_whover")
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_waypt")
 
 [node name="PathPreview" type="MeshInstance3D" parent="." unique_id=1707999523]
 cast_shadow = 0

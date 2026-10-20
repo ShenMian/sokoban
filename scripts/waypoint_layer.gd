@@ -3,19 +3,23 @@ class_name WaypointLayer
 
 ## Builds the waypoint markers a selected box can be pushed to.
 
-const WAYPOINT_SCENE := preload("res://scenes/waypoint.tscn")
-
 ## Emitted when a waypoint is clicked.
-signal waypoint_clicked(to: Vector2i)
+signal waypoint_clicked(pos: Vector2i)
 ## Emitted when a waypoint is hovered.
-signal waypoint_hovered(to: Vector2i)
+signal waypoint_hovered(pos: Vector2i)
 ## Emitted when the hovered waypoint is left.
 signal waypoint_unhovered
 
 ## Height of waypoint markers.
 @export var waypoint_height: float = 0.01
 
+@onready var _markers: MultiMeshInstance3D = $Markers
+@onready var _hover_marker: MeshInstance3D = $HoverMarker
+
 var _map: LevelMap
+# Instance index of every shown waypoint.
+var _indices: Dictionary = {}
+var _hovered_position: Variant = null
 
 
 ## Wires the level map that provides the reachable box positions.
@@ -29,16 +33,85 @@ func show_for(from: Vector2i) -> void:
 	if _map == null:
 		return
 
-	for to in _map.get_waypoints(from):
-		var waypoint = WAYPOINT_SCENE.instantiate()
-		waypoint.position = Vector3(to.x, waypoint_height, to.y)
-		waypoint.clicked.connect(waypoint_clicked.emit.bind(to))
-		waypoint.hovered.connect(waypoint_hovered.emit.bind(to))
-		waypoint.unhovered.connect(waypoint_unhovered.emit)
-		add_child(waypoint)
+	var positions := _map.get_waypoints(from)
+	var multimesh := _markers.multimesh
+	multimesh.instance_count = positions.size()
+	for i in range(positions.size()):
+		_indices[positions[i]] = i
+		multimesh.set_instance_transform(i, _transform(positions[i]))
 
 
 ## Removes all markers.
 func clear() -> void:
-	for child in get_children():
-		child.queue_free()
+	_hovered_position = null
+	_hover_marker.visible = false
+	_indices.clear()
+	_markers.multimesh.instance_count = 0
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if _indices.is_empty():
+		return
+
+	if event is InputEventMouseMotion:
+		_update_hover(_waypoint_at(event.position))
+	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		var pos: Variant = _waypoint_at(event.position)
+		if pos != null:
+			get_viewport().set_input_as_handled()
+			waypoint_clicked.emit(pos)
+
+
+## Returns the waypoint at the given screen position, or `null`.
+func _waypoint_at(screen_position: Vector2) -> Variant:
+	var camera := get_viewport().get_camera_3d()
+	var ray_origin := camera.project_ray_origin(screen_position)
+	var ray_normal := camera.project_ray_normal(screen_position)
+	var ray_end: Variant = Plane(Vector3.UP, waypoint_height).intersects_ray(
+		ray_origin, ray_normal
+	)
+	if ray_end == null:
+		return null
+
+	var pos := Vector2i(floori(ray_end.x), floori(ray_end.z))
+	if not _indices.has(pos):
+		return null
+
+	var query := PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
+	query.collide_with_areas = true
+	query.collide_with_bodies = false
+	var space_state := get_world_3d().direct_space_state
+	var result := space_state.intersect_ray(query)
+	if not result.is_empty() and (result["collider"]  as CollisionObject3D).input_ray_pickable:
+		return null
+
+	return pos
+
+
+## Moves the hover marker to `pos`, or hides it when `pos` is `null`.
+func _update_hover(pos: Variant) -> void:
+	if pos == _hovered_position:
+		return
+
+	if _hovered_position != null:
+		_markers.multimesh.set_instance_transform(
+			_indices[_hovered_position], _transform(_hovered_position)
+		)
+		waypoint_unhovered.emit()
+
+	_hovered_position = pos
+	if pos == null:
+		_hover_marker.visible = false
+		return
+
+	# Hide the normal marker at the hovered position
+	_markers.multimesh.set_instance_transform(
+		_indices[pos], Transform3D(Vector3.ZERO, Vector3.ZERO, Vector3.ZERO, Vector3.ZERO)
+	)
+	_hover_marker.position = Vector3(pos.x, waypoint_height, pos.y)
+	_hover_marker.visible = true
+	waypoint_hovered.emit(pos)
+
+
+func _transform(to: Vector2i) -> Transform3D:
+	return Transform3D(Basis(), Vector3(to.x, waypoint_height, to.y))

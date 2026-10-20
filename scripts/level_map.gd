@@ -112,7 +112,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 			return
 
-		var space_state := get_world_3d().direct_space_state
 		var ray_origin := camera.project_ray_origin(event.position)
 		var ray_end := ray_origin + camera.project_ray_normal(event.position) * 1000.0
 		var query := PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
@@ -120,6 +119,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		query.collide_with_bodies = false
 
 		# Checks if the click was on an empty space (without Area3D)
+		var space_state := get_world_3d().direct_space_state
 		if space_state.intersect_ray(query).is_empty():
 			deselect_box()
 
