@@ -395,6 +395,18 @@ impl LevelMap {
         }
     }
 
+    /// Applies an entire player direction sequence without emitting per-move signals.
+    #[func]
+    pub fn move_player_batch(&mut self, directions: Vec<Direction>) {
+        let _ = self
+            .level
+            .execute_batch(directions.into_iter().map(Into::into));
+
+        if self.map().is_solved() {
+            self.signals().solved().emit();
+        }
+    }
+
     /// Undoes actions until crossing the previous box-change boundary.
     #[func(rename = undo_inner)]
     pub fn undo(&mut self) {

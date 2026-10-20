@@ -264,15 +264,17 @@ func _on_waypoint_clicked(to: Vector2i) -> void:
 
 ## Executes a sequence of move directions.
 func _execute_path(directions: Array) -> void:
+	if _is_instant:
+		move_player_batch(directions)
+		place_player_and_boxes()
+		update_hud()
+		return
+
 	for direction in directions:
 		if is_solved():
 			break
 		move_player(direction)
-		# Wait for animations to finish if not instant
-		if not _is_instant:
-			await wait_for_moves_finished()
-	if _is_instant:
-		place_player_and_boxes()
+		await wait_for_moves_finished()
 	update_hud()
 
 
