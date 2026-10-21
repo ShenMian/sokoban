@@ -43,9 +43,9 @@ impl Database {
     /// Checks whether the level table is currently empty.
     #[func]
     pub fn is_empty(&self) -> bool {
-        const QUERY_IS_EMPTY: &str = "SELECT NOT EXISTS (SELECT 1 FROM tb_level)";
+        const QUERY_IS_EMPTY: &str = "SELECT NOT EXISTS (SELECT 1 FROM tb_level) AS is_empty";
         self.conn()
-            .query_one(QUERY_IS_EMPTY, (), |row| row.get(0))
+            .query_one(QUERY_IS_EMPTY, (), |row| row.get("is_empty"))
             .unwrap()
     }
 
@@ -112,9 +112,9 @@ impl Database {
             .unwrap()
             .query_map((), |row| {
                 let mut dict = VarDictionary::new();
-                dict.set("id", row.get::<_, i64>(0)?);
-                dict.set("name", row.get::<_, String>(1)?);
-                if let Ok(Some(desc)) = row.get::<_, Option<String>>(2) {
+                dict.set("id", row.get::<_, i64>("id")?);
+                dict.set("name", row.get::<_, String>("name")?);
+                if let Ok(Some(desc)) = row.get::<_, Option<String>>("description") {
                     dict.set("description", desc);
                 }
                 Ok(dict)
@@ -128,11 +128,11 @@ impl Database {
     #[func]
     pub fn get_collection_size(&self, collection_name: String) -> i64 {
         const COUNT_LEVELS: &str = "
-            SELECT COUNT(*) FROM tb_collection_level cl
+            SELECT COUNT(*) AS count FROM tb_collection_level cl
             JOIN tb_collection c ON c.id = cl.collection_id
             WHERE c.name = ?";
         self.conn()
-            .query_one(COUNT_LEVELS, (collection_name,), |row| row.get(0))
+            .query_one(COUNT_LEVELS, (collection_name,), |row| row.get("count"))
             .unwrap()
     }
 
@@ -145,7 +145,7 @@ impl Database {
             WHERE c.name = ? AND cl.level_id = ?";
         self.conn()
             .query_row(QUERY_LEVEL_INDEX, (collection_name, level_id), |row| {
-                row.get(0)
+                row.get("idx")
             })
             .unwrap()
     }
@@ -161,7 +161,7 @@ impl Database {
             WHERE c.name = ? AND cl.idx = ?";
         self.conn()
             .query_row(QUERY_LEVEL_ID, (collection_name, level_index), |row| {
-                row.get(0)
+                row.get("level_id")
             })
             .unwrap_or(-1)
     }
@@ -192,8 +192,8 @@ impl Database {
             .query_map((collection_name,), |row| {
                 let mut dict = Self::map_level_row(row)?;
                 dict.extend(&dict! {
-                    "solved" => row.get::<_, bool>(6)?,
-                    "solving" => row.get::<_, bool>(7)?,
+                    "solved" => row.get::<_, bool>("solved")?,
+                    "solving" => row.get::<_, bool>("solving")?,
                 });
                 Ok(dict)
             })
@@ -324,7 +324,9 @@ impl Database {
     pub fn get_snapshot(&self, level_id: i64, autosave: bool) -> String {
         const QUERY_SNAPSHOT: &str = "SELECT actions_lurd FROM tb_snapshot WHERE level_id = ? AND autosave = ? ORDER BY datetime DESC LIMIT 1";
         self.conn()
-            .query_row(QUERY_SNAPSHOT, (level_id, autosave), |row| row.get(0))
+            .query_row(QUERY_SNAPSHOT, (level_id, autosave), |row| {
+                row.get("actions_lurd")
+            })
             .unwrap_or_default()
     }
 
@@ -363,7 +365,7 @@ impl Database {
             ON CONFLICT(name) DO UPDATE SET name = excluded.name
             RETURNING id";
         self.conn()
-            .query_row(UPSERT_COLLECTION, (name,), |row| row.get(0))
+            .query_row(UPSERT_COLLECTION, (name,), |row| row.get("id"))
             .unwrap()
     }
 
@@ -391,7 +393,7 @@ impl Database {
             .query_row(
                 UPSERT_LEVEL,
                 (map_xsb, title, author, comments, hash),
-                |row| row.get(0),
+                |row| row.get("id"),
             )
             .unwrap();
         level_id
@@ -400,9 +402,9 @@ impl Database {
     fn add_level_to_collection(&self, collection_id: i64, level_id: i64, idx: Option<i64>) {
         let idx = idx.unwrap_or_else(|| {
             const QUERY_NEXT_IDX: &str =
-                "SELECT COALESCE(MAX(idx), 0) + 1 FROM tb_collection_level WHERE collection_id = ?";
+                "SELECT COALESCE(MAX(idx), 0) + 1 AS idx FROM tb_collection_level WHERE collection_id = ?";
             self.conn()
-                .query_one(QUERY_NEXT_IDX, (collection_id,), |row| row.get(0))
+                .query_one(QUERY_NEXT_IDX, (collection_id,), |row| row.get("idx"))
                 .unwrap()
         });
         const ADD_LEVEL_TO_COLLECTION: &str = "INSERT OR IGNORE INTO tb_collection_level (collection_id, level_id, idx) VALUES (?1, ?2, ?3)";
@@ -415,7 +417,9 @@ impl Database {
         const QUERY_MOVE_OPTIMAL: &str =
             "SELECT actions_lurd FROM tb_solution WHERE level_id = ? AND move_optimal = 1";
         self.conn()
-            .query_row(QUERY_MOVE_OPTIMAL, (level_id,), |row| row.get(0))
+            .query_row(QUERY_MOVE_OPTIMAL, (level_id,), |row| {
+                row.get("actions_lurd")
+            })
             .ok()
     }
 
@@ -423,24 +427,26 @@ impl Database {
         const QUERY_PUSH_OPTIMAL: &str =
             "SELECT actions_lurd FROM tb_solution WHERE level_id = ? AND push_optimal = 1";
         self.conn()
-            .query_row(QUERY_PUSH_OPTIMAL, (level_id,), |row| row.get(0))
+            .query_row(QUERY_PUSH_OPTIMAL, (level_id,), |row| {
+                row.get("actions_lurd")
+            })
             .ok()
     }
 
     fn map_level_row(row: &rusqlite::Row) -> rusqlite::Result<VarDictionary> {
         let mut dict = VarDictionary::new();
-        dict.set("id", row.get::<_, i64>(0)?);
-        dict.set("map_xsb", row.get::<_, String>(1)?);
-        if let Some(title) = row.get::<_, Option<String>>(2)? {
+        dict.set("id", row.get::<_, i64>("id")?);
+        dict.set("map_xsb", row.get::<_, String>("map_xsb")?);
+        if let Some(title) = row.get::<_, Option<String>>("title")? {
             dict.set("title", title);
         }
-        if let Some(author) = row.get::<_, Option<String>>(3)? {
+        if let Some(author) = row.get::<_, Option<String>>("author")? {
             dict.set("author", author);
         }
-        if let Some(comments) = row.get::<_, Option<String>>(4)? {
+        if let Some(comments) = row.get::<_, Option<String>>("comments")? {
             dict.set("comments", comments);
         }
-        dict.set("hash", row.get::<_, i64>(5)?);
+        dict.set("hash", row.get::<_, i64>("hash")?);
         Ok(dict)
     }
 
