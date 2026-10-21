@@ -24,18 +24,19 @@ var _hovered_position: Variant = null
 
 ## Wires the level map that provides the reachable box positions.
 func setup(map: LevelMap) -> void:
+	assert(_map == null)
 	_map = map
 
 
 ## Replaces the markers with the positions reachable by the box at `from`.
 func show_for(from: Vector2i) -> void:
-	clear()
-	if _map == null:
-		return
+	assert(_map != null)
 
 	var positions := _map.get_waypoints(from)
 	var multimesh := _markers.multimesh
-	multimesh.instance_count = positions.size()
+	if multimesh.instance_count < positions.size():
+		multimesh.instance_count = positions.size()
+	multimesh.visible_instance_count = positions.size()
 	for i in range(positions.size()):
 		_indices[positions[i]] = i
 		multimesh.set_instance_transform(i, _transform(positions[i]))
@@ -43,10 +44,12 @@ func show_for(from: Vector2i) -> void:
 
 ## Removes all markers.
 func clear() -> void:
+	if _hovered_position != null:
+		waypoint_unhovered.emit()
 	_hovered_position = null
 	_hover_marker.visible = false
 	_indices.clear()
-	_markers.multimesh.instance_count = 0
+	_markers.multimesh.visible_instance_count = 0
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -99,6 +102,7 @@ func _update_hover(pos: Variant) -> void:
 		return
 
 	# Hide the normal marker at the hovered position
+	assert(_indices.has(pos))
 	_markers.multimesh.set_instance_transform(
 		_indices[pos], Transform3D(Vector3.ZERO, Vector3.ZERO, Vector3.ZERO, Vector3.ZERO)
 	)
