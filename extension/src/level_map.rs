@@ -269,9 +269,9 @@ impl LevelMap {
         let waypoints_duration = start.elapsed();
         godot_print!("Computing box waypoints ({waypoints_duration:?})");
 
-        if self.deadlock_hint {
-            let deadlocks = self.dead_positions();
-            waypoints.retain(|dp, _| !deadlocks.contains(&dp.position));
+        let dead_positions = self.dead_positions();
+        if !dead_positions.is_empty() {
+            waypoints.retain(|dp, _| !dead_positions.contains(&dp.position));
         }
 
         let positions: FxHashSet<Vector2i> =
@@ -525,7 +525,7 @@ impl LevelMap {
         self.waypoints.clear();
         self.costs.clear();
 
-        let deadlocks = self.dead_positions();
+        let dead_positions = self.dead_positions();
         self.base_mut().clear();
         for x in 0..self.map().dimensions().x {
             for y in 0..self.map().dimensions().y {
@@ -534,7 +534,7 @@ impl LevelMap {
 
                 if tiles.contains(Tiles::Floor) {
                     let is_dark = self.checkerboard_shading && (x + y) % 2 == 1;
-                    let is_deadlocked = self.deadlock_hint && deadlocks.contains(&position);
+                    let is_deadlocked = self.deadlock_hint && dead_positions.contains(&position);
                     let item_id = match (is_deadlocked, is_dark) {
                         (false, false) => self.floor_item_id,
                         (false, true) => self.floor_dark_item_id,
@@ -563,8 +563,13 @@ impl LevelMap {
         self.level.map()
     }
 
+    /// Returns the dead positions to display, or an empty set when `deadlock_hint` is off.
     fn dead_positions(&self) -> FxHashSet<Point> {
-        compute_static_deadlocks(self.map())
+        if self.deadlock_hint {
+            compute_static_deadlocks(self.map())
+        } else {
+            FxHashSet::default()
+        }
     }
 
     fn find_best_waypoint(&self, target: Point) -> Option<DirectedPosition> {
