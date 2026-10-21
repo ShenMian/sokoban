@@ -90,13 +90,13 @@ func _process(_delta: float) -> void:
 		return
 
 	if Input.is_action_pressed("move_right"):
-		_execute_path([E.Direction.RIGHT])
+		_execute_path("R")
 	elif Input.is_action_pressed("move_left"):
-		_execute_path([E.Direction.LEFT])
+		_execute_path("L")
 	elif Input.is_action_pressed("move_up"):
-		_execute_path([E.Direction.UP])
+		_execute_path("U")
 	elif Input.is_action_pressed("move_down"):
-		_execute_path([E.Direction.DOWN])
+		_execute_path("D")
 	else:
 		return
 
@@ -167,11 +167,11 @@ func stop_solver() -> void:
 	stop_solver_inner()
 
 
-func _on_solve_completed(directions: Array) -> void:
+func _on_solve_completed(lurd: String) -> void:
 	_solving = false
 	_clear_best_state()
 	update_hud()
-	await _execute_path(directions)
+	await _execute_path(lurd)
 
 
 func _on_solve_no_solution() -> void:
@@ -262,18 +262,25 @@ func _on_waypoint_clicked(to: Vector2i) -> void:
 	await _execute_path(get_box_move_path(to))
 
 
-## Executes a sequence of move directions.
-func _execute_path(directions: Array) -> void:
+## Executes a LURD action sequence.
+func _execute_path(path: String) -> void:
 	if _is_instant:
-		move_player_batch(directions)
+		move_player_batch(path)
 		place_player_and_boxes()
 		update_hud()
 		return
 
-	for direction in directions:
+
+	const LURD_TO_DIRECTION := {
+		"u": E.Direction.UP,
+		"r": E.Direction.RIGHT,
+		"d": E.Direction.DOWN,
+		"l": E.Direction.LEFT,
+	}
+	for letter in path:
 		if is_solved():
 			break
-		move_player(direction)
+		move_player(LURD_TO_DIRECTION[letter.to_lower()])
 		await wait_for_moves_finished()
 	update_hud()
 

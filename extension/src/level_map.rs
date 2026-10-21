@@ -104,7 +104,7 @@ impl LevelMap {
 
     /// Emitted when the background solver completes successfully.
     #[signal]
-    fn solve_completed(directions: Vec<i32>);
+    fn solve_completed(lurd: String);
 
     /// Emitted when the background solver proves the level has no solution.
     #[signal]
@@ -223,9 +223,9 @@ impl LevelMap {
             .collect()
     }
 
-    /// Returns the sequence of player directions needed to push the nearest box to `to`.
+    /// Returns the LURD sequence needed to push the selected box to `to`.
     #[func]
-    pub fn get_box_move_path(&self, to: Vector2i) -> Vec<Direction> {
+    pub fn get_box_move_path(&self, to: Vector2i) -> String {
         let waypoint = self.find_best_waypoint(to.to_point()).unwrap();
 
         let start = std::time::Instant::now();
@@ -240,9 +240,9 @@ impl LevelMap {
         player_path
             .windows(2)
             .map(|positions| {
-                direction::Direction::try_from(positions[1] - positions[0])
-                    .unwrap()
-                    .into()
+                let direction =
+                    direction::Direction::try_from(positions[1] - positions[0]).unwrap();
+                char::from(Action::Move(direction))
             })
             .collect()
     }
@@ -298,11 +298,8 @@ impl LevelMap {
     pub fn poll_solver(&mut self) -> bool {
         match self.solver_worker.poll() {
             Some(Ok(actions)) => {
-                let directions: Vec<_> = actions
-                    .iter()
-                    .map(|action| action.direction() as i32)
-                    .collect();
-                self.signals().solve_completed().emit(directions);
+                let lurd: String = actions.iter().map(|action| char::from(*action)).collect();
+                self.signals().solve_completed().emit(lurd);
                 false
             }
             Some(Err(SearchError::NoSolution)) => {
@@ -395,12 +392,10 @@ impl LevelMap {
         }
     }
 
-    /// Applies an entire player direction sequence without emitting per-move signals.
+    /// Applies an entire LURD action sequence without emitting per-move signals.
     #[func]
-    pub fn move_player_batch(&mut self, directions: Vec<Direction>) {
-        let _ = self
-            .level
-            .execute_batch(directions.into_iter().map(Into::into));
+    pub fn move_player_batch(&mut self, lurd: String) {
+        let _ = self.execute_lurd(&lurd);
 
         if self.map().is_solved() {
             self.signals().solved().emit();
@@ -446,10 +441,14 @@ impl LevelMap {
     /// Applies an entire LURD action sequence without emitting per-move signals.
     #[func]
     pub fn fast_forward(&mut self, lurd: String) {
-        let actions = Actions::from_str(&lurd).expect("failed to parse actions");
+        self.execute_lurd(&lurd).unwrap();
+    }
+
+    /// Applies a LURD action sequence to the level.
+    fn execute_lurd(&mut self, lurd: &str) -> Result<(), ActionError> {
+        let actions = Actions::from_str(lurd).expect("failed to parse actions");
         self.level
             .execute_batch(actions.0.into_iter().map(|action| action.direction()))
-            .unwrap();
     }
 
     /// Returns true if there are actions to undo.

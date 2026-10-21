@@ -65,7 +65,7 @@ func _on_solve_button_pressed() -> void:
 
 
 ## Resets the solve button after a successful solve.
-func solve_complete(_directions: Array) -> void:
+func solve_complete(_lurd: String) -> void:
 	_reset_solve_button()
 
 

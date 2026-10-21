@@ -155,7 +155,7 @@ func _process(_delta: float) -> void:
 	_update_stats()
 
 
-func _on_solve_completed(_directions: Array) -> void:
+func _on_solve_completed(_lurd: String) -> void:
 	_finish_with("SOLVED")
 
 
