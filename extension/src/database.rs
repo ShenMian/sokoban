@@ -170,12 +170,20 @@ impl Database {
     #[func]
     pub fn get_collection_levels(&self, collection_name: String) -> Vec<VarDictionary> {
         const QUERY_LEVELS: &str = "
+            WITH solved(level_id) AS MATERIALIZED (
+                SELECT DISTINCT level_id FROM tb_solution
+            ),
+            solving(level_id) AS MATERIALIZED (
+                SELECT DISTINCT level_id FROM tb_snapshot WHERE autosave = 1
+            )
             SELECT l.id, l.map_xsb, l.title, l.author, l.comments, l.hash,
-                   EXISTS(SELECT 1 FROM tb_solution s WHERE s.level_id = l.id) as solved,
-                   EXISTS(SELECT 1 FROM tb_snapshot s WHERE s.level_id = l.id AND s.autosave = 1) as solving
+                   solved.level_id IS NOT NULL AS solved,
+                   solving.level_id IS NOT NULL AS solving
             FROM tb_level l
             JOIN tb_collection_level cl ON cl.level_id = l.id
             JOIN tb_collection c ON c.id = cl.collection_id
+            LEFT JOIN solved ON solved.level_id = l.id
+            LEFT JOIN solving ON solving.level_id = l.id
             WHERE c.name = ?
             ORDER BY cl.idx";
         self.conn()
