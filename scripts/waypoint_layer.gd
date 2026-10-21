@@ -55,7 +55,9 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	if event is InputEventMouseMotion:
 		_update_hover(_waypoint_at(event.position))
-	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+	elif (
+		event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT
+	):
 		var pos: Variant = _waypoint_at(event.position)
 		if pos != null:
 			get_viewport().set_input_as_handled()
@@ -75,14 +77,6 @@ func _waypoint_at(screen_position: Vector2) -> Variant:
 
 	var pos := Vector2i(floori(ray_end.x), floori(ray_end.z))
 	if not _indices.has(pos):
-		return null
-
-	var query := PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
-	query.collide_with_areas = true
-	query.collide_with_bodies = false
-	var space_state := get_world_3d().direct_space_state
-	var result := space_state.intersect_ray(query)
-	if not result.is_empty() and (result["collider"]  as CollisionObject3D).input_ray_pickable:
 		return null
 
 	return pos
