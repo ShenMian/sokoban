@@ -21,6 +21,8 @@ func _ready() -> void:
 	else:
 		camera.projection = Camera3D.PROJECTION_PERSPECTIVE
 
+	MapTheme.apply_theme_for_variants(level_map)
+
 
 ## Sets the levels to render and resets the pending queue.
 func set_levels(new_levels: Array[Dictionary]) -> void:
@@ -47,7 +49,6 @@ func _process(_delta: float) -> void:
 	var generation := _generation
 	var index: int = _queue.pop_front()
 
-	MapTheme.apply_theme_for_variants(level_map)
 	level_map.load_from_string(levels[index]["map_xsb"])
 	rebuild_player_and_boxes()
 
