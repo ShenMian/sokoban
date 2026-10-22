@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://c8agla8des0tg" path="res://scripts/tunnel_layer.gd" id="9_tlayer"]
 [ext_resource type="Material" uid="uid://dolx0vl1hcm6b" path="res://assets/materials/waypoint_normal_material.tres" id="10_wnorm"]
 [ext_resource type="Material" uid="uid://bjmab2ru3iajr" path="res://assets/materials/waypoint_hover_material.tres" id="11_whover"]
+[ext_resource type="Texture2D" uid="uid://cspqmnfhumgwf" path="res://assets/textures/arrow.png" id="12_arrow"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_waypt"]
 size = Vector2(1, 1)
@@ -21,6 +22,23 @@ center_offset = Vector3(0.5, 0, 0.5)
 resource_local_to_scene = true
 transform_format = 1
 mesh = SubResource("PlaneMesh_waypt")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tunnel"]
+transparency = 1
+no_depth_test = true
+shading_mode = 0
+albedo_color = Color(0.627451, 0.1254902, 0.9411765, 1)
+albedo_texture = ExtResource("12_arrow")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_tunnel"]
+material = SubResource("StandardMaterial3D_tunnel")
+size = Vector2(0.4, 0.4)
+center_offset = Vector3(0, 0, -0.28)
+
+[sub_resource type="MultiMesh" id="MultiMesh_tunnel"]
+resource_local_to_scene = true
+transform_format = 1
+mesh = SubResource("PlaneMesh_tunnel")
 
 [node name="LevelMap" type="LevelMap" unique_id=873965418]
 mesh_library = ExtResource("1_12kai")
@@ -62,5 +80,7 @@ material = ExtResource("3_28enl")
 [node name="LowerBounds" type="Node3D" parent="." unique_id=913879998]
 script = ExtResource("8_lbounds")
 
-[node name="Tunnels" type="Node3D" parent="." unique_id=1198208942]
+[node name="Tunnels" type="MultiMeshInstance3D" parent="." unique_id=1198208942]
+cast_shadow = 0
+multimesh = SubResource("MultiMesh_tunnel")
 script = ExtResource("9_tlayer")
