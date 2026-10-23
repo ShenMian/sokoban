@@ -137,7 +137,8 @@ rustup target add wasm32-unknown-emscripten --toolchain nightly
 ```ps1
 emsdk activate latest
 cd extension
-cargo +nightly build -Zbuild-std --target wasm32-unknown-emscripten --release --features godot/experimental-wasm,godot/lazy-function-tables
+$Env:EMMAKEN_CFLAGS = "-sWASM_EXCEPTIONS=0"
+cargo +nightly build -Zbuild-std=std,panic_abort --target wasm32-unknown-emscripten --release --features godot/experimental-wasm,godot/lazy-function-tables
 cd ..
 mkdir -p build/wasm
 godot --headless --export-release "Web" build/wasm/index.html
