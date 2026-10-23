@@ -264,6 +264,10 @@ func _on_waypoint_clicked(to: Vector2i) -> void:
 
 ## Executes a LURD action sequence.
 func _execute_path(path: String) -> void:
+	# Any move attempt invalidates the shown waypoints, so end the selection
+	# before the state changes.
+	deselect_box()
+
 	if _is_instant:
 		move_player_batch(path)
 		place_player_and_boxes()

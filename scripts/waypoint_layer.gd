@@ -28,7 +28,7 @@ func setup(map: LevelMap) -> void:
 	_map = map
 
 
-## Replaces the markers with the positions reachable by the box at `from`.
+## Shows markers at the positions reachable by the box at `from`.
 func show_for(from: Vector2i) -> void:
 	assert(_map != null)
 
