@@ -17,7 +17,7 @@ var _default_config = {
 		"checkerboard": true,
 	},
 	"assists": {
-		"deadlock_hint": true,
+		"dead_position_hint": true,
 		"pushable_hint": true,
 		"algorithm": E.Algorithm.A_STAR,
 		"solver_strategy": E.Strategy.QUICK,
@@ -62,6 +62,7 @@ func _ready() -> void:
 		_default_config["video"]["window_mode"] = DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN
 
 	var config_status := _config.load(CONFIG_PATH)
+	_migrate_config()
 	if config_status or not _is_config_valid(_config):
 		if config_status:
 			printerr("failed to load config: ", error_string(config_status))
@@ -128,6 +129,24 @@ func save_bindings() -> void:
 	var error := _bindings.save(BINDINGS_PATH)
 	if error:
 		printerr("failed to save bindings: ", error_string(error))
+
+
+## Renames assist keys so configs from older versions stay valid.
+func _migrate_config() -> void:
+	if not _config.has_section("assists"):
+		return
+	if _config.has_section_key("assists", "dead_position_hint"):
+		return
+	if not _config.has_section_key("assists", "deadlock_hint"):
+		return
+
+	_config.set_value(
+		"assists",
+		"dead_position_hint",
+		_config.get_value("assists", "deadlock_hint"),
+	)
+	_config.erase_section_key("assists", "deadlock_hint")
+	_config.save(CONFIG_PATH)
 
 
 ## Returns true if the loaded config matches the default structure and types.

@@ -456,23 +456,23 @@ theme = ExtResource("2_f4mfi")
 text = "HINTS"
 uppercase = true
 
-[node name="DeadlockHintPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox" unique_id=1898183586]
+[node name="DeadPositionHintPanel" type="PanelContainer" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox" unique_id=1898183586]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 1
-metadata/title = "DEADLOCK_HINT"
-metadata/description = "DEADLOCK_HINT_TIP"
+metadata/title = "DEAD_POSITION_HINT"
+metadata/description = "DEAD_POSITION_HINT_TIP"
 
-[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox/DeadlockHintPanel" unique_id=1063472659]
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox/DeadPositionHintPanel" unique_id=1063472659]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox/DeadlockHintPanel/HBox" unique_id=1402921645]
+[node name="Label" type="Label" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox/DeadPositionHintPanel/HBox" unique_id=1402921645]
 layout_mode = 2
 mouse_filter = 1
-text = "DEADLOCK_HINT"
+text = "DEAD_POSITION_HINT"
 
-[node name="CheckButton" type="CheckButton" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox/DeadlockHintPanel/HBox" unique_id=1408398352]
+[node name="CheckButton" type="CheckButton" parent="MarginContainer/VBox/HSplit/Tabs/ASSISTS/VBox/DeadPositionHintPanel/HBox" unique_id=1408398352]
 layout_mode = 2
 size_flags_horizontal = 10
 script = ExtResource("6_jrqig")

@@ -190,11 +190,11 @@ msgstr "在求解时显示求解器当前的最优状态"
 msgid "HINTS"
 msgstr "提示"
 
-msgid "DEADLOCK_HINT"
-msgstr "死锁提示"
+msgid "DEAD_POSITION_HINT"
+msgstr "死格提示"
 
-msgid "DEADLOCK_HINT_TIP"
-msgstr "标记静态死锁位置"
+msgid "DEAD_POSITION_HINT_TIP"
+msgstr "标记箱子永远无法推到目标的位置"
 
 msgid "PUSHABLE_HINT"
 msgstr "可推动提示"

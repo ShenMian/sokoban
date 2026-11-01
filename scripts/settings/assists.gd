@@ -1,6 +1,6 @@
 extends SettingsTab
 
-@onready var deadlock_hint: SwitchFx = $VBox/DeadlockHintPanel/HBox/CheckButton
+@onready var dead_position_hint: SwitchFx = $VBox/DeadPositionHintPanel/HBox/CheckButton
 @onready var pushable_hint: SwitchFx = $VBox/PushableHintPanel/HBox/CheckButton
 @onready var algorithm: OptionButton = $VBox/AlgorithmPanel/HBox/OptionButton
 @onready var solver_strategy: OptionButton = $VBox/StrategyPanel/HBox/OptionButton
@@ -17,7 +17,7 @@ func _ready() -> void:
 	lower_bounds.toggled.connect(_on_lower_bounds_toggled)
 	tunnels.toggled.connect(_on_tunnels_toggled)
 	best_state.toggled.connect(_on_best_state_toggled)
-	deadlock_hint.toggled.connect(_on_deadlock_hint_toggled)
+	dead_position_hint.toggled.connect(_on_dead_position_hint_toggled)
 	pushable_hint.toggled.connect(_on_pushable_hint_toggled)
 
 	apply_settings()
@@ -40,8 +40,8 @@ func apply_settings() -> void:
 	best_state.button_pressed = Settings.get_value(SECTION_NAME, "best_state")
 	best_state.toggled.emit(best_state.button_pressed)
 
-	deadlock_hint.button_pressed = Settings.get_value(SECTION_NAME, "deadlock_hint")
-	deadlock_hint.toggled.emit(deadlock_hint.button_pressed)
+	dead_position_hint.button_pressed = Settings.get_value(SECTION_NAME, "dead_position_hint")
+	dead_position_hint.toggled.emit(dead_position_hint.button_pressed)
 
 	pushable_hint.button_pressed = Settings.get_value(SECTION_NAME, "pushable_hint")
 	pushable_hint.toggled.emit(pushable_hint.button_pressed)
@@ -73,8 +73,8 @@ func _on_best_state_toggled(toggled_on: bool) -> void:
 	Settings.set_and_save_value(SECTION_NAME, "best_state", toggled_on)
 
 
-func _on_deadlock_hint_toggled(toggled_on: bool) -> void:
-	Settings.set_and_save_value(SECTION_NAME, "deadlock_hint", toggled_on)
+func _on_dead_position_hint_toggled(toggled_on: bool) -> void:
+	Settings.set_and_save_value(SECTION_NAME, "dead_position_hint", toggled_on)
 
 
 func _on_pushable_hint_toggled(toggled_on: bool) -> void:

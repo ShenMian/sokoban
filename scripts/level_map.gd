@@ -239,8 +239,8 @@ func _on_setting_changed(section: String, key: String, value: Variant) -> void:
 			checkerboard_shading = value
 			rebuild()
 	elif section == "assists":
-		if key == "deadlock_hint":
-			deadlock_hint = value
+		if key == "dead_position_hint":
+			dead_position_hint = value
 			rebuild()
 		elif key == "pushable_hint":
 			pushable_hint = value

@@ -270,7 +270,7 @@ script = ExtResource("1_l0aea")
 
 [node name="LevelMap" type="LevelMap" parent="." unique_id=1068863980]
 checkerboard_shading = false
-deadlock_hint = false
+dead_position_hint = false
 mesh_library = ExtResource("2_7ma8a")
 cell_size = Vector3(1, 1, 1)
 

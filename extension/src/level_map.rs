@@ -27,7 +27,7 @@ struct LevelMap {
     checkerboard_shading: bool,
 
     #[export]
-    deadlock_hint: bool,
+    dead_position_hint: bool,
 
     #[export]
     deadlock_tint: Color,
@@ -62,7 +62,7 @@ impl IGridMap for LevelMap {
         let level = Level::from_map(Map::with_actions(&Actions::from_str("R").unwrap()).unwrap());
         Self {
             checkerboard_shading: true,
-            deadlock_hint: true,
+            dead_position_hint: true,
             deadlock_tint: Color::from_rgb(0.5, 0.5, 0.5),
             pathfinding_strategy: Strategy::default(),
             floor_dark_item_id: GridMap::INVALID_CELL_ITEM,
@@ -534,8 +534,9 @@ impl LevelMap {
 
                 if tiles.contains(Tiles::Floor) {
                     let is_dark = self.checkerboard_shading && (x + y) % 2 == 1;
-                    let is_deadlocked = self.deadlock_hint && dead_positions.contains(&position);
-                    let item_id = match (is_deadlocked, is_dark) {
+                    let is_dead_position =
+                        self.dead_position_hint && dead_positions.contains(&position);
+                    let item_id = match (is_dead_position, is_dark) {
                         (false, false) => self.floor_item_id,
                         (false, true) => self.floor_dark_item_id,
                         (true, false) => self.deadlock_item_id,
@@ -563,9 +564,9 @@ impl LevelMap {
         self.level.map()
     }
 
-    /// Returns the dead positions to display, or an empty set when `deadlock_hint` is off.
+    /// Returns the dead positions to display, or an empty set when `dead_position_hint` is off.
     fn dead_positions(&self) -> FxHashSet<Point> {
-        if self.deadlock_hint {
+        if self.dead_position_hint {
             compute_static_deadlocks(self.map())
         } else {
             FxHashSet::default()

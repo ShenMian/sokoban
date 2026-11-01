@@ -190,11 +190,11 @@ msgstr "Show the solver's current best state while solving"
 msgid "HINTS"
 msgstr "Hints"
 
-msgid "DEADLOCK_HINT"
-msgstr "Deadlock Hint"
+msgid "DEAD_POSITION_HINT"
+msgstr "Dead Position Hint"
 
-msgid "DEADLOCK_HINT_TIP"
-msgstr "Highlight static deadlock locations"
+msgid "DEAD_POSITION_HINT_TIP"
+msgstr "Highlight positions where boxes can never reach a goal"
 
 msgid "PUSHABLE_HINT"
 msgstr "Pushable Hint"
