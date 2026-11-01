@@ -9,7 +9,7 @@ use godot::{
     prelude::*,
 };
 use soukoban::{
-    deadlock::compute_static_deadlocks, direction, path_finding, prelude::*, solver::Solver,
+    deadlock::compute_dead_positions, direction, path_finding, prelude::*, solver::Solver,
 };
 
 use crate::{
@@ -567,7 +567,7 @@ impl LevelMap {
     /// Returns the dead positions to display, or an empty set when `dead_position_hint` is off.
     fn dead_positions(&self) -> FxHashSet<Point> {
         if self.dead_position_hint {
-            compute_static_deadlocks(self.map())
+            compute_dead_positions(self.map())
         } else {
             FxHashSet::default()
         }
