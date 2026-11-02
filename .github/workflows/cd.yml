@@ -360,11 +360,10 @@ jobs:
         uses: orhun/git-cliff-action@v4
         with:
           config: cliff.toml
-          args: --current --strip header
+          args: --current --strip header --offline
           version: v2.14.2
         env:
           OUTPUT: release-notes.md
-          GITHUB_REPO: ${{ github.repository }}
 
       - name: Download artifacts
         uses: actions/download-artifact@v8
