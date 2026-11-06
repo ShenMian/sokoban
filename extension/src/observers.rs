@@ -96,10 +96,6 @@ impl BestState {
 }
 
 impl Observer for BestState {
-    fn on_search_start(&mut self, root: &Node) {
-        self.update(root);
-    }
-
     fn on_node_expanded(&mut self, node: &Node) {
         self.update(node);
     }

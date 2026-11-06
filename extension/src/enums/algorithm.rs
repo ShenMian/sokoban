@@ -11,7 +11,7 @@ pub enum Algorithm {
     #[default]
     AStar,
     /// Iterative-deepening A* search.
-    IDAStar,
+    IdaStar,
     /// Breadth-first search.
     Bfs,
 }
@@ -20,7 +20,7 @@ impl From<Algorithm> for solver::Algorithm {
     fn from(algorithm: Algorithm) -> Self {
         match algorithm {
             Algorithm::AStar => solver::Algorithm::AStar,
-            Algorithm::IDAStar => solver::Algorithm::IDAStar,
+            Algorithm::IdaStar => solver::Algorithm::IdaStar,
             Algorithm::Bfs => solver::Algorithm::Bfs,
         }
     }
