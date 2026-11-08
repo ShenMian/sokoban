@@ -53,21 +53,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/bold_font = ExtResource("4_mah5v")
 bbcode_enabled = true
-text = "[font_size=26][b]Assets[/b][/font_size]
-[color=light_gray][table=2]
-[cell][right]Prototype Kit[/right][/cell][cell][url=https://kenney.nl/assets/prototype-kit]Kenney[/url] (CC0)                 [/cell]
-[cell][right]Game Icons[/right][/cell][cell][url=https://kenney.nl/assets/game-icons]Kenney[/url] (CC0)                 [/cell]
-[cell][right]Game Icons (Expansion)[/right][/cell][cell][url=https://kenney.nl/assets/game-icons-expansion]Kenney[/url] (CC0)                 [/cell]
-[cell][right]Input Prompts[/right][/cell][cell][url=https://kenney.nl/assets/input-prompts]Kenney[/url] (CC0)                 [/cell]
-[cell][right]Background Elements Redux[/right][/cell][cell][url=https://kenney.nl/assets/background-elements-redux]Kenney[/url] (CC0)                 [/cell]
-[cell][right]RPG Audio[/right][/cell][cell][url=https://kenney.nl/assets/rpg-audio]Kenney[/url] (CC0)                 [/cell]
-[cell][right]Sarasa Gothic[/right][/cell][cell]     [url=https://github.com/be5invis/Sarasa-Gothic]Belleve[/url] (OFL-1.1)                 [/cell]
-[/table][/color]
-
-[font_size=26][b]License[/b][/font_size]
-[color=light_gray]Licensed under the [url=https://www.apache.org/licenses/LICENSE-2.0]Apache License 2.0[/url]
-Source code available on [url=https://github.com/ShenMian/sokoban]GitHub[/url][/color]
-"
+text = "CREDITS_TEXT"
 horizontal_alignment = 1
 vertical_alignment = 1
 
