@@ -574,14 +574,10 @@ impl LevelMap {
     }
 
     fn find_best_waypoint(&self, target: Point) -> Option<DirectedPosition> {
-        let mut best = None;
-        let mut min_cost = i32::MAX;
-        for (&dp, &cost) in &self.costs {
-            if dp.position == target && cost < min_cost {
-                min_cost = cost;
-                best = Some(dp);
-            }
-        }
-        best
+        self.costs
+            .iter()
+            .filter(|(dp, _)| dp.position == target)
+            .min_by_key(|(_, cost)| *cost)
+            .map(|(&dp, _)| dp)
     }
 }

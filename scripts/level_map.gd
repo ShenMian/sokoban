@@ -331,11 +331,7 @@ func _update_pushable_hint() -> void:
 
 	var pushable_positions := get_pushable_box_positions()
 	for box in boxes_container.get_children():
-		var grid_pos: Vector2i = box.grid_position()
-		var is_pushable := pushable_positions.any(func(pos: Vector2i) -> bool:
-			return pos == grid_pos
-		)
-		box.disabled = not is_pushable
+		box.disabled = box.grid_position() not in pushable_positions
 
 
 ## Shows every box as pushable, clearing the dimming.
