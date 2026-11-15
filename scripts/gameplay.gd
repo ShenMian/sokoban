@@ -10,6 +10,7 @@ extends Node3D
 @onready var victory_menu: VictoryMenu = $MenuLayer/VictoryMenu
 
 @onready var solver_panel: SolverPanel = $DebugLayer/SolverPanel
+@onready var snapshot_graph_panel: SnapshotGraphPanel = $HudLayer/SnapshotGraphPanel
 
 const _TRANSFORM_LABELS := ["", "90°", "180°", "270°", "↔", "↔\n90°", "↔\n180°", "↔\n270°"]
 
@@ -41,6 +42,7 @@ func _ready() -> void:
 	level_map.solve_completed.connect(hud.solve_complete)
 	level_map.solve_no_solution.connect(hud.solve_no_solution)
 	hud.pause_requested.connect(_open_pause_menu)
+	hud.snapshot_graph_requested.connect(snapshot_graph_panel.toggle.bind(level_map))
 	hud.transform_requested.connect(_transform_level)
 	hud.previous_level_requested.connect(_on_request_previous_level)
 	hud.next_level_requested.connect(_on_request_next_level)
@@ -103,12 +105,14 @@ func _open_pause_menu():
 	level_map.deselect_box()
 	hud.hide()
 	solver_panel.suspend()
+	snapshot_graph_panel.suspend()
 	pause_menu.open()
 
 
 func _on_pause_closed() -> void:
 	hud.show()
 	solver_panel.resume()
+	snapshot_graph_panel.resume()
 
 
 func _on_pause_request_settings() -> void:

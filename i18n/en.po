@@ -237,6 +237,20 @@ msgstr "Solved"
 msgid "NO_SOLUTION"
 msgstr "No Solution"
 
+# Snapshot Graph
+
+msgid "SNAPSHOT_GRAPH"
+msgstr "Snapshot Graph"
+
+msgid "SNAPSHOT"
+msgstr "Snapshot"
+
+msgid "START"
+msgstr "Start"
+
+msgid "GOAL"
+msgstr "Goal"
+
 # Video
 
 msgid "VIDEO"

@@ -6,6 +6,7 @@ signal redo_requested
 signal undo_all_requested
 signal request_start_solve
 signal request_stop_solve
+signal snapshot_graph_requested
 signal transform_requested
 signal previous_level_requested
 signal next_level_requested
@@ -22,6 +23,7 @@ signal pause_requested
 @onready var redo_button: ButtonFx = %RedoButton
 @onready var undo_all_button: ButtonFx = %UndoAllButton
 @onready var solve_button: ButtonFx = %SolveButton
+@onready var snapshot_graph_button: ButtonFx = %SnapshotGraphButton
 @onready var transform_button: ButtonFx = %TransformButton
 @onready var transform_label: Label = %TransformLabel
 @onready var previous_level_button: ButtonFx = %PreviousButton
@@ -48,6 +50,7 @@ func _ready() -> void:
 	redo_button.pressed.connect(func() -> void: redo_requested.emit())
 	undo_all_button.pressed.connect(func() -> void: undo_all_requested.emit())
 	solve_button.pressed.connect(_on_solve_button_pressed)
+	snapshot_graph_button.pressed.connect(func() -> void: snapshot_graph_requested.emit())
 	transform_button.pressed.connect(func() -> void: transform_requested.emit())
 	previous_level_button.pressed.connect(func() -> void: previous_level_requested.emit())
 	next_level_button.pressed.connect(func() -> void: next_level_requested.emit())

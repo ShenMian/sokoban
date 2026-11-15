@@ -237,6 +237,20 @@ msgstr "已求解"
 msgid "NO_SOLUTION"
 msgstr "无解"
 
+# Snapshot Graph
+
+msgid "SNAPSHOT_GRAPH"
+msgstr "快照图"
+
+msgid "SNAPSHOT"
+msgstr "快照"
+
+msgid "START"
+msgstr "起点"
+
+msgid "GOAL"
+msgstr "终点"
+
 # Video
 
 msgid "VIDEO"
