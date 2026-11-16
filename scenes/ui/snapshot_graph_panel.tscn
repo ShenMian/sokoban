@@ -166,25 +166,28 @@ theme_override_constants/separation = 8
 
 [node name="SaveButton" type="Button" parent="VBox/Body/Margin/Content/Actions" unique_id=1800000001]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 32)
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 18
 text = "SAVE_SNAPSHOT"
 
 [node name="RestoreButton" type="Button" parent="VBox/Body/Margin/Content/Actions" unique_id=1800000004]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 32)
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"DangerButton"
+theme_override_font_sizes/font_size = 18
 disabled = true
 text = "RESTORE_SNAPSHOT"
 
 [node name="DeleteButton" type="Button" parent="VBox/Body/Margin/Content/Actions" unique_id=1800000002]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 32)
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"DangerButton"
+theme_override_font_sizes/font_size = 18
 disabled = true
 text = "DELETE_SNAPSHOT"
