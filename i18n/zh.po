@@ -245,6 +245,9 @@ msgstr "快照图"
 msgid "SAVE_SNAPSHOT"
 msgstr "保存快照"
 
+msgid "RESTORE_SNAPSHOT"
+msgstr "恢复快照"
+
 msgid "DELETE_SNAPSHOT"
 msgstr "删除快照"
 

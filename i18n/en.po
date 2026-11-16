@@ -245,6 +245,9 @@ msgstr "Snapshot Graph"
 msgid "SAVE_SNAPSHOT"
 msgstr "Save snapshot"
 
+msgid "RESTORE_SNAPSHOT"
+msgstr "Restore snapshot"
+
 msgid "DELETE_SNAPSHOT"
 msgstr "Delete snapshot"
 

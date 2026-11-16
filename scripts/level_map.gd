@@ -148,6 +148,15 @@ func undo_all() -> void:
 	update_hud()
 
 
+## Restores the level to a stored action history.
+func restore_snapshot(actions: String) -> void:
+	undo_all_inner()
+	fast_forward(actions)
+	deselect_box()
+	place_player_and_boxes()
+	update_hud()
+
+
 ## Starts solver.
 func start_solver() -> void:
 	if _solving:

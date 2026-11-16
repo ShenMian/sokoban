@@ -5,6 +5,7 @@ class_name SnapshotGraphPanel
 @onready var _graph: SnapshotGraph = %SnapshotGraph
 @onready var _save_button: Button = %SaveButton
 @onready var _delete_button: Button = %DeleteButton
+@onready var _restore_button: Button = %RestoreButton
 @onready var _close_button: ButtonFx = %CloseButton
 
 var _level_map: LevelMap
@@ -17,6 +18,7 @@ func _ready() -> void:
 	super()
 	_save_button.pressed.connect(_on_save_pressed)
 	_delete_button.pressed.connect(_on_delete_pressed)
+	_restore_button.pressed.connect(_on_restore_pressed)
 	_close_button.pressed.connect(close)
 	_graph.node_clicked.connect(_on_node_clicked)
 	set_process(false)
@@ -156,6 +158,17 @@ func _on_node_clicked(node: Dictionary) -> void:
 		_select_snapshot(-1)
 
 
+func _on_restore_pressed() -> void:
+	if _selected_id < 0:
+		return
+	var level_id: int = SceneTransition.get_level_id()
+	for row: Dictionary in Database.get_snapshots(level_id):
+		if int(row["id"]) == _selected_id:
+			_level_map.call("restore_snapshot", str(row["actions_lurd"]))
+			refresh()
+			return
+
+
 func _on_delete_pressed() -> void:
 	if _selected_id < 0:
 		return
@@ -167,6 +180,7 @@ func _on_delete_pressed() -> void:
 func _select_snapshot(id: int) -> void:
 	_selected_id = id
 	_delete_button.disabled = id < 0
+	_restore_button.disabled = id < 0
 	_graph.set_selected_id(id)
 
 

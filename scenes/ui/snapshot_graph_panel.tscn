@@ -171,6 +171,14 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "SAVE_SNAPSHOT"
 
+[node name="RestoreButton" type="Button" parent="VBox/Body/Margin/Content/Actions" unique_id=1800000004]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "RESTORE_SNAPSHOT"
+
 [node name="DeleteButton" type="Button" parent="VBox/Body/Margin/Content/Actions" unique_id=1800000002]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 32)
