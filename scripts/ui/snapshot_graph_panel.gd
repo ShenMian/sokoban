@@ -16,11 +16,13 @@ var _selected_id := -1
 
 func _ready() -> void:
 	super()
+
 	_save_button.pressed.connect(_on_save_pressed)
 	_delete_button.pressed.connect(_on_delete_pressed)
 	_restore_button.pressed.connect(_on_restore_pressed)
 	_close_button.pressed.connect(close)
 	_graph.node_clicked.connect(_on_node_clicked)
+
 	set_process(false)
 
 

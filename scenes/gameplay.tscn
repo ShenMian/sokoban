@@ -19,7 +19,7 @@
 [ext_resource type="Texture2D" uid="uid://bdh3nf8a5fe4m" path="res://assets/textures/icons/next.svg" id="12_w3w6i"]
 [ext_resource type="Script" uid="uid://dow5f4a5ctj3t" path="res://scripts/ui/hud.gd" id="13_hud"]
 [ext_resource type="PackedScene" uid="uid://b4wgt14jxd8a" path="res://scenes/ui/solver_panel.tscn" id="14_solver"]
-[ext_resource type="PackedScene" path="res://scenes/ui/snapshot_graph_panel.tscn" id="15_snapshot"]
+[ext_resource type="PackedScene" uid="uid://dmjye60u2mgio" path="res://scenes/ui/snapshot_graph_panel.tscn" id="15_snapshot"]
 [ext_resource type="Texture2D" uid="uid://b6r7u4871par7" path="res://assets/textures/icons/snapshot.svg" id="16_snapshot"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_00tan"]
@@ -335,9 +335,8 @@ expand_icon = true
 script = ExtResource("8_407ns")
 metadata/_custom_type_script = "uid://cr5yoytr47auc"
 
-[node name="SnapshotGraphPanel" parent="HudLayer" instance=ExtResource("15_snapshot")]
+[node name="SnapshotGraphPanel" parent="HudLayer" unique_id=2141612740 instance=ExtResource("15_snapshot")]
 visible = false
-layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
