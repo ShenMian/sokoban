@@ -242,6 +242,12 @@ msgstr "无解"
 msgid "SNAPSHOT_GRAPH"
 msgstr "快照图"
 
+msgid "SAVE_SNAPSHOT"
+msgstr "保存快照"
+
+msgid "DELETE_SNAPSHOT"
+msgstr "删除快照"
+
 msgid "SNAPSHOT"
 msgstr "快照"
 

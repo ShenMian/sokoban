@@ -159,3 +159,22 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.58, 0.63, 0.73, 1)
 theme_override_font_sizes/font_size = 11
 text = "GOAL"
+
+[node name="Actions" type="HBoxContainer" parent="VBox/Body/Margin/Content" unique_id=1800000000]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SaveButton" type="Button" parent="VBox/Body/Margin/Content/Actions" unique_id=1800000001]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "SAVE_SNAPSHOT"
+
+[node name="DeleteButton" type="Button" parent="VBox/Body/Margin/Content/Actions" unique_id=1800000002]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "DELETE_SNAPSHOT"

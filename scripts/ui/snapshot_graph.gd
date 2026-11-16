@@ -2,6 +2,8 @@ class_name SnapshotGraph
 extends Control
 ## State graph of snapshots and the live state. Edges are state transitions.
 
+signal node_clicked(node: Dictionary)
+
 const NODE_RADIUS := 9.0
 const X_GAP := 72.0
 const Y_GAP := 48.0
@@ -19,6 +21,7 @@ var _nodes: Array = []
 var _edges: Array = []
 var _key_to_index := {}
 var _hover_index := -1
+var _selected_id := -1
 var _pointer := Vector2.ZERO
 var _pointer_inside := false
 var _pulse := 0.0
@@ -44,6 +47,14 @@ func set_graph(nodes: Array, edges: Array) -> void:
 	_rebuild_layout()
 
 
+## Highlights the snapshot with the given id.
+func set_selected_id(id: int) -> void:
+	if id == _selected_id:
+		return
+	_selected_id = id
+	queue_redraw()
+
+
 ## Assigns graph coordinates by distance from the start state.
 func _rebuild_layout() -> void:
 	_key_to_index.clear()
@@ -51,23 +62,24 @@ func _rebuild_layout() -> void:
 	var start_index := -1
 
 	for i in range(_nodes.size()):
-		var key := str(_nodes[i].get("key", ""))
+		var key := str(_nodes[i]["key"])
 		_key_to_index[key] = i
-		if start_index < 0 and str(_nodes[i].get("kind", "")) == "start":
+		adjacency[key] = []
+		if start_index < 0 and str(_nodes[i]["kind"]) == "start":
 			start_index = i
 
 	for edge: Dictionary in _edges:
-		adjacency.get_or_add(str(edge.get("from", "")), []).append(str(edge.get("to", "")))
+		adjacency[str(edge["from"])].append(str(edge["to"]))
 
 	var depths := {}
 	if start_index >= 0:
-		var start_key := str(_nodes[start_index].get("key", ""))
+		var start_key := str(_nodes[start_index]["key"])
 		depths[start_key] = 0
 		var queue: Array[String] = [start_key]
 		while not queue.is_empty():
 			var curr: String = queue.pop_front()
-			for next_key: String in adjacency.get(curr, []):
-				if _key_to_index.has(next_key) and not depths.has(next_key):
+			for next_key: String in adjacency[curr]:
+				if not depths.has(next_key):
 					depths[next_key] = depths[curr] + 1
 					queue.append(next_key)
 
@@ -75,7 +87,7 @@ func _rebuild_layout() -> void:
 	var max_depth := 0
 	var max_rows := 1
 	for i in range(_nodes.size()):
-		var depth: int = depths.get(str(_nodes[i].get("key", "")), 0)
+		var depth: int = depths[str(_nodes[i]["key"])]
 		_nodes[i]["depth"] = depth
 		columns.get_or_add(depth, []).append(i)
 		max_depth = maxi(max_depth, depth)
@@ -83,9 +95,9 @@ func _rebuild_layout() -> void:
 	for depth: int in columns:
 		var indexes: Array = columns[depth]
 		indexes.sort_custom(func(a: int, b: int) -> bool:
-			var oa := int(_nodes[a].get("order", 0))
-			var ob := int(_nodes[b].get("order", 0))
-			return str(_nodes[a].get("key", "")) < str(_nodes[b].get("key", "")) if oa == ob else oa < ob
+			var oa := int(_nodes[a]["order"])
+			var ob := int(_nodes[b]["order"])
+			return str(_nodes[a]["key"]) < str(_nodes[b]["key"]) if oa == ob else oa < ob
 		)
 		max_rows = maxi(max_rows, indexes.size())
 
@@ -111,15 +123,15 @@ func _draw() -> void:
 
 
 func _draw_edges() -> void:
-	var hover_key := str(_nodes[_hover_index].get("key", "")) if _hover_index >= 0 else ""
+	var hover_key := str(_nodes[_hover_index]["key"]) if _hover_index >= 0 else ""
 	var edge_keys := {}
 	for edge: Dictionary in _edges:
-		edge_keys[str(edge.get("from", "")) + "\n" + str(edge.get("to", ""))] = true
+		edge_keys[str(edge["from"]) + "\n" + str(edge["to"])] = true
 
 	for edge: Dictionary in _edges:
-		var from_idx: int = _key_to_index.get(str(edge.get("from", "")), -1)
-		var to_idx: int = _key_to_index.get(str(edge.get("to", "")), -1)
-		if from_idx < 0 or to_idx < 0 or from_idx == to_idx:
+		var from_idx: int = _key_to_index[str(edge["from"])]
+		var to_idx: int = _key_to_index[str(edge["to"])]
+		if from_idx == to_idx:
 			continue
 
 		var from: Vector2 = _nodes[from_idx]["pos"]
@@ -127,7 +139,7 @@ func _draw_edges() -> void:
 		var delta := to - from
 		var ctrl1: Vector2
 		var ctrl2: Vector2
-		if edge_keys.has(str(edge.get("to", "")) + "\n" + str(edge.get("from", ""))):
+		if edge_keys.has(str(edge["to"]) + "\n" + str(edge["from"])):
 			var normal := delta.orthogonal().normalized() * 24.0
 			ctrl1 = from + delta * 0.3 + normal
 			ctrl2 = to - delta * 0.3 + normal
@@ -173,12 +185,13 @@ func _draw_nodes() -> void:
 		var node: Dictionary = _nodes[i]
 		var center: Vector2 = node["pos"]
 		var hovered := _hover_index == i
-		var is_live := bool(node.get("is_live", false))
+		var selected := _selected_id >= 0 and int(node["id"]) == _selected_id
+		var is_live := bool(node["is_live"])
 
 		var fill := node_color
-		if str(node.get("kind", "")) == "start":
+		if str(node["kind"]) == "start":
 			fill = root_color
-		elif bool(node.get("solved", false)):
+		elif bool(node["solved"]):
 			fill = solved_color
 
 		if hovered:
@@ -193,6 +206,8 @@ func _draw_nodes() -> void:
 			draw_arc(center, NODE_RADIUS + 2.5 + progress * 7.0, 0.0, TAU, 36, Color(live_color, 0.55 * (1.0 - progress)), 1.6, true)
 		if hovered:
 			draw_arc(center, NODE_RADIUS + (4.5 if is_live else 3.0), 0.0, TAU, 28, Color(1.0, 1.0, 1.0, 0.65), 1.4, true)
+		if selected:
+			draw_arc(center, NODE_RADIUS + 6.0, 0.0, TAU, 32, Color(1.0, 1.0, 1.0, 0.9), 2.0, true)
 
 
 func _hit_test(point: Vector2) -> int:
@@ -215,6 +230,13 @@ func _gui_input(event: InputEvent) -> void:
 		_pointer = event.position
 		_pointer_inside = true
 		_set_hover(_hit_test(event.position))
+	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		var index := _hit_test(event.position)
+		if index >= 0:
+			node_clicked.emit(_nodes[index].duplicate(true))
+		else:
+			node_clicked.emit({})
+		accept_event()
 
 
 func _on_mouse_exited() -> void:

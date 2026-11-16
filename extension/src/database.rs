@@ -330,6 +330,37 @@ impl Database {
             .unwrap_or_default()
     }
 
+    /// Retrieves the manually saved snapshots of a level, oldest first.
+    #[func]
+    pub fn get_snapshots(&self, level_id: i64) -> Vec<VarDictionary> {
+        const QUERY_SNAPSHOTS: &str = "
+            SELECT id, actions_lurd
+            FROM tb_snapshot
+            WHERE level_id = ? AND autosave = 0 AND actions_lurd <> ''
+            ORDER BY id";
+        self.conn()
+            .prepare(QUERY_SNAPSHOTS)
+            .unwrap()
+            .query_map((level_id,), |row| {
+                let mut dict = VarDictionary::new();
+                dict.set("id", row.get::<_, i64>("id")?);
+                dict.set("actions_lurd", row.get::<_, String>("actions_lurd")?);
+                Ok(dict)
+            })
+            .unwrap()
+            .map(Result::unwrap)
+            .collect()
+    }
+
+    /// Deletes a manually saved snapshot.
+    #[func]
+    pub fn delete_snapshot(&self, id: i64) {
+        let _ = self.conn().execute(
+            "DELETE FROM tb_snapshot WHERE id = ? AND autosave = 0",
+            (id,),
+        );
+    }
+
     /// Deletes snapshots for a specific level.
     #[func]
     pub fn clear_snapshot(&self, level_id: i64, autosave: bool) {

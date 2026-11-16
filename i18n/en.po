@@ -242,6 +242,12 @@ msgstr "No Solution"
 msgid "SNAPSHOT_GRAPH"
 msgstr "Snapshot Graph"
 
+msgid "SAVE_SNAPSHOT"
+msgstr "Save snapshot"
+
+msgid "DELETE_SNAPSHOT"
+msgstr "Delete snapshot"
+
 msgid "SNAPSHOT"
 msgstr "Snapshot"
 
